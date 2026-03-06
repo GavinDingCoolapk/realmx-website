@@ -39,6 +39,7 @@
   font-size: 1.5rem;
   font-weight: 700;
   text-decoration: none;
+  cursor: pointer;
 }
 
 .logo-text {
@@ -61,7 +62,8 @@
   transition: color 0.3s ease;
 }
 
-.nav-links a:hover {
+.nav-links a:hover,
+.nav-links a.active {
   color: #0071E3;
 }
 
@@ -209,6 +211,9 @@
   font-size: 1rem;
   font-weight: 500;
   text-decoration: none;
+  background: none;
+  border: none;
+  cursor: pointer;
   display: inline-flex;
   align-items: center;
   gap: 0.25rem;
@@ -222,6 +227,94 @@
 .btn-large {
   padding: 1rem 2rem;
   font-size: 1.125rem;
+}
+
+.btn-full {
+  width: 100%;
+  justify-content: center;
+}
+
+/* ==================== CONTAINER ==================== */
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 2rem;
+}
+
+/* ==================== SECTION TITLE ==================== */
+.section-title {
+  font-size: 3rem;
+  font-weight: 700;
+  color: #1D1D1F;
+  text-align: center;
+  margin-bottom: 4rem;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+}
+
+/* ==================== PRODUCT SHOWCASE ==================== */
+.product-showcase-section {
+  padding: 8rem 2rem;
+  background: #F5F5F7;
+}
+
+.products-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 2rem;
+}
+
+.product-card {
+  background: #FFFFFF;
+  border-radius: 16px;
+  padding: 2rem;
+  transition: all 0.3s ease;
+}
+
+.product-card:hover {
+  transform: translateY(-10px);
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.1);
+}
+
+.product-image {
+  width: 100%;
+  height: 250px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 1.5rem;
+}
+
+.product-image img {
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
+}
+
+.product-name {
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: #1D1D1F;
+  margin-bottom: 0.5rem;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+}
+
+.product-tagline {
+  color: #86868B;
+  margin-bottom: 1rem;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+}
+
+.product-price {
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: #1D1D1F;
+  margin-bottom: 1.5rem;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+}
+
+.product-actions {
+  display: flex;
+  gap: 1rem;
 }
 
 /* ==================== FEATURE SECTION ==================== */
@@ -281,138 +374,229 @@
   border-radius: 8px;
 }
 
-/* ==================== CONTAINER ==================== */
-.container {
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 0 2rem;
-}
-
-/* ==================== SPECS SECTION ==================== */
-.specs-section {
+/* ==================== APPLICATIONS SECTION ==================== */
+.applications-section {
   padding: 8rem 2rem;
-  background: #F5F5F7;
+  background: #FFFFFF;
 }
 
-.section-title {
-  font-size: 3rem;
-  font-weight: 700;
-  color: #1D1D1F;
-  text-align: center;
-  margin-bottom: 4rem;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-}
-
-.specs-grid {
+.applications-grid {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
   gap: 2rem;
 }
 
-.spec-item {
-  background: #FFFFFF;
+.application-card {
+  text-align: center;
   padding: 2rem;
   border-radius: 12px;
-  text-align: center;
   transition: all 0.3s ease;
 }
 
-.spec-item:hover {
-  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.1);
+.application-card:hover {
+  background: #F5F5F7;
   transform: translateY(-5px);
 }
 
-.spec-label {
-  display: block;
-  font-size: 0.875rem;
-  color: #86868B;
+.application-icon {
+  font-size: 3rem;
+  margin-bottom: 1rem;
+}
+
+.application-title {
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: #1D1D1F;
   margin-bottom: 0.5rem;
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
 }
 
-.spec-value {
-  display: block;
-  font-size: 1.5rem;
-  font-weight: 600;
-  color: #1D1D1F;
+.application-description {
+  font-size: 0.875rem;
+  color: #86868B;
+  line-height: 1.6;
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
 }
 
 @media (max-width: 968px) {
-  .specs-grid {
+  .applications-grid {
     grid-template-columns: repeat(2, 1fr);
   }
 }
 
 @media (max-width: 480px) {
-  .specs-grid {
+  .applications-grid {
     grid-template-columns: 1fr;
   }
 }
 
-/* ==================== GALLERY SECTION ==================== */
-.gallery-section {
+/* ==================== NEWS SECTION ==================== */
+.news-section {
   padding: 8rem 2rem;
-  background: #FFFFFF;
+  background: #F5F5F7;
 }
 
-.gallery-grid {
+.news-grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: 2rem;
 }
 
-.gallery-item {
+.news-card {
+  background: #FFFFFF;
   border-radius: 12px;
-  overflow: hidden;
+  padding: 2rem;
   transition: all 0.3s ease;
 }
 
-.gallery-item:hover {
+.news-card:hover {
   transform: translateY(-5px);
-  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
 }
 
-.gallery-image {
-  width: 100%;
-  height: 300px;
-}
-
-.gallery-image .image-placeholder {
-  height: 100%;
-  border-radius: 12px 12px 0 0;
-}
-
-.gallery-caption {
-  padding: 1rem;
-  text-align: center;
+.news-date {
+  font-size: 0.75rem;
   color: #86868B;
+  margin-bottom: 0.5rem;
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-  font-size: 0.9rem;
-  background: #FFFFFF;
 }
 
-@media (max-width: 768px) {
-  .gallery-grid {
+.news-title {
+  font-size: 1.125rem;
+  font-weight: 600;
+  color: #1D1D1F;
+  margin-bottom: 0.5rem;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+}
+
+.news-summary {
+  font-size: 0.875rem;
+  color: #86868B;
+  margin-bottom: 1rem;
+  line-height: 1.6;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+}
+
+.news-link {
+  color: #0071E3;
+  font-size: 0.875rem;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+}
+
+.news-link:hover {
+  text-decoration: underline;
+}
+
+@media (max-width: 968px) {
+  .news-grid {
     grid-template-columns: 1fr;
   }
 }
 
-/* ==================== PURCHASE SECTION ==================== */
-.purchase-section {
+/* ==================== HOME PURCHASE SECTION ==================== */
+.home-purchase-section {
   padding: 8rem 2rem;
-  background: #F5F5F7;
+  background: linear-gradient(135deg, #0071E3 0%, #0077ED 100%);
   display: flex;
   align-items: center;
   justify-content: center;
 }
 
-.purchase-content {
+.home-purchase-section .purchase-content {
   text-align: center;
-  max-width: 600px;
 }
 
-.purchase-title {
+.home-purchase-section .purchase-title {
+  font-size: 3rem;
+  font-weight: 700;
+  color: #FFFFFF;
+  margin-bottom: 1rem;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+}
+
+.home-purchase-section .purchase-subtitle {
+  font-size: 1.25rem;
+  color: rgba(255, 255, 255, 0.9);
+  margin-bottom: 1rem;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+}
+
+.home-purchase-section .purchase-price {
+  font-size: 2rem;
+  font-weight: 600;
+  color: #FFFFFF;
+  margin-bottom: 2rem;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+}
+
+.home-purchase-section .btn-primary {
+  background: #FFFFFF;
+  color: #0071E3;
+}
+
+.home-purchase-section .btn-primary:hover {
+  background: #F5F5F7;
+}
+
+/* ==================== PRODUCT PAGE ==================== */
+.product-page {
+  padding-top: 80px;
+}
+
+.product-hero {
+  padding: 8rem 2rem;
+  text-align: center;
+  background: #F5F5F7;
+}
+
+.product-hero-title {
+  font-size: 4rem;
+  font-weight: 700;
+  color: #1D1D1F;
+  margin-bottom: 1rem;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+}
+
+.product-hero-tagline {
+  font-size: 1.5rem;
+  color: #86868B;
+  margin-bottom: 2rem;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+}
+
+.product-hero-price {
+  font-size: 2rem;
+  font-weight: 600;
+  color: #1D1D1F;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+}
+
+.product-hero-image {
+  max-width: 800px;
+  margin: 3rem auto 0;
+}
+
+.product-hero-image img {
+  width: 100%;
+  height: auto;
+}
+
+/* ==================== PRODUCT FEATURE ==================== */
+.product-feature-section {
+  padding: 8rem 2rem;
+}
+
+.product-feature-content {
+  max-width: 800px;
+  margin: 0 auto;
+  text-align: center;
+}
+
+.product-feature-title {
   font-size: 3rem;
   font-weight: 700;
   color: #1D1D1F;
@@ -420,12 +604,313 @@
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
 }
 
-.purchase-price {
+.product-feature-subtitle {
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: #1D1D1F;
+  margin-bottom: 1rem;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+}
+
+.product-feature-description {
+  font-size: 1.125rem;
+  color: #86868B;
+  line-height: 1.8;
+  margin-bottom: 2rem;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+}
+
+.product-feature-specs {
+  display: flex;
+  gap: 1rem;
+  justify-content: center;
+  margin-bottom: 3rem;
+  flex-wrap: wrap;
+}
+
+.spec-badge {
+  background: #F5F5F7;
+  padding: 0.5rem 1rem;
+  border-radius: 20px;
+  font-size: 0.875rem;
+  color: #1D1D1F;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  font-weight: 500;
+}
+
+.product-feature-image {
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+/* ==================== TECH SPECS FULL ==================== */
+.tech-specs-full-section {
+  padding: 8rem 2rem;
+  background: #FFFFFF;
+}
+
+.specs-full-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 3rem;
+}
+
+.specs-category {
+  background: #F5F5F7;
+  border-radius: 12px;
+  padding: 2rem;
+}
+
+.specs-category-title {
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: #1D1D1F;
+  margin-bottom: 1.5rem;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+}
+
+.specs-list {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.specs-row {
+  display: flex;
+  justify-content: space-between;
+  padding-bottom: 0.75rem;
+  border-bottom: 1px solid #E5E7EB;
+}
+
+.specs-row:last-child {
+  border-bottom: none;
+  padding-bottom: 0;
+}
+
+.specs-label {
+  color: #86868B;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+}
+
+.specs-value {
+  color: #1D1D1F;
+  font-weight: 500;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+}
+
+@media (max-width: 768px) {
+  .specs-full-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* ==================== PACKAGE CONTENTS ==================== */
+.package-contents-section {
+  padding: 8rem 2rem;
+  background: #F5F5F7;
+}
+
+.contents-list {
+  max-width: 600px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.contents-item {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  background: #FFFFFF;
+  padding: 1rem 1.5rem;
+  border-radius: 8px;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  color: #1D1D1F;
+}
+
+.contents-item svg {
+  color: #0071E3;
+  flex-shrink: 0;
+}
+
+/* ==================== BUY PAGE ==================== */
+.buy-page {
+  padding-top: 80px;
+}
+
+.buy-hero {
+  padding: 6rem 2rem;
+  text-align: center;
+  background: #F5F5F7;
+}
+
+.buy-title {
+  font-size: 3rem;
+  font-weight: 700;
+  color: #1D1D1F;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+}
+
+.buy-content {
+  padding: 4rem 2rem;
+}
+
+.buy-layout {
+  display: grid;
+  grid-template-columns: 1fr 400px;
+  gap: 4rem;
+  align-items: start;
+}
+
+.buy-product {
+  background: #FFFFFF;
+  border-radius: 16px;
+  padding: 2rem;
+}
+
+.buy-product-image {
+  width: 100%;
+  max-width: 400px;
+  margin: 0 auto 2rem;
+}
+
+.buy-product-image img {
+  width: 100%;
+  height: auto;
+}
+
+.buy-product-info {
+  text-align: center;
+}
+
+.buy-product-info h2 {
   font-size: 2rem;
+  font-weight: 700;
+  color: #1D1D1F;
+  margin-bottom: 0.5rem;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+}
+
+.buy-product-tagline {
+  color: #86868B;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+}
+
+.buy-order {
+  background: #FFFFFF;
+  border-radius: 16px;
+  padding: 2rem;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+}
+
+.buy-order h3 {
+  font-size: 1.5rem;
   font-weight: 600;
   color: #1D1D1F;
   margin-bottom: 2rem;
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+}
+
+.order-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1.5rem;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+}
+
+.order-row span {
+  color: #1D1D1F;
+}
+
+.quantity-selector {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.quantity-selector button {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  border: 1px solid #E5E7EB;
+  background: #FFFFFF;
+  color: #1D1D1F;
+  font-size: 1.25rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.quantity-selector button:hover:not(:disabled) {
+  background: #F5F5F7;
+}
+
+.quantity-selector button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.quantity-selector span {
+  font-size: 1.125rem;
+  font-weight: 600;
+  min-width: 2rem;
+  text-align: center;
+}
+
+.order-divider {
+  height: 1px;
+  background: #E5E7EB;
+  margin: 1.5rem 0;
+}
+
+.order-total {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 2rem;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  font-weight: 600;
+}
+
+.total-price {
+  font-size: 1.5rem;
+  color: #0071E3;
+}
+
+.order-note {
+  text-align: center;
+  color: #86868B;
+  font-size: 0.875rem;
+  margin-top: 1rem;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+}
+
+.order-contact {
+  margin-top: 2rem;
+  padding-top: 2rem;
+  border-top: 1px solid #E5E7EB;
+}
+
+.order-contact h4 {
+  font-size: 1rem;
+  font-weight: 600;
+  color: #1D1D1F;
+  margin-bottom: 1rem;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+}
+
+.order-contact p {
+  color: #86868B;
+  font-size: 0.875rem;
+  margin-bottom: 0.5rem;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+}
+
+@media (max-width: 968px) {
+  .buy-layout {
+    grid-template-columns: 1fr;
+  }
 }
 
 /* ==================== FOOTER ==================== */
@@ -524,7 +1009,11 @@
     font-size: 2rem;
   }
   
-  .purchase-title {
+  .product-hero-title {
+    font-size: 2.5rem;
+  }
+  
+  .product-feature-title {
     font-size: 2rem;
   }
   
