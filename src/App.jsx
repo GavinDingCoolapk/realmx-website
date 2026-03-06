@@ -101,7 +101,6 @@ function HomePage({ setCurrentPage }) {
   return (
     <>
       <HeroSection setCurrentPage={setCurrentPage} />
-      <ProductShowcase setCurrentPage={setCurrentPage} />
       <FeatureSection 
         title="0.8s"
         subtitle="0-100km/h 加速"
@@ -128,7 +127,6 @@ function HomePage({ setCurrentPage }) {
       />
       <HomeApplicationsPreview setCurrentPage={setCurrentPage} />
       <NewsSection />
-      <HomePurchaseCTA setCurrentPage={setCurrentPage} />
     </>
   )
 }
@@ -181,12 +179,6 @@ function HeroSection({ setCurrentPage }) {
             onClick={() => setCurrentPage('buy')}
           >
             立即购买
-          </button>
-          <button 
-            className="btn-secondary"
-            onClick={() => setCurrentPage('product')}
-          >
-            了解更多 <ChevronRight size={16} />
           </button>
         </motion.div>
       </motion.div>
