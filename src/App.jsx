@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef } from 'react'
 import { motion, useInView } from 'framer-motion'
-import { Menu, X, ChevronRight, Play } from 'lucide-react'
+import { Menu, X, ChevronRight, Play, Download, Mail, MessageCircle, FileText, HelpCircle, Phone, MapPin, Clock, Users, Target, Award } from 'lucide-react'
 import './App.css'
 
 function App() {
@@ -12,10 +12,14 @@ function App() {
       <Navigation menuOpen={menuOpen} setMenuOpen={setMenuOpen} currentPage={currentPage} setCurrentPage={setCurrentPage} />
       
       {currentPage === 'home' && <HomePage setCurrentPage={setCurrentPage} />}
-      {currentPage === 'product' && <ProductPage />}
+      {currentPage === 'product' && <ProductPage setCurrentPage={setCurrentPage} />}
+      {currentPage === 'technology' && <TechnologyPage />}
+      {currentPage === 'applications' && <ApplicationsPage />}
+      {currentPage === 'support' && <SupportPage />}
+      {currentPage === 'about' && <AboutPage />}
       {currentPage === 'buy' && <BuyPage />}
       
-      <Footer />
+      <Footer setCurrentPage={setCurrentPage} />
     </div>
   )
 }
@@ -30,6 +34,14 @@ function Navigation({ menuOpen, setMenuOpen, currentPage, setCurrentPage }) {
     return () => window.removeEventListener('scroll', handleScroll)
   }, [])
 
+  const navItems = [
+    { id: 'product', label: '产品' },
+    { id: 'technology', label: '技术' },
+    { id: 'applications', label: '应用场景' },
+    { id: 'support', label: '支持' },
+    { id: 'about', label: '关于' },
+  ]
+
   return (
     <nav className={`navigation ${scrolled ? 'scrolled' : ''}`}>
       <div className="nav-container">
@@ -38,16 +50,16 @@ function Navigation({ menuOpen, setMenuOpen, currentPage, setCurrentPage }) {
         </a>
 
         <div className="nav-links">
-          <a 
-            href="#" 
-            onClick={(e) => { e.preventDefault(); setCurrentPage('product') }}
-            className={currentPage === 'product' ? 'active' : ''}
-          >
-            产品
-          </a>
-          <a href="#specs">技术规格</a>
-          <a href="#applications">应用场景</a>
-          <a href="#news">新闻动态</a>
+          {navItems.map(item => (
+            <a 
+              key={item.id}
+              href="#" 
+              onClick={(e) => { e.preventDefault(); setCurrentPage(item.id) }}
+              className={currentPage === item.id ? 'active' : ''}
+            >
+              {item.label}
+            </a>
+          ))}
           <a 
             href="#" 
             className="nav-cta"
@@ -68,10 +80,15 @@ function Navigation({ menuOpen, setMenuOpen, currentPage, setCurrentPage }) {
           initial={{ opacity: 0, y: -20 }}
           animate={{ opacity: 1, y: 0 }}
         >
-          <a href="#" onClick={() => { setCurrentPage('product'); setMenuOpen(false) }}>产品</a>
-          <a href="#specs" onClick={() => setMenuOpen(false)}>技术规格</a>
-          <a href="#applications" onClick={() => setMenuOpen(false)}>应用场景</a>
-          <a href="#news" onClick={() => setMenuOpen(false)}>新闻动态</a>
+          {navItems.map(item => (
+            <a 
+              key={item.id}
+              href="#" 
+              onClick={() => { setCurrentPage(item.id); setMenuOpen(false) }}
+            >
+              {item.label}
+            </a>
+          ))}
           <a href="#" onClick={() => { setCurrentPage('buy'); setMenuOpen(false) }}>立即购买</a>
         </motion.div>
       )}
@@ -109,7 +126,7 @@ function HomePage({ setCurrentPage }) {
         description="每一个细节，都清晰可见"
         bgColor="#FFFFFF"
       />
-      <ApplicationsSection />
+      <HomeApplicationsPreview setCurrentPage={setCurrentPage} />
       <NewsSection />
       <HomePurchaseCTA setCurrentPage={setCurrentPage} />
     </>
@@ -192,7 +209,7 @@ function ProductShowcase({ setCurrentPage }) {
   ]
 
   return (
-    <section className="product-showcase-section">
+    <section ref={ref} className="product-showcase-section">
       <div className="container">
         <motion.h2 
           className="section-title"
@@ -265,36 +282,20 @@ function FeatureSection({ title, subtitle, description, bgColor }) {
   )
 }
 
-/* ==================== APPLICATIONS SECTION ==================== */
-function ApplicationsSection() {
+/* ==================== HOME APPLICATIONS PREVIEW ==================== */
+function HomeApplicationsPreview({ setCurrentPage }) {
   const ref = useRef(null)
   const isInView = useInView(ref, { once: true, margin: "-100px" })
 
   const applications = [
-    {
-      title: 'RoboCup 竞速',
-      description: '专为 RoboCup 无人机竞速比赛打造，极致性能助你夺冠',
-      icon: '🏆'
-    },
-    {
-      title: '航拍创作',
-      description: '4K 高清摄像头，捕捉每一个精彩瞬间',
-      icon: '🎬'
-    },
-    {
-      title: '科研教育',
-      description: '开放 API，适合高校科研与教学使用',
-      icon: '🔬'
-    },
-    {
-      title: '行业应用',
-      description: '巡检、测绘、安防，多场景应用',
-      icon: '🏢'
-    }
+    { title: 'RoboCup 竞速', icon: '🏆' },
+    { title: '航拍创作', icon: '🎬' },
+    { title: '科研教育', icon: '🔬' },
+    { title: '行业应用', icon: '🏢' }
   ]
 
   return (
-    <section id="applications" ref={ref} className="applications-section">
+    <section ref={ref} className="applications-preview-section">
       <div className="container">
         <motion.h2 
           className="section-title"
@@ -315,10 +316,23 @@ function ApplicationsSection() {
             >
               <div className="application-icon">{app.icon}</div>
               <h3 className="application-title">{app.title}</h3>
-              <p className="application-description">{app.description}</p>
             </motion.div>
           ))}
         </div>
+
+        <motion.div 
+          className="applications-cta"
+          initial={{ opacity: 0 }}
+          animate={isInView ? { opacity: 1 } : {}}
+          transition={{ delay: 0.5 }}
+        >
+          <button 
+            className="btn-secondary"
+            onClick={() => setCurrentPage('applications')}
+          >
+            了解更多应用场景 <ChevronRight size={16} />
+          </button>
+        </motion.div>
       </div>
     </section>
   )
@@ -330,25 +344,13 @@ function NewsSection() {
   const isInView = useInView(ref, { once: true, margin: "-100px" })
 
   const news = [
-    {
-      date: '2026.03.06',
-      title: 'RealmX Racing Edition 正式发布',
-      summary: '全新一代竞速无人机，性能全面提升'
-    },
-    {
-      date: '2026.02.15',
-      title: 'RoboCup 2026 备战启动',
-      summary: 'RealmX 团队积极备战新赛季'
-    },
-    {
-      date: '2026.01.20',
-      title: 'RealmX 与多所高校达成合作',
-      summary: '共同推进无人机科研与教育'
-    }
+    { date: '2026.03.06', title: 'RealmX Racing Edition 正式发布', summary: '全新一代竞速无人机，性能全面提升' },
+    { date: '2026.02.15', title: 'RoboCup 2026 备战启动', summary: 'RealmX 团队积极备战新赛季' },
+    { date: '2026.01.20', title: 'RealmX 与多所高校达成合作', summary: '共同推进无人机科研与教育' }
   ]
 
   return (
-    <section id="news" ref={ref} className="news-section">
+    <section ref={ref} className="news-section">
       <div className="container">
         <motion.h2 
           className="section-title"
@@ -409,7 +411,7 @@ function HomePurchaseCTA({ setCurrentPage }) {
 }
 
 /* ==================== PRODUCT PAGE ==================== */
-function ProductPage() {
+function ProductPage({ setCurrentPage }) {
   return (
     <div className="product-page">
       <section className="product-hero">
@@ -465,6 +467,20 @@ function ProductPage() {
 
       <TechSpecsFull />
       <PackageContents />
+      
+      <motion.div 
+        className="product-page-cta"
+        initial={{ opacity: 0, y: 30 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true }}
+      >
+        <button 
+          className="btn-primary btn-large"
+          onClick={() => setCurrentPage('buy')}
+        >
+          立即购买 ¥12,999
+        </button>
+      </motion.div>
     </div>
   )
 }
@@ -610,10 +626,698 @@ function PackageContents() {
   )
 }
 
+/* ==================== TECHNOLOGY PAGE ==================== */
+function TechnologyPage() {
+  return (
+    <div className="technology-page">
+      <section className="page-hero">
+        <motion.div
+          initial={{ opacity: 0, y: 30 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6 }}
+        >
+          <h1>科技驱动未来</h1>
+          <p>探索 RealmX 背后的核心技术</p>
+        </motion.div>
+      </section>
+
+      <TechnologySection
+        icon={<Target />}
+        title="飞控系统"
+        subtitle="精准控制，稳定飞行"
+        description="采用自主研发的飞行控制系统，结合高精度传感器融合算法，实现毫秒级响应和厘米级定位精度。"
+        features={['自研飞控算法', '多传感器融合', '实时姿态调整', '智能避障']}
+      />
+
+      <TechnologySection
+        icon={<FileText />}
+        title="视觉系统"
+        subtitle="4K 高清，实时图传"
+        description="搭载高性能图像处理芯片，支持 4K 30fps 视频录制和 1080p 实时图传，配合 AI 目标识别算法，实现智能跟踪和避障。"
+        features={['4K 高清录制', '1080p 实时图传', 'AI 目标识别', '智能跟踪']}
+        bgColor="#F5F5F7"
+      />
+
+      <TechnologySection
+        icon={<Award />}
+        title="材料与设计"
+        subtitle="轻量化，高强度"
+        description="采用航空级碳纤维材料，结合空气动力学优化设计，在保证结构强度的同时实现极致轻量化。"
+        features={['航空级碳纤维', '空气动力学设计', '模块化结构', '快速拆装']}
+      />
+
+      <TechnologySection
+        icon={<FileText />}
+        title="性能数据"
+        subtitle="实测验证，数据说话"
+        description="经过严格的风洞测试和实地飞行验证，每一项性能指标都经过多次测试和优化。"
+        features={['风洞测试验证', '实地飞行数据', '性能对比图表', '持续优化']}
+        bgColor="#F5F5F7"
+      />
+
+      <DownloadSection />
+    </div>
+  )
+}
+
+function TechnologySection({ icon, title, subtitle, description, features, bgColor = '#FFFFFF' }) {
+  const ref = useRef(null)
+  const isInView = useInView(ref, { once: true, margin: "-100px" })
+
+  return (
+    <section ref={ref} className="technology-section" style={{ backgroundColor: bgColor }}>
+      <div className="container">
+        <motion.div 
+          className="technology-content"
+          initial={{ opacity: 0, y: 50 }}
+          animate={isInView ? { opacity: 1, y: 0 } : {}}
+          transition={{ duration: 0.6 }}
+        >
+          <div className="technology-icon">{icon}</div>
+          <h2 className="technology-title">{title}</h2>
+          <p className="technology-subtitle">{subtitle}</p>
+          <p className="technology-description">{description}</p>
+          
+          <div className="technology-features">
+            {features.map((feature, index) => (
+              <div key={index} className="technology-feature">
+                <ChevronRight size={16} />
+                <span>{feature}</span>
+              </div>
+            ))}
+          </div>
+
+          <div className="technology-image">
+            <div className="image-placeholder">技术展示图</div>
+          </div>
+        </motion.div>
+      </div>
+    </section>
+  )
+}
+
+function DownloadSection() {
+  const ref = useRef(null)
+  const isInView = useInView(ref, { once: true, margin: "-100px" })
+
+  const documents = [
+    { title: 'RealmX 技术白皮书', type: 'PDF', size: '2.5 MB' },
+    { title: '飞控系统架构文档', type: 'PDF', size: '1.8 MB' },
+    { title: '性能测试报告', type: 'PDF', size: '3.2 MB' },
+  ]
+
+  return (
+    <section ref={ref} className="download-section">
+      <div className="container">
+        <motion.h2 
+          className="section-title"
+          initial={{ opacity: 0, y: 30 }}
+          animate={isInView ? { opacity: 1, y: 0 } : {}}
+        >
+          技术文档下载
+        </motion.h2>
+
+        <motion.div 
+          className="documents-list"
+          initial={{ opacity: 0, y: 30 }}
+          animate={isInView ? { opacity: 1, y: 0 } : {}}
+          transition={{ delay: 0.2 }}
+        >
+          {documents.map((doc, index) => (
+            <div key={index} className="document-item">
+              <div className="document-icon">
+                <FileText size={24} />
+              </div>
+              <div className="document-info">
+                <h4>{doc.title}</h4>
+                <p>{doc.type} · {doc.size}</p>
+              </div>
+              <button className="btn-secondary">
+                <Download size={18} />
+                下载
+              </button>
+            </div>
+          ))}
+        </motion.div>
+      </div>
+    </section>
+  )
+}
+
+/* ==================== APPLICATIONS PAGE ==================== */
+function ApplicationsPage() {
+  return (
+    <div className="applications-page">
+      <section className="page-hero">
+        <motion.div
+          initial={{ opacity: 0, y: 30 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6 }}
+        >
+          <h1>应用场景</h1>
+          <p>RealmX 在多个领域展现卓越性能</p>
+        </motion.div>
+      </section>
+
+      <ApplicationDetail
+        icon="🏆"
+        title="RoboCup 竞速"
+        subtitle="专为竞赛打造"
+        description="RealmX Racing Edition 专为 RoboCup 无人机竞速比赛设计，凭借极致的速度和稳定的性能，帮助选手在激烈的竞争中脱颖而出。"
+        features={['极速 130 km/h', '0.8s 加速', '8G 过载', '15min 续航']}
+        stats={[
+          { label: '参赛队伍', value: '50+' },
+          { label: '获奖次数', value: '20+' },
+          { label: '用户好评', value: '98%' },
+        ]}
+      />
+
+      <ApplicationDetail
+        icon="🎬"
+        title="航拍创作"
+        subtitle="4K 高清画质"
+        description="搭载 4K 高清摄像头和智能稳定系统，RealmX 是航拍创作的理想选择，无论是电影拍摄还是广告制作，都能呈现专业级画面。"
+        features={['4K 30fps 录制', '1080p 实时图传', '智能跟踪', '稳定云台']}
+        bgColor="#F5F5F7"
+        stats={[
+          { label: '分辨率', value: '4K' },
+          { label: '帧率', value: '30fps' },
+          { label: '图传距离', value: '2km' },
+        ]}
+      />
+
+      <ApplicationDetail
+        icon="🔬"
+        title="科研教育"
+        subtitle="开放 API 接口"
+        description="提供完整的开发文档和 API 接口，RealmX 广泛应用于高校科研和教学，是无人机技术和人工智能研究的理想平台。"
+        features={['开放 API', '完整文档', '示例代码', '技术支持']}
+        stats={[
+          { label: '合作高校', value: '10+' },
+          { label: '研究项目', value: '30+' },
+          { label: '论文发表', value: '15+' },
+        ]}
+      />
+
+      <ApplicationDetail
+        icon="🏢"
+        title="行业应用"
+        subtitle="多场景解决方案"
+        description="从电力巡检到测绘安防，RealmX 提供定制化的行业解决方案，满足不同领域的专业需求。"
+        features={['电力巡检', '测绘建模', '安防监控', '农业植保']}
+        bgColor="#F5F5F7"
+        stats={[
+          { label: '应用领域', value: '10+' },
+          { label: '企业客户', value: '50+' },
+          { label: '成功案例', value: '100+' },
+        ]}
+      />
+    </div>
+  )
+}
+
+function ApplicationDetail({ icon, title, subtitle, description, features, stats, bgColor = '#FFFFFF' }) {
+  const ref = useRef(null)
+  const isInView = useInView(ref, { once: true, margin: "-100px" })
+
+  return (
+    <section ref={ref} className="application-detail-section" style={{ backgroundColor: bgColor }}>
+      <div className="container">
+        <motion.div 
+          className="application-detail-content"
+          initial={{ opacity: 0, y: 50 }}
+          animate={isInView ? { opacity: 1, y: 0 } : {}}
+          transition={{ duration: 0.6 }}
+        >
+          <div className="application-detail-icon">{icon}</div>
+          <h2 className="application-detail-title">{title}</h2>
+          <p className="application-detail-subtitle">{subtitle}</p>
+          <p className="application-detail-description">{description}</p>
+
+          <div className="application-detail-features">
+            {features.map((feature, index) => (
+              <div key={index} className="feature-badge">{feature}</div>
+            ))}
+          </div>
+
+          <div className="application-detail-stats">
+            {stats.map((stat, index) => (
+              <div key={index} className="stat-item">
+                <div className="stat-value">{stat.value}</div>
+                <div className="stat-label">{stat.label}</div>
+              </div>
+            ))}
+          </div>
+
+          <div className="application-detail-image">
+            <div className="image-placeholder">应用场景展示图</div>
+          </div>
+        </motion.div>
+      </div>
+    </section>
+  )
+}
+
+/* ==================== SUPPORT PAGE ==================== */
+function SupportPage() {
+  const [activeTab, setActiveTab] = useState('quickstart')
+
+  const tabs = [
+    { id: 'quickstart', label: '快速入门', icon: <Play size={20} /> },
+    { id: 'docs', label: '技术文档', icon: <FileText size={20} /> },
+    { id: 'faq', label: '常见问题', icon: <HelpCircle size={20} /> },
+    { id: 'contact', label: '联系我们', icon: <Mail size={20} /> },
+  ]
+
+  return (
+    <div className="support-page">
+      <section className="page-hero">
+        <motion.div
+          initial={{ opacity: 0, y: 30 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6 }}
+        >
+          <h1>支持中心</h1>
+          <p>获取帮助，解决问题</p>
+        </motion.div>
+      </section>
+
+      <section className="support-content">
+        <div className="container">
+          <div className="support-tabs">
+            {tabs.map(tab => (
+              <button
+                key={tab.id}
+                className={`support-tab ${activeTab === tab.id ? 'active' : ''}`}
+                onClick={() => setActiveTab(tab.id)}
+              >
+                {tab.icon}
+                <span>{tab.label}</span>
+              </button>
+            ))}
+          </div>
+
+          <div className="support-tab-content">
+            {activeTab === 'quickstart' && <QuickStartTab />}
+            {activeTab === 'docs' && <DocsTab />}
+            {activeTab === 'faq' && <FAQTab />}
+            {activeTab === 'contact' && <ContactTab />}
+          </div>
+        </div>
+      </section>
+    </div>
+  )
+}
+
+function QuickStartTab() {
+  const steps = [
+    { number: '01', title: '开箱检查', description: '检查包装内的所有配件是否齐全' },
+    { number: '02', title: '电池安装', description: '将电池安装到无人机上，确保卡扣锁紧' },
+    { number: '03', title: '遥控器配对', description: '打开遥控器，按说明完成与无人机的配对' },
+    { number: '04', title: '首次飞行', description: '在开阔场地进行首次飞行测试' },
+  ]
+
+  return (
+    <div className="quickstart-content">
+      <h2>快速入门指南</h2>
+      <div className="steps-grid">
+        {steps.map((step, index) => (
+          <motion.div 
+            key={index}
+            className="step-card"
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: index * 0.1 }}
+          >
+            <div className="step-number">{step.number}</div>
+            <h3>{step.title}</h3>
+            <p>{step.description}</p>
+          </motion.div>
+        ))}
+      </div>
+    </div>
+  )
+}
+
+function DocsTab() {
+  const documents = [
+    { title: '用户手册', desc: '完整的产品使用说明', type: 'PDF', size: '5.2 MB' },
+    { title: '快速入门指南', desc: '5 分钟上手 RealmX', type: 'PDF', size: '1.5 MB' },
+    { title: 'API 开发文档', desc: '完整的 API 接口说明', type: 'Online', size: null },
+    { title: '飞控系统说明', desc: '飞行控制系统详解', type: 'PDF', size: '2.8 MB' },
+    { title: '维护保养指南', desc: '日常维护和保养建议', type: 'PDF', size: '1.2 MB' },
+    { title: '故障排除手册', desc: '常见问题解决方案', type: 'PDF', size: '2.1 MB' },
+  ]
+
+  return (
+    <div className="docs-content">
+      <h2>技术文档</h2>
+      <div className="documents-grid">
+        {documents.map((doc, index) => (
+          <motion.div 
+            key={index}
+            className="document-card"
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: index * 0.1 }}
+          >
+            <div className="document-icon">
+              <FileText size={32} />
+            </div>
+            <h3>{doc.title}</h3>
+            <p className="document-desc">{doc.desc}</p>
+            <p className="document-meta">{doc.type}{doc.size && ` · ${doc.size}`}</p>
+            <button className="btn-secondary">
+              {doc.type === 'Online' ? <ChevronRight size={18} /> : <Download size={18} />}
+              {doc.type === 'Online' ? '查看' : '下载'}
+            </button>
+          </motion.div>
+        ))}
+      </div>
+    </div>
+  )
+}
+
+function FAQTab() {
+  const [openIndex, setOpenIndex] = useState(null)
+
+  const faqs = [
+    { 
+      question: 'RealmX 的续航时间是多少？', 
+      answer: 'RealmX Racing Edition 在正常飞行条件下续航时间约为 15 分钟，在竞速模式下约为 12 分钟。实际续航时间会根据飞行环境、速度和使用方式有所差异。'
+    },
+    { 
+      question: 'RealmX 支持哪些操作系统？', 
+      answer: 'RealmX 的配套 App 支持 iOS 12.0 及以上版本和 Android 8.0 及以上版本。遥控器无需连接手机也可以独立使用。'
+    },
+    { 
+      question: '如何进行固件升级？', 
+      answer: '通过 RealmX App 连接无人机后，系统会自动检测是否有新固件。如有更新，按照 App 内的提示操作即可完成升级。'
+    },
+    { 
+      question: 'RealmX 的保修政策是什么？', 
+      answer: 'RealmX 提供一年有限保修服务，涵盖非人为损坏的硬件故障。详细保修条款请查看产品包装内的保修卡或联系客服。'
+    },
+    { 
+      question: '如何购买配件？', 
+      answer: '您可以通过我们的官方网站、授权经销商或联系客服购买原装配件。我们提供电池、桨叶、保护罩等多种配件。'
+    },
+  ]
+
+  return (
+    <div className="faq-content">
+      <h2>常见问题</h2>
+      <div className="faq-list">
+        {faqs.map((faq, index) => (
+          <motion.div 
+            key={index}
+            className="faq-item"
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: index * 0.1 }}
+          >
+            <button 
+              className="faq-question"
+              onClick={() => setOpenIndex(openIndex === index ? null : index)}
+            >
+              <span>{faq.question}</span>
+              <ChevronRight size={20} className={openIndex === index ? 'rotate' : ''} />
+            </button>
+            {openIndex === index && (
+              <motion.div 
+                className="faq-answer"
+                initial={{ opacity: 0, height: 0 }}
+                animate={{ opacity: 1, height: 'auto' }}
+              >
+                <p>{faq.answer}</p>
+              </motion.div>
+            )}
+          </motion.div>
+        ))}
+      </div>
+    </div>
+  )
+}
+
+function ContactTab() {
+  return (
+    <div className="contact-content">
+      <h2>联系我们</h2>
+      <div className="contact-grid">
+        <motion.div 
+          className="contact-card"
+          initial={{ opacity: 0, y: 30 }}
+          animate={{ opacity: 1, y: 0 }}
+        >
+          <div className="contact-icon"><Mail size={32} /></div>
+          <h3>邮件支持</h3>
+          <p>contact@realmx.tech</p>
+          <p className="contact-note">工作日 24 小时内回复</p>
+        </motion.div>
+
+        <motion.div 
+          className="contact-card"
+          initial={{ opacity: 0, y: 30 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.1 }}
+        >
+          <div className="contact-icon"><MessageCircle size={32} /></div>
+          <h3>在线客服</h3>
+          <p>微信: RealmX</p>
+          <p className="contact-note">工作日 9:00-18:00 在线</p>
+        </motion.div>
+
+        <motion.div 
+          className="contact-card"
+          initial={{ opacity: 0, y: 30 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.2 }}
+        >
+          <div className="contact-icon"><Phone size={32} /></div>
+          <h3>电话咨询</h3>
+          <p>400-XXX-XXXX</p>
+          <p className="contact-note">工作日 9:00-18:00</p>
+        </motion.div>
+
+        <motion.div 
+          className="contact-card"
+          initial={{ opacity: 0, y: 30 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.3 }}
+        >
+          <div className="contact-icon"><MapPin size={32} /></div>
+          <h3>公司地址</h3>
+          <p>北京市海淀区</p>
+          <p className="contact-note">来访请提前预约</p>
+        </motion.div>
+      </div>
+    </div>
+  )
+}
+
+/* ==================== ABOUT PAGE ==================== */
+function AboutPage() {
+  return (
+    <div className="about-page">
+      <section className="page-hero">
+        <motion.div
+          initial={{ opacity: 0, y: 30 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6 }}
+        >
+          <h1>关于 RealmX</h1>
+          <p>探索无限可能，超越极限</p>
+        </motion.div>
+      </section>
+
+      <AboutSection
+        title="品牌故事"
+        content="RealmX 诞生于对无人机技术的热爱和追求。我们相信，优秀的无人机不仅是技术的结晶，更是设计、性能和用户体验的完美融合。每一款 RealmX 产品，都承载着我们对极致的追求。"
+        bgColor="#FFFFFF"
+      />
+
+      <AboutSection
+        title="品牌愿景"
+        content="成为全球领先的无人机品牌，让每个人都能体验到飞行的乐趣。我们致力于推动无人机技术的发展，为用户提供更强大、更智能、更易用的飞行产品。"
+        bgColor="#F5F5F7"
+      />
+
+      <AboutSection
+        title="核心价值观"
+        content="创新、品质、用户至上。我们不断创新，追求卓越品质，始终以用户需求为导向，为用户提供最佳的产品体验。"
+        bgColor="#FFFFFF"
+      />
+
+      <TeamSection />
+      <TimelineSection />
+      <PartnersSection />
+    </div>
+  )
+}
+
+function AboutSection({ title, content, bgColor }) {
+  const ref = useRef(null)
+  const isInView = useInView(ref, { once: true, margin: "-100px" })
+
+  return (
+    <section ref={ref} className="about-section" style={{ backgroundColor: bgColor }}>
+      <div className="container">
+        <motion.div 
+          className="about-content"
+          initial={{ opacity: 0, y: 50 }}
+          animate={isInView ? { opacity: 1, y: 0 } : {}}
+          transition={{ duration: 0.6 }}
+        >
+          <h2>{title}</h2>
+          <p>{content}</p>
+        </motion.div>
+      </div>
+    </section>
+  )
+}
+
+function TeamSection() {
+  const ref = useRef(null)
+  const isInView = useInView(ref, { once: true, margin: "-100px" })
+
+  return (
+    <section ref={ref} className="team-section">
+      <div className="container">
+        <motion.h2 
+          className="section-title"
+          initial={{ opacity: 0, y: 30 }}
+          animate={isInView ? { opacity: 1, y: 0 } : {}}
+        >
+          核心团队
+        </motion.h2>
+
+        <motion.div 
+          className="team-intro"
+          initial={{ opacity: 0, y: 30 }}
+          animate={isInView ? { opacity: 1, y: 0 } : {}}
+          transition={{ delay: 0.2 }}
+        >
+          <p>
+            RealmX 团队由一群热爱无人机技术的工程师、设计师和行业专家组成。
+            我们来自不同的背景，但都对飞行充满热情，致力于打造世界级的无人机产品。
+          </p>
+        </motion.div>
+
+        <div className="team-stats">
+          <motion.div 
+            className="team-stat"
+            initial={{ opacity: 0, y: 30 }}
+            animate={isInView ? { opacity: 1, y: 0 } : {}}
+            transition={{ delay: 0.3 }}
+          >
+            <div className="stat-value">20+</div>
+            <div className="stat-label">团队成员</div>
+          </motion.div>
+
+          <motion.div 
+            className="team-stat"
+            initial={{ opacity: 0, y: 30 }}
+            animate={isInView ? { opacity: 1, y: 0 } : {}}
+            transition={{ delay: 0.4 }}
+          >
+            <div className="stat-value">50+</div>
+            <div className="stat-label">累计专利</div>
+          </motion.div>
+
+          <motion.div 
+            className="team-stat"
+            initial={{ opacity: 0, y: 30 }}
+            animate={isInView ? { opacity: 1, y: 0 } : {}}
+            transition={{ delay: 0.5 }}
+          >
+            <div className="stat-value">5+</div>
+            <div className="stat-label">行业经验（年）</div>
+          </motion.div>
+        </div>
+      </div>
+    </section>
+  )
+}
+
+function TimelineSection() {
+  const ref = useRef(null)
+  const isInView = useInView(ref, { once: true, margin: "-100px" })
+
+  const milestones = [
+    { year: '2025', title: '品牌创立', desc: 'RealmX 正式成立，开始无人机产品研发' },
+    { year: '2026', title: '产品发布', desc: 'RealmX Racing Edition 正式发布' },
+    { year: '2026', title: '市场拓展', desc: '产品进入多个国家和地区的市场' },
+    { year: '未来', title: '持续创新', desc: '更多产品线和应用场景正在开发中' },
+  ]
+
+  return (
+    <section ref={ref} className="timeline-section">
+      <div className="container">
+        <motion.h2 
+          className="section-title"
+          initial={{ opacity: 0, y: 30 }}
+          animate={isInView ? { opacity: 1, y: 0 } : {}}
+        >
+          发展历程
+        </motion.h2>
+
+        <div className="timeline">
+          {milestones.map((milestone, index) => (
+            <motion.div 
+              key={index}
+              className="timeline-item"
+              initial={{ opacity: 0, x: index % 2 === 0 ? -50 : 50 }}
+              animate={isInView ? { opacity: 1, x: 0 } : {}}
+              transition={{ delay: index * 0.2 }}
+            >
+              <div className="timeline-year">{milestone.year}</div>
+              <div className="timeline-content">
+                <h3>{milestone.title}</h3>
+                <p>{milestone.desc}</p>
+              </div>
+            </motion.div>
+          ))}
+        </div>
+      </div>
+    </section>
+  )
+}
+
+function PartnersSection() {
+  const ref = useRef(null)
+  const isInView = useInView(ref, { once: true, margin: "-100px" })
+
+  return (
+    <section ref={ref} className="partners-section">
+      <div className="container">
+        <motion.h2 
+          className="section-title"
+          initial={{ opacity: 0, y: 30 }}
+          animate={isInView ? { opacity: 1, y: 0 } : {}}
+        >
+          合作伙伴
+        </motion.h2>
+
+        <motion.div 
+          className="partners-grid"
+          initial={{ opacity: 0, y: 30 }}
+          animate={isInView ? { opacity: 1, y: 0 } : {}}
+          transition={{ delay: 0.2 }}
+        >
+          {[1, 2, 3, 4, 5, 6].map((_, index) => (
+            <div key={index} className="partner-logo">
+              <div className="image-placeholder">合作伙伴 Logo</div>
+            </div>
+          ))}
+        </motion.div>
+      </div>
+    </section>
+  )
+}
+
 /* ==================== BUY PAGE ==================== */
 function BuyPage() {
   const [quantity, setQuantity] = useState(1)
-
   const price = 12999
   const total = price * quantity
 
@@ -687,7 +1391,7 @@ function BuyPage() {
 }
 
 /* ==================== FOOTER ==================== */
-function Footer() {
+function Footer({ setCurrentPage }) {
   return (
     <footer className="footer">
       <div className="container">
@@ -700,20 +1404,20 @@ function Footer() {
           <div className="footer-links">
             <div className="footer-column">
               <h4>产品</h4>
-              <a href="#">RealmX Racing</a>
-              <a href="#">技术规格</a>
-              <a href="#">配件</a>
+              <a href="#" onClick={(e) => { e.preventDefault(); setCurrentPage('product') }}>RealmX Racing</a>
+              <a href="#" onClick={(e) => { e.preventDefault(); setCurrentPage('product') }}>技术规格</a>
+              <a href="#" onClick={(e) => { e.preventDefault(); setCurrentPage('buy') }}>购买</a>
             </div>
             <div className="footer-column">
               <h4>支持</h4>
-              <a href="#">文档</a>
-              <a href="#">联系我们</a>
-              <a href="#">售后服务</a>
+              <a href="#" onClick={(e) => { e.preventDefault(); setCurrentPage('support') }}>文档</a>
+              <a href="#" onClick={(e) => { e.preventDefault(); setCurrentPage('support') }}>联系我们</a>
+              <a href="#" onClick={(e) => { e.preventDefault(); setCurrentPage('support') }}>售后服务</a>
             </div>
             <div className="footer-column">
               <h4>关于</h4>
-              <a href="#">品牌故事</a>
-              <a href="#">新闻</a>
+              <a href="#" onClick={(e) => { e.preventDefault(); setCurrentPage('about') }}>品牌故事</a>
+              <a href="#" onClick={(e) => { e.preventDefault(); setCurrentPage('about') }}>新闻</a>
             </div>
           </div>
         </div>
