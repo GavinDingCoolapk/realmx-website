@@ -491,22 +491,10 @@ function AccessoriesPage() {
       image: '充电器'
     },
     {
-      name: '便携收纳包',
-      desc: '防水材质，可容纳整机 + 配件',
-      price: '¥199',
-      image: '收纳包'
-    },
-    {
-      name: '保护罩',
-      desc: '轻量化设计，室内训练必备',
+      name: '训练轮套装',
+      desc: '室内训练必备，降低碰撞风险',
       price: '¥149',
-      image: '保护罩'
-    },
-    {
-      name: '遥控器',
-      desc: '专业级遥控，低延迟响应',
-      price: '¥899',
-      image: '遥控器'
+      image: '训练轮'
     },
   ]
 
