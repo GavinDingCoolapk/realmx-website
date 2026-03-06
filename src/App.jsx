@@ -35,11 +35,9 @@ function Navigation({ menuOpen, setMenuOpen, currentPage, setCurrentPage }) {
   }, [])
 
   const navItems = [
-    { id: 'product', label: 'Racing' },
-    { id: 'technology', label: '技术' },
-    { id: 'applications', label: '应用场景' },
-    { id: 'support', label: '支持' },
-    { id: 'about', label: '关于' },
+    { id: 'product', label: 'RealmX Racing' },
+    { id: 'applications', label: '配件' },
+    { id: 'support', label: '技术支持' },
   ]
 
   return (
