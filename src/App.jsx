@@ -35,7 +35,7 @@ function Navigation({ menuOpen, setMenuOpen, currentPage, setCurrentPage }) {
   }, [])
 
   const navItems = [
-    { id: 'product', label: '产品' },
+    { id: 'product', label: 'Racing' },
     { id: 'technology', label: '技术' },
     { id: 'applications', label: '应用场景' },
     { id: 'support', label: '支持' },
@@ -65,7 +65,7 @@ function Navigation({ menuOpen, setMenuOpen, currentPage, setCurrentPage }) {
             className="nav-cta"
             onClick={(e) => { e.preventDefault(); setCurrentPage('buy') }}
           >
-            立即购买
+            购买
           </a>
         </div>
 
