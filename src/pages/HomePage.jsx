@@ -75,26 +75,17 @@ function HeroSection() {
     { src: '/hero-flight.jpg', alt: 'RealmX 飞行场景' },
   ]
   const [current, setCurrent] = useState(0)
-  const [direction, setDirection] = useState(1)
 
   const goTo = useCallback((index) => {
-    setDirection(index > current ? 1 : -1)
     setCurrent(index)
-  }, [current])
+  }, [])
 
   useEffect(() => {
     const timer = setInterval(() => {
-      setDirection(1)
       setCurrent(prev => (prev + 1) % slides.length)
     }, 5000)
     return () => clearInterval(timer)
   }, [slides.length])
-
-  const variants = {
-    enter: (dir) => ({ opacity: 0, x: dir > 0 ? 100 : -100 }),
-    center: { opacity: 1, x: 0 },
-    exit: (dir) => ({ opacity: 0, x: dir > 0 ? -100 : 100 }),
-  }
 
   return (
     <section className="hero-section">
@@ -102,24 +93,21 @@ function HeroSection() {
         <motion.h1 className="hero-title" initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.2 }}>RealmX</motion.h1>
         <motion.p className="hero-tagline" initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.4 }}>BEYOND LIMITS</motion.p>
 
-        <div className="hero-carousel" style={{ position: 'relative', maxWidth: 800, margin: '3rem auto', overflow: 'hidden', borderRadius: 16 }}>
-          <AnimatePresence initial={false} custom={direction} mode="wait">
+        <div style={{ position: 'relative', maxWidth: 800, margin: '3rem auto', aspectRatio: '4/3', overflow: 'hidden', borderRadius: 16, background: '#F5F5F7' }}>
+          {slides.map((slide, i) => (
             <motion.img
-              key={current}
-              src={slides[current].src}
-              alt={slides[current].alt}
-              custom={direction}
-              variants={variants}
-              initial="enter"
-              animate="center"
-              exit="exit"
-              transition={{ duration: 0.5, ease: 'easeInOut' }}
-              style={{ width: '100%', height: 'auto', display: 'block' }}
+              key={slide.src}
+              src={slide.src}
+              alt={slide.alt}
+              initial={{ opacity: 0 }}
+              animate={{ opacity: i === current ? 1 : 0 }}
+              transition={{ duration: 0.8, ease: 'easeInOut' }}
+              style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%', objectFit: 'contain', pointerEvents: i === current ? 'auto' : 'none' }}
             />
-          </AnimatePresence>
-          <button className="hero-carousel-btn hero-carousel-prev" onClick={() => goTo((current - 1 + slides.length) % slides.length)} style={{ position: 'absolute', left: 12, top: '50%', transform: 'translateY(-50%)', background: 'rgba(255,255,255,0.8)', border: 'none', borderRadius: '50%', width: 40, height: 40, display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer', color: '#1D1D1F' }}><ChevronLeft size={20} /></button>
-          <button className="hero-carousel-btn hero-carousel-next" onClick={() => goTo((current + 1) % slides.length)} style={{ position: 'absolute', right: 12, top: '50%', transform: 'translateY(-50%)', background: 'rgba(255,255,255,0.8)', border: 'none', borderRadius: '50%', width: 40, height: 40, display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer', color: '#1D1D1F' }}><ChevronRight size={20} /></button>
-          <div style={{ position: 'absolute', bottom: 16, left: '50%', transform: 'translateX(-50%)', display: 'flex', gap: 8 }}>
+          ))}
+          <button onClick={() => goTo((current - 1 + slides.length) % slides.length)} style={{ position: 'absolute', left: 12, top: '50%', transform: 'translateY(-50%)', background: 'rgba(255,255,255,0.8)', border: 'none', borderRadius: '50%', width: 40, height: 40, display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer', color: '#1D1D1F', zIndex: 10 }}><ChevronLeft size={20} /></button>
+          <button onClick={() => goTo((current + 1) % slides.length)} style={{ position: 'absolute', right: 12, top: '50%', transform: 'translateY(-50%)', background: 'rgba(255,255,255,0.8)', border: 'none', borderRadius: '50%', width: 40, height: 40, display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer', color: '#1D1D1F', zIndex: 10 }}><ChevronRight size={20} /></button>
+          <div style={{ position: 'absolute', bottom: 16, left: '50%', transform: 'translateX(-50%)', display: 'flex', gap: 8, zIndex: 10 }}>
             {slides.map((_, i) => (
               <button key={i} onClick={() => goTo(i)} style={{ width: current === i ? 24 : 8, height: 8, borderRadius: 4, border: 'none', background: current === i ? '#0071E3' : 'rgba(255,255,255,0.6)', cursor: 'pointer', transition: 'all 0.3s' }} />
             ))}
