@@ -90,7 +90,7 @@ function HeroSection() {
     <section className="hero-section">
       <motion.div className="hero-content" initial={{ opacity: 0, y: 50 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8 }}>
 
-        <div style={{ position: 'relative', width: '100vw', marginLeft: 'calc(-50vw + 50%)', height: '90vh', overflow: 'hidden', background: '#000' }}>
+        <div style={{ position: 'relative', width: '100vw', marginLeft: 'calc(-50vw + 50%)', height: '100vh', overflow: 'hidden', background: '#000' }}>
           {slides.map((slide, i) => (
             <motion.img
               key={slide.src}
