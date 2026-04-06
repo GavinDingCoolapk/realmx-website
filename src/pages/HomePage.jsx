@@ -72,6 +72,7 @@ function HeroSection() {
   const slides = [
     { src: '/hero-product.jpg', alt: 'RealmX 产品展示' },
     { src: '/hero-desert.jpg', alt: 'RealmX 沙漠飞行' },
+    { src: '/hero-flight.jpg', alt: 'RealmX 飞行场景' },
   ]
   const [current, setCurrent] = useState(0)
   const [direction, setDirection] = useState(1)
