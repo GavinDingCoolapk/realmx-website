@@ -90,7 +90,7 @@ function HeroSection() {
     <section className="hero-section">
       <motion.div className="hero-content" initial={{ opacity: 0, y: 50 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8 }}>
 
-        <div style={{ position: 'relative', width: '100vw', marginLeft: 'calc(-50vw + 50%)', height: '70vh', overflow: 'hidden', background: '#000' }}>
+        <div style={{ position: 'relative', width: '100vw', marginLeft: 'calc(-50vw + 50%)', height: '90vh', overflow: 'hidden', background: '#000' }}>
           {slides.map((slide, i) => (
             <motion.img
               key={slide.src}
@@ -99,7 +99,7 @@ function HeroSection() {
               initial={{ opacity: 0 }}
               animate={{ opacity: i === current ? 1 : 0 }}
               transition={{ duration: 0.8, ease: 'easeInOut' }}
-              style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%', objectFit: 'contain', pointerEvents: i === current ? 'auto' : 'none' }}
+              style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%', objectFit: 'cover', pointerEvents: i === current ? 'auto' : 'none' }}
             />
           ))}
           <div style={{ position: 'absolute', top: 0, left: 0, right: 0, bottom: 0, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', zIndex: 10, pointerEvents: 'none' }}>
