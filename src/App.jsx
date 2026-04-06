@@ -23,7 +23,7 @@ function App() {
       <Route path="/buy" element={<BuyPage />} />
       <Route path="/login" element={<LoginPage />} />
       <Route path="/admin" element={<ProtectedRoute />}>
-        <Route index element={<AdminLayout />}>
+        <Route element={<AdminLayout />}>
           <Route index element={<AdminDashboard />} />
           <Route path="products" element={<AdminProducts />} />
           <Route path="orders" element={<AdminOrders />} />
