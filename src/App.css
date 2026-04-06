@@ -236,13 +236,12 @@
 
 /* ==================== HERO SECTION ==================== */
 .hero-section {
-  min-height: 100vh;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  padding: 120px 2rem 4rem;
-  background: #FFFFFF;
+  padding: 0;
+  background: #000;
 }
 
 .hero-content {
