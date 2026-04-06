@@ -92,7 +92,7 @@ function HeroSection() {
         <motion.h1 className="hero-title" initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.2 }}>RealmX</motion.h1>
         <motion.p className="hero-tagline" initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.4 }}>BEYOND LIMITS</motion.p>
 
-        <div style={{ position: 'relative', width: '100%', height: '60vh', maxHeight: 600, overflow: 'hidden', borderRadius: 16, background: '#F5F5F7' }}>
+        <div style={{ position: 'relative', width: '100vw', marginLeft: 'calc(-50vw + 50%)', height: '70vh', overflow: 'hidden', background: '#000' }}>
           {slides.map((slide, i) => (
             <motion.img
               key={slide.src}
