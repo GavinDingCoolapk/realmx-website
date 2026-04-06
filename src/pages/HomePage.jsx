@@ -70,7 +70,6 @@ function Navigation({ menuOpen, setMenuOpen }) {
 
 function HeroSection() {
   const slides = [
-    { src: '/hero-product.jpg', alt: 'RealmX 产品展示' },
     { src: '/hero-desert.jpg', alt: 'RealmX 沙漠飞行' },
     { src: '/hero-flight.jpg', alt: 'RealmX 飞行场景' },
   ]
@@ -93,7 +92,7 @@ function HeroSection() {
         <motion.h1 className="hero-title" initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.2 }}>RealmX</motion.h1>
         <motion.p className="hero-tagline" initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.4 }}>BEYOND LIMITS</motion.p>
 
-        <div style={{ position: 'relative', maxWidth: 800, margin: '3rem auto', aspectRatio: '4/3', overflow: 'hidden', borderRadius: 16, background: '#F5F5F7' }}>
+        <div style={{ position: 'relative', width: '100%', height: '60vh', maxHeight: 600, overflow: 'hidden', borderRadius: 16, background: '#F5F5F7' }}>
           {slides.map((slide, i) => (
             <motion.img
               key={slide.src}
@@ -102,7 +101,7 @@ function HeroSection() {
               initial={{ opacity: 0 }}
               animate={{ opacity: i === current ? 1 : 0 }}
               transition={{ duration: 0.8, ease: 'easeInOut' }}
-              style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%', objectFit: 'contain', pointerEvents: i === current ? 'auto' : 'none' }}
+              style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%', objectFit: 'cover', pointerEvents: i === current ? 'auto' : 'none' }}
             />
           ))}
           <button onClick={() => goTo((current - 1 + slides.length) % slides.length)} style={{ position: 'absolute', left: 12, top: '50%', transform: 'translateY(-50%)', background: 'rgba(255,255,255,0.8)', border: 'none', borderRadius: '50%', width: 40, height: 40, display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer', color: '#1D1D1F', zIndex: 10 }}><ChevronLeft size={20} /></button>
