@@ -34,15 +34,17 @@ export default function LoginPage() {
         return
       }
 
-      // 检查是否是 admin
+      // 登录成功，检查角色
       const { data: { user } } = await supabase.auth.getUser()
-      const { data: profile } = await supabase.from('profiles').select('role').eq('id', user.id).single()
-
-      navigate(profile?.role === 'admin' ? '/admin' : '/')
+      if (user) {
+        const { data: profile } = await supabase.from('profiles').select('role').eq('id', user.id).single()
+        // 清除缓存让 ProtectedRoute 重新判断
+        window.location.href = profile?.role === 'admin' ? '/admin' : '/'
+        return
+      }
+      navigate('/')
     } catch (err) {
-      setError(err.message === 'Invalid login credentials'
-        ? '邮箱或密码错误'
-        : err.message)
+      setError(err.message === 'Invalid login credentials' ? '邮箱或密码错误' : err.message)
     }
     setLoading(false)
   }
@@ -55,7 +57,7 @@ export default function LoginPage() {
         </Link>
 
         <div className="login-card">
-          <h2 className="login-title">{isLogin ? '登录' : '注册'}</h2>
+          <h2 className="login-title">{isLogin ? '欢迎回来' : '创建账号'}</h2>
 
           <form onSubmit={handleSubmit} className="login-form">
             {!isLogin && (
