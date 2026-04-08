@@ -126,8 +126,11 @@ function HeroSection() {
         <div style={{ position: 'absolute', top: 0, left: 0, right: 0, bottom: 0, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', zIndex: 10, pointerEvents: 'none' }}>
           <motion.h1 className="hero-title" initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.3, duration: 0.7, ease: [0.25, 0.46, 0.45, 0.94] }} style={{ color: '#FFFFFF', textShadow: '0 2px 20px rgba(0,0,0,0.5)' }}>RealmX</motion.h1>
           <motion.p className="hero-tagline" initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.6, duration: 0.6 }} style={{ color: 'rgba(255,255,255,0.9)', textShadow: '0 1px 10px rgba(0,0,0,0.5)', letterSpacing: '0.15em' }}>BEYOND LIMITS</motion.p>
-          <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 1.2, duration: 0.6 }} style={{ marginTop: '2rem', pointerEvents: 'auto' }}>
-            <Link to="/buy" className="btn-primary" style={{ fontSize: '1.1rem', padding: '0.875rem 2.5rem', color: '#FFFFFF' }}>立即购买</Link>
+          <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 1.2, duration: 0.6 }} style={{ marginTop: '2rem', pointerEvents: 'auto', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 8, cursor: 'pointer' }} onClick={() => document.querySelector('.feature-section')?.scrollIntoView({ behavior: 'smooth' })}>
+            <span style={{ color: 'rgba(255,255,255,0.8)', fontSize: '0.9rem', letterSpacing: '0.05em' }}>了解更多</span>
+            <motion.div animate={{ y: [0, 6, 0] }} transition={{ repeat: Infinity, duration: 1.5, ease: 'easeInOut' }}>
+              <ChevronRight size={20} style={{ color: 'rgba(255,255,255,0.8)', transform: 'rotate(90deg)' }} />
+            </motion.div>
           </motion.div>
         </div>
         <motion.button
