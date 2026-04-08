@@ -1895,11 +1895,54 @@
   margin-bottom: 0.5rem;
 }
 
-.login-hint {
+.login-switch {
   margin-top: 1.5rem;
   color: #86868B;
   font-size: 0.875rem;
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+}
+
+.login-switch-btn {
+  background: none;
+  border: none;
+  color: #0071E3;
+  font-size: 0.875rem;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  cursor: pointer;
+  padding: 0;
+  margin-left: 0.25rem;
+}
+
+.login-switch-btn:hover {
+  text-decoration: underline;
+}
+
+.login-btn {
+  width: 100%;
+  padding: 0.875rem !important;
+  border-radius: 12px !important;
+  font-size: 1rem !important;
+}
+
+.form-group select,
+.form-group textarea {
+  width: 100%;
+  padding: 0.875rem 1rem;
+  border: 1px solid #E5E7EB;
+  border-radius: 12px;
+  font-size: 1rem;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  transition: all 0.3s ease;
+  background: #FFFFFF;
+  color: #1D1D1F;
+  box-sizing: border-box;
+}
+
+.form-group select:focus,
+.form-group textarea:focus {
+  outline: none;
+  border-color: #0071E3;
+  box-shadow: 0 0 0 4px rgba(0, 113, 227, 0.1);
 }
 
 .login-back {
