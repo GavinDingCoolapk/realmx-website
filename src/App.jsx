@@ -1,4 +1,5 @@
 import { Routes, Route, Navigate, useLocation } from 'react-router-dom'
+import { useEffect } from 'react'
 import './App.css'
 import HomePage from './pages/HomePage'
 import ProductPage from './pages/ProductPage'
@@ -16,6 +17,9 @@ import ProtectedRoute from './pages/ProtectedRoute'
 
 function App() {
   const location = useLocation()
+  useEffect(() => {
+    window.scrollTo(0, 0)
+  }, [location.pathname])
   return (
     <Routes location={location} key={location.pathname}>
       <Route path="/" element={<PageTransition><HomePage /></PageTransition>} />
