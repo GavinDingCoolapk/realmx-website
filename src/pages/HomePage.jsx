@@ -77,6 +77,7 @@ function Navigation({ menuOpen, setMenuOpen }) {
             </Link>
           ))}
           <Link to="/buy" className="nav-cta">购买</Link>
+          <Link to="/login" className="nav-login">登录</Link>
         </div>
         <button className="mobile-menu-btn" onClick={() => setMenuOpen(!menuOpen)}>
           {menuOpen ? <X size={24} /> : <Menu size={24} />}
