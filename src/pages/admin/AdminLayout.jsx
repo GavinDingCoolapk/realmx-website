@@ -1,14 +1,17 @@
-import { useState } from 'react'
-import { Outlet, NavLink, useNavigate, Link } from 'react-router-dom'
+import { useEffect, useState } from 'react'
+import { Link, useNavigate, Outlet, NavLink } from 'react-router-dom'
+import { supabase } from '../../lib/supabase'
 import { LayoutDashboard, Package, ShoppingBag, Newspaper, LogOut, ArrowLeft } from 'lucide-react'
 import '../../App.css'
 
 export default function AdminLayout() {
   const navigate = useNavigate()
-  const handleLogout = () => {
-    localStorage.removeItem('realmx_auth')
+
+  const handleLogout = async () => {
+    await supabase.auth.signOut()
     navigate('/login')
   }
+
   return (
     <div className="admin-page">
       <div className="admin-sidebar">
