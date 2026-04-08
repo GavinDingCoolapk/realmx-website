@@ -72,6 +72,7 @@ function HeroSection() {
   const slides = [
     { src: '/hero-1.png', alt: 'RealmX' },
     { src: '/hero-2.png', alt: 'RealmX' },
+    { src: '/hero-3.png', alt: 'RealmX' },
   ]
   const [current, setCurrent] = useState(0)
 
