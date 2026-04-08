@@ -34,11 +34,9 @@ export default function LoginPage() {
         return
       }
 
-      // 登录成功，检查角色
       const { data: { user } } = await supabase.auth.getUser()
       if (user) {
         const { data: profile } = await supabase.from('profiles').select('role').eq('id', user.id).single()
-        // 清除缓存让 ProtectedRoute 重新判断
         window.location.href = profile?.role === 'admin' ? '/admin' : '/'
         return
       }
@@ -51,44 +49,42 @@ export default function LoginPage() {
 
   return (
     <div className="login-page">
-      <div className="login-container">
-        <Link to="/" className="logo" style={{ marginBottom: '2rem', display: 'inline-block' }}>
+      <div className="login-card">
+        <Link to="/" className="login-logo-link">
           <span className="logo-text">RealmX</span>
         </Link>
 
-        <div className="login-card">
-          <h2 className="login-title">{isLogin ? '欢迎回来' : '创建账号'}</h2>
+        <h2 className="login-title">{isLogin ? '欢迎回来' : '创建账号'}</h2>
 
-          <form onSubmit={handleSubmit} className="login-form">
-            {!isLogin && (
-              <div className="form-group">
-                <label>用户名</label>
-                <input type="text" value={username} onChange={e => setUsername(e.target.value)} placeholder="请输入用户名" required />
-              </div>
-            )}
+        <form onSubmit={handleSubmit} className="login-form">
+          {!isLogin && (
             <div className="form-group">
-              <label>邮箱</label>
-              <input type="email" value={email} onChange={e => setEmail(e.target.value)} placeholder="请输入邮箱" required />
+              <label>用户名</label>
+              <input type="text" value={username} onChange={e => setUsername(e.target.value)} placeholder="请输入用户名" required />
             </div>
-            <div className="form-group">
-              <label>密码</label>
-              <input type="password" value={password} onChange={e => setPassword(e.target.value)} placeholder={isLogin ? '请输入密码' : '至少6位密码'} required minLength={6} />
-            </div>
+          )}
+          <div className="form-group">
+            <label>邮箱</label>
+            <input type="email" value={email} onChange={e => setEmail(e.target.value)} placeholder="请输入邮箱" required />
+          </div>
+          <div className="form-group">
+            <label>密码</label>
+            <input type="password" value={password} onChange={e => setPassword(e.target.value)} placeholder={isLogin ? '请输入密码' : '至少6位密码'} required minLength={6} />
+          </div>
 
-            {error && <p className="login-error">{error}</p>}
+          {error && <p className="login-error">{error}</p>}
 
-            <button type="submit" className="btn-primary login-btn" disabled={loading} style={{ color: '#fff' }}>
-              {loading ? '请稍候...' : (isLogin ? '登录' : '注册')}
-            </button>
-          </form>
+          <button type="submit" className="btn-primary login-btn" disabled={loading} style={{ color: '#fff' }}>
+            {loading ? '请稍候...' : (isLogin ? '登录' : '注册')}
+          </button>
+        </form>
 
-          <p className="login-switch">
-            {isLogin ? '还没有账号？' : '已有账号？'}
-            <button onClick={() => { setIsLogin(!isLogin); setError('') }} className="login-switch-btn">
-              {isLogin ? '立即注册' : '去登录'}
-            </button>
-          </p>
-        </div>
+        <p className="login-switch">
+          {isLogin ? '还没有账号？' : '已有账号？'}
+          <button onClick={() => { setIsLogin(!isLogin); setError('') }} className="login-switch-btn">
+            {isLogin ? '立即注册' : '去登录'}
+          </button>
+        </p>
       </div>
     </div>
   )
