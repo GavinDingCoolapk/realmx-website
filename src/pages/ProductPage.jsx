@@ -17,7 +17,7 @@ export default function ProductPage() {
             <p className="product-hero-price">¥12,999</p>
           </motion.div>
           <motion.div className="product-hero-image" initial={{ opacity: 0, scale: 0.95 }} animate={{ opacity: 1, scale: 1 }} transition={{ delay: 0.2, duration: 0.8 }}>
-            <img src="/drone-render.png" alt="RealmX Racing Edition" />
+            <img src="/product-hero.png" alt="RealmX Racing Edition" />
           </motion.div>
         </section>
         <ProductFeature title="极致速度" subtitle="0.8s 从静止到 100km/h" description="采用高效能电机和优化的空气动力学设计，RealmX Racing Edition 能够在 0.8 秒内从静止加速到 100km/h。" specs={['极速: 130 km/h', '加速: 0-100km/h 0.8s', '最大过载: 8G']} />
