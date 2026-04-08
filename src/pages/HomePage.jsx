@@ -116,46 +116,16 @@ function HeroSection() {
           <motion.div
             key={slide.src}
             initial={{ opacity: 0 }}
-            animate={{
-              opacity: i === current ? 1 : 0,
-              scale: i === current ? [1, 1.05, 1.02] : 1,
-            }}
-            transition={{
-              opacity: { duration: 1, ease: 'easeInOut' },
-              scale: { duration: 12, ease: 'linear' },
-            }}
+            animate={{ opacity: i === current ? 1 : 0 }}
+            transition={{ duration: 1, ease: 'easeInOut' }}
             style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%', pointerEvents: 'none' }}
           >
             <img src={slide.src} alt={slide.alt} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
           </motion.div>
         ))}
         <div style={{ position: 'absolute', top: 0, left: 0, right: 0, bottom: 0, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', zIndex: 10, pointerEvents: 'none' }}>
-          <h1 className="hero-title" style={{ color: '#FFFFFF', textShadow: '0 2px 20px rgba(0,0,0,0.5)', overflow: 'hidden' }}>
-            {titleChars.map((char, i) => (
-              <motion.span
-                key={i}
-                initial={{ opacity: 0, y: 40 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.3 + i * 0.08, duration: 0.5, ease: [0.25, 0.46, 0.45, 0.94] }}
-                style={{ display: 'inline-block' }}
-              >
-                {char}
-              </motion.span>
-            ))}
-          </h1>
-          <p className="hero-tagline" style={{ color: 'rgba(255,255,255,0.9)', textShadow: '0 1px 10px rgba(0,0,0,0.5)', overflow: 'hidden', letterSpacing: '0.15em' }}>
-            {taglineChars.map((char, i) => (
-              <motion.span
-                key={i}
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.7 + i * 0.03, duration: 0.4, ease: [0.25, 0.46, 0.45, 0.94] }}
-                style={{ display: 'inline-block' }}
-              >
-                {char}
-              </motion.span>
-            ))}
-          </p>
+          <motion.h1 className="hero-title" initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.3, duration: 0.7, ease: [0.25, 0.46, 0.45, 0.94] }} style={{ color: '#FFFFFF', textShadow: '0 2px 20px rgba(0,0,0,0.5)' }}>RealmX</motion.h1>
+          <motion.p className="hero-tagline" initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.6, duration: 0.6 }} style={{ color: 'rgba(255,255,255,0.9)', textShadow: '0 1px 10px rgba(0,0,0,0.5)', letterSpacing: '0.15em' }}>BEYOND LIMITS</motion.p>
           <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 1.2, duration: 0.6 }} style={{ marginTop: '2rem', pointerEvents: 'auto' }}>
             <Link to="/buy" className="btn-primary" style={{ fontSize: '1.1rem', padding: '0.875rem 2.5rem', color: '#FFFFFF' }}>立即购买</Link>
           </motion.div>
