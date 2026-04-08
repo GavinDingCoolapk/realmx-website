@@ -54,35 +54,35 @@ export default function LoginPage() {
           <span className="logo-text">RealmX</span>
         </Link>
 
-        <h2 className="login-title">{isLogin ? '欢迎回来' : '创建账号'}</h2>
+        <h1 className="login-title">{isLogin ? '登录 RealmX 账号' : '注册 RealmX 账号'}</h1>
+
+        {error && <p className="login-error">{error}</p>}
 
         <form onSubmit={handleSubmit} className="login-form">
           {!isLogin && (
-            <div className="form-group">
+            <div className="login-field">
               <label>用户名</label>
               <input type="text" value={username} onChange={e => setUsername(e.target.value)} placeholder="请输入用户名" required />
             </div>
           )}
-          <div className="form-group">
+          <div className="login-field">
             <label>邮箱</label>
             <input type="email" value={email} onChange={e => setEmail(e.target.value)} placeholder="请输入邮箱" required />
           </div>
-          <div className="form-group">
+          <div className="login-field">
             <label>密码</label>
             <input type="password" value={password} onChange={e => setPassword(e.target.value)} placeholder={isLogin ? '请输入密码' : '至少6位密码'} required minLength={6} />
           </div>
 
-          {error && <p className="login-error">{error}</p>}
-
-          <button type="submit" className="btn-primary login-btn" disabled={loading} style={{ color: '#fff' }}>
+          <button type="submit" className="login-btn" disabled={loading || !email || !password || (!isLogin && !username)}>
             {loading ? '请稍候...' : (isLogin ? '登录' : '注册')}
           </button>
         </form>
 
         <p className="login-switch">
-          {isLogin ? '还没有账号？' : '已有账号？'}
+          {isLogin ? '新用户？' : '已有账号？'}
           <button onClick={() => { setIsLogin(!isLogin); setError('') }} className="login-switch-btn">
-            {isLogin ? '立即注册' : '去登录'}
+            {isLogin ? '注册 RealmX 账号' : '登录'}
           </button>
         </p>
       </div>
