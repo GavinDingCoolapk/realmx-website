@@ -44,7 +44,7 @@ export default function AdminLayout() {
           <h1 className="admin-page-title">管理后台</h1>
           <button className="admin-logout" onClick={handleLogout}><LogOut size={16} /><span>退出登录</span></button>
         </header>
-        <div className="admin-content"><AnimatePresence mode="wait"><motion.div key={location.pathname} initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -8 }} transition={{ duration: 0.25 }}><Outlet /></motion.div></AnimatePresence></div>
+        <div className="admin-content"><Outlet /></div>
       </div>
     </div>
   )
