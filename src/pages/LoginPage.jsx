@@ -37,7 +37,7 @@ export default function LoginPage() {
       const { data: { user } } = await supabase.auth.getUser()
       if (user) {
         const { data: profile } = await supabase.from('profiles').select('role').eq('id', user.id).single()
-        window.location.href = profile?.role === 'admin' ? '/admin' : '/'
+        window.location.href = profile?.role === 'admin' ? '/admin' : '/account'
         return
       }
       navigate('/')
