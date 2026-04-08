@@ -7,6 +7,7 @@ import AccessoriesPage from './pages/AccessoriesPage'
 import SupportPage from './pages/SupportPage'
 import BuyPage from './pages/BuyPage'
 import LoginPage from './pages/LoginPage'
+import AccountPage from './pages/AccountPage'
 import PageTransition from './pages/PageTransition'
 import AdminLayout from './pages/admin/AdminLayout'
 import AdminDashboard from './pages/admin/AdminDashboard'
@@ -28,6 +29,7 @@ function App() {
       <Route path="/support" element={<PageTransition><SupportPage /></PageTransition>} />
       <Route path="/buy" element={<PageTransition><BuyPage /></PageTransition>} />
       <Route path="/login" element={<PageTransition><LoginPage /></PageTransition>} />
+      <Route path="/account" element={<PageTransition><AccountPage /></PageTransition>} />
       <Route path="/admin" element={<ProtectedRoute />}>
         <Route element={<AdminLayout />}>
           <Route index element={<AdminDashboard />} />
