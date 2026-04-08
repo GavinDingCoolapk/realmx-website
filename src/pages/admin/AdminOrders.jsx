@@ -1,26 +1,51 @@
+import { useEffect, useState } from 'react'
+import { supabase } from '../../lib/supabase'
 import '../../App.css'
 
+const statusMap = {
+  pending: { label: '待付款', cls: 'pending' },
+  processing: { label: '处理中', cls: 'warning' },
+  shipped: { label: '已发货', cls: 'success' },
+  completed: { label: '已完成', cls: 'success' },
+  cancelled: { label: '已取消', cls: 'draft' },
+}
+
 export default function AdminOrders() {
-  const orders = [
-    { id: '#RX-20260405-001', customer: '张三', product: 'RealmX Racing Edition', amount: '¥12,999', date: '2026-04-05', status: '已发货', statusClass: 'success' },
-    { id: '#RX-20260405-002', customer: '李四', product: '备用电池 × 2', amount: '¥598', date: '2026-04-05', status: '处理中', statusClass: 'warning' },
-    { id: '#RX-20260404-003', customer: '王五', product: 'RealmX Racing Edition + 训练轮', amount: '¥13,148', date: '2026-04-04', status: '已完成', statusClass: 'success' },
-    { id: '#RX-20260404-004', customer: '赵六', product: '快速充电器', amount: '¥399', date: '2026-04-04', status: '待付款', statusClass: 'pending' },
-    { id: '#RX-20260403-005', customer: '孙七', product: '备用桨叶套装 × 3', amount: '¥297', date: '2026-04-03', status: '已取消', statusClass: 'draft' },
-    { id: '#RX-20260403-006', customer: '周八', product: 'RealmX Racing Edition', amount: '¥12,999', date: '2026-04-03', status: '已完成', statusClass: 'success' },
-  ]
+  const [orders, setOrders] = useState([])
+
+  const fetchOrders = async () => {
+    const { data } = await supabase.from('orders').select('*').order('created_at', { ascending: false })
+    setOrders(data || [])
+  }
+
+  useEffect(() => { fetchOrders() }, [])
+
+  const updateStatus = async (id, status) => {
+    await supabase.from('orders').update({ status }).eq('id', id)
+    fetchOrders()
+  }
+
   return (
     <div className="admin-section">
-      <div className="admin-section-header">
-        <h3 className="section-subtitle">订单列表</h3>
-      </div>
+      <div className="admin-section-header"><h3 className="section-subtitle">订单列表</h3></div>
       <div className="admin-table-container">
         <table className="admin-table">
-          <thead><tr><th>订单号</th><th>客户</th><th>产品</th><th>金额</th><th>日期</th><th>状态</th><th>操作</th></tr></thead>
-          <tbody>{orders.map((o, i) => (
-            <tr key={i}><td>{o.id}</td><td>{o.customer}</td><td>{o.product}</td><td>{o.amount}</td><td>{o.date}</td><td><span className={`status-badge ${o.statusClass}`}>{o.status}</span></td>
-              <td><div className="action-buttons"><button className="action-btn view">详情</button></div></td></tr>
-          ))}</tbody>
+          <thead><tr><th>订单号</th><th>客户</th><th>产品</th><th>金额</th><th>状态</th><th>日期</th><th>操作</th></tr></thead>
+          <tbody>
+            {orders.length === 0 && <tr><td colSpan={7} style={{ textAlign: 'center', padding: '2rem', color: '#999' }}>暂无订单</td></tr>}
+            {orders.map(o => (
+              <tr key={o.id}><td>#{o.id}</td><td>{o.contact_name || '-'}<br/><small style={{ color: '#999' }}>{o.contact_phone || ''}</small></td>
+                <td>{(o.items || []).map(i => i.name).join(', ')}</td>
+                <td>¥{Number(o.total_price).toLocaleString()}</td>
+                <td><span className={`status-badge ${(statusMap[o.status] || {}).cls || ''}`}>{(statusMap[o.status] || {}).label || o.status}</span></td>
+                <td>{new Date(o.created_at).toLocaleDateString('zh-CN')}</td>
+                <td>
+                  <select value={o.status} onChange={e => updateStatus(o.id, e.target.value)} style={{ fontSize: '0.8rem', padding: '0.25rem', borderRadius: 6, border: '1px solid #ddd' }}>
+                    {Object.entries(statusMap).map(([k, v]) => <option key={k} value={k}>{v.label}</option>)}
+                  </select>
+                </td></tr>
+            ))}
+          </tbody>
         </table>
       </div>
     </div>
