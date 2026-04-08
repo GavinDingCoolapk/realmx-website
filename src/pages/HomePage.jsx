@@ -281,7 +281,7 @@ function Footer() {
             </div>
             <div className="footer-column">
               <h4>关于</h4>
-              <Link to="/login">管理后台</Link>
+              <Link to="/login">登录</Link>
             </div>
           </div>
         </div>
