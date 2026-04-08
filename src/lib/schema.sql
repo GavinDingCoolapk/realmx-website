@@ -78,13 +78,10 @@ CREATE POLICY "Admin manage news" ON news FOR ALL USING (
   EXISTS (SELECT 1 FROM profiles WHERE id = auth.uid() AND role = 'admin')
 );
 
--- orders: 用户只能看/改自己的，admin 能看所有
+-- orders: 用户只能看/改自己的，admin 能看所有；允许匿名下单
+CREATE POLICY "Anyone can create orders" ON orders FOR INSERT WITH CHECK (true);
 CREATE POLICY "Users view own orders" ON orders FOR SELECT USING (
-  auth.uid() = user_id OR EXISTS (SELECT 1 FROM profiles WHERE id = auth.uid() AND role = 'admin')
-);
-CREATE POLICY "Users create orders" ON orders FOR INSERT WITH CHECK (auth.uid() = user_id);
-CREATE POLICY "Users update own orders" ON orders FOR UPDATE USING (
-  auth.uid() = user_id OR EXISTS (SELECT 1 FROM profiles WHERE id = auth.uid() AND role = 'admin')
+  auth.uid() = user_id OR user_id IS NULL OR EXISTS (SELECT 1 FROM profiles WHERE id = auth.uid() AND role = 'admin')
 );
 CREATE POLICY "Admin update orders" ON orders FOR UPDATE USING (
   EXISTS (SELECT 1 FROM profiles WHERE id = auth.uid() AND role = 'admin')

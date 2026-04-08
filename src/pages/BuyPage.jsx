@@ -1,37 +1,137 @@
 import { useState, useEffect } from 'react'
-import { Link, useLocation } from 'react-router-dom'
-import { motion } from 'framer-motion'
-import { Menu, X } from 'lucide-react'
+import { Link, useLocation, useNavigate } from 'react-router-dom'
+import { supabase } from '../lib/supabase'
 import '../App.css'
 
 export default function BuyPage() {
+  const navigate = useNavigate()
   const [menuOpen, setMenuOpen] = useState(false)
+  const [products, setProducts] = useState([])
+  const [selected, setSelected] = useState(null)
   const [quantity, setQuantity] = useState(1)
-  const price = 12999
-  const total = price * quantity
+  const [loading, setLoading] = useState(false)
+  const [submitted, setSubmitted] = useState(false)
+
+  // 订单信息
+  const [name, setName] = useState('')
+  const [phone, setPhone] = useState('')
+  const [address, setAddress] = useState('')
+
+  useEffect(() => {
+    supabase.from('products').select('*').eq('status', 'active').then(({ data }) => {
+      setProducts(data || [])
+      if (data && data.length > 0) setSelected(data[0])
+    })
+  }, [])
+
+  const total = selected ? selected.price * quantity : 0
+
+  const handleSubmit = async (e) => {
+    e.preventDefault()
+    if (!selected || !name || !phone) return
+    setLoading(true)
+
+    const { data: { user } } = await supabase.auth.getUser()
+    const { error } = await supabase.from('orders').insert({
+      user_id: user?.id || null,
+      items: [{ id: selected.id, name: selected.name, price: selected.price, quantity }],
+      total_price: total,
+      contact_name: name,
+      contact_phone: phone,
+      shipping_address: address,
+      status: 'pending',
+    })
+
+    setLoading(false)
+    if (error) { alert('下单失败：' + error.message); return }
+    setSubmitted(true)
+  }
+
   return (
     <div className="app">
       <Navigation menuOpen={menuOpen} setMenuOpen={setMenuOpen} />
       <div className="buy-page">
-        <section className="buy-hero"><h1 className="buy-title">购买 RealmX Racing Edition</h1></section>
+        <section className="buy-hero"><h1 className="buy-title">购买 RealmX</h1></section>
         <section className="buy-content">
           <div className="container">
-            <div className="buy-layout">
-              <div className="buy-product">
-                <div className="buy-product-image"><img src="/drone-render.png" alt="RealmX Racing Edition" /></div>
-                <div className="buy-product-info"><h2>RealmX Racing Edition</h2><p className="buy-product-tagline">为速度而生</p></div>
+            {submitted ? (
+              <div style={{ textAlign: 'center', padding: '6rem 2rem' }}>
+                <div style={{ fontSize: '3rem', marginBottom: '1rem' }}>✅</div>
+                <h2 style={{ fontSize: '1.5rem', marginBottom: '0.5rem', color: '#1D1D1F' }}>订单提交成功</h2>
+                <p style={{ color: '#86868B', marginBottom: '2rem' }}>我们会尽快与您联系确认订单详情</p>
+                <button className="btn-primary" onClick={() => { setSubmitted(false); setSelected(products[0]); setName(''); setPhone(''); setAddress(''); setQuantity(1) }}>继续购买</button>
+                <Link to="/" style={{ display: 'block', marginTop: '1rem', color: '#0071E3' }}>返回首页</Link>
               </div>
-              <div className="buy-order">
-                <h3>订单详情</h3>
-                <div className="order-row"><span>单价</span><span>¥{price.toLocaleString()}</span></div>
-                <div className="order-row"><span>数量</span><div className="quantity-selector"><button onClick={() => setQuantity(Math.max(1, quantity - 1))} disabled={quantity <= 1}>-</button><span>{quantity}</span><button onClick={() => setQuantity(quantity + 1)}>+</button></div></div>
-                <div className="order-divider"></div>
-                <div className="order-total"><span>总计</span><span className="total-price">¥{total.toLocaleString()}</span></div>
-                <button className="btn-primary btn-large btn-full">立即购买</button>
-                <p className="order-note">* 目前仅支持联系客服购买，我们会尽快与您联系</p>
-                <div className="order-contact"><h4>联系方式</h4><p>📧 contact@realmx.tech</p><p>📱 微信: RealmX</p></div>
+            ) : (
+              <div className="buy-layout">
+                <div className="buy-product">
+                  {selected && (
+                    <>
+                      <div className="buy-product-image">
+                        {selected.image_url ? <img src={selected.image_url} alt={selected.name} /> : <div className="image-placeholder">{selected.name}</div>}
+                      </div>
+                      <div className="buy-product-info">
+                        <h2>{selected.name}</h2>
+                        <p className="buy-product-tagline">{selected.description || ''}</p>
+                      </div>
+                      {products.length > 1 && (
+                        <div style={{ marginTop: '1.5rem' }}>
+                          <p style={{ fontSize: '0.875rem', color: '#86868B', marginBottom: '0.75rem' }}>选择产品</p>
+                          <div style={{ display: 'flex', gap: '0.75rem', flexWrap: 'wrap' }}>
+                            {products.map(p => (
+                              <button key={p.id} onClick={() => { setSelected(p); setQuantity(1) }}
+                                style={{
+                                  padding: '0.5rem 1rem', borderRadius: '8px', border: selected?.id === p.id ? '2px solid #0071E3' : '1px solid #E5E7EB',
+                                  background: selected?.id === p.id ? '#0071E31a' : '#fff', color: '#1D1D1F', cursor: 'pointer', fontSize: '0.875rem'
+                                }}>
+                                {p.name}
+                              </button>
+                            ))}
+                          </div>
+                        </div>
+                      )}
+                    </>
+                  )}
+                </div>
+
+                <div className="buy-order">
+                  <h3>订单详情</h3>
+                  <form onSubmit={handleSubmit}>
+                    <div className="buy-field">
+                      <label>姓名 *</label>
+                      <input type="text" value={name} onChange={e => setName(e.target.value)} placeholder="请输入您的姓名" required />
+                    </div>
+                    <div className="buy-field">
+                      <label>手机号 *</label>
+                      <input type="tel" value={phone} onChange={e => setPhone(e.target.value)} placeholder="请输入手机号" required />
+                    </div>
+                    <div className="buy-field">
+                      <label>收货地址</label>
+                      <input type="text" value={address} onChange={e => setAddress(e.target.value)} placeholder="请输入收货地址（选填）" />
+                    </div>
+
+                    <div className="order-divider"></div>
+
+                    <div className="order-row"><span>产品</span><span>{selected?.name || '-'}</span></div>
+                    <div className="order-row"><span>单价</span><span>¥{selected ? Number(selected.price).toLocaleString() : '0'}</span></div>
+                    <div className="order-row">
+                      <span>数量</span>
+                      <div className="quantity-selector">
+                        <button type="button" onClick={() => setQuantity(Math.max(1, quantity - 1))} disabled={quantity <= 1}>-</button>
+                        <span>{quantity}</span>
+                        <button type="button" onClick={() => setQuantity(quantity + 1)}>+</button>
+                      </div>
+                    </div>
+                    <div className="order-divider"></div>
+                    <div className="order-total"><span>总计</span><span className="total-price">¥{total.toLocaleString()}</span></div>
+
+                    <button type="submit" className="btn-primary btn-large btn-full" disabled={loading} style={{ marginTop: '1.5rem', color: '#fff' }}>
+                      {loading ? '提交中...' : '提交订单'}
+                    </button>
+                  </form>
+                </div>
               </div>
-            </div>
+            )}
           </div>
         </section>
       </div>
@@ -66,6 +166,7 @@ function Footer() {
           <div className="footer-links">
             <div className="footer-column"><h4>产品</h4><Link to="/product">RealmX Racing</Link><Link to="/accessories">配件</Link><Link to="/buy">购买</Link></div>
             <div className="footer-column"><h4>技术支持</h4><Link to="/support">快速入门</Link><Link to="/support">技术文档</Link><Link to="/support">联系我们</Link></div>
+            <div className="footer-column"><h4>关于</h4><Link to="/login">登录</Link></div>
           </div>
         </div>
         <div className="footer-bottom"><p>© 2026 RealmX. All rights reserved.</p></div>
