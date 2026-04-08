@@ -1811,14 +1811,15 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  background: #F5F5F7;
+  background: #F5F5F7 url('/hero-1.png') center/cover no-repeat;
   padding: 2rem;
 }
 
 .login-card {
   width: 100%;
   max-width: 380px;
-  background: #FFFFFF;
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(20px);
   padding: 40px 36px;
   text-align: left;
 }
