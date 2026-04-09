@@ -168,12 +168,6 @@ function FeatureSection({ title, subtitle, description, bgColor, index }) {
   const isInView = useInView(ref, { once: true, margin: "-80px" })
   const isEven = index % 2 === 0
 
-  // Parse number for counter
-  const numMatch = title.match(/[\d.]+/)
-  const numEnd = numMatch ? parseFloat(numMatch[0]) : null
-  const suffix = numMatch ? title.replace(numMatch[0], '') : title
-  const [count, countRef] = useCountUp(numEnd, 1.5)
-
   return (
     <section ref={ref} className="feature-section" style={{ backgroundColor: bgColor }}>
       <motion.div
@@ -182,9 +176,7 @@ function FeatureSection({ title, subtitle, description, bgColor, index }) {
         animate={isInView ? { opacity: 1, x: 0 } : {}}
         transition={{ duration: 0.7, ease: [0.25, 0.46, 0.45, 0.94] }}
       >
-        <h2 className="feature-title" ref={countRef}>
-          {numEnd !== null ? `${count}${suffix}` : title}
-        </h2>
+        <h2 className="feature-title">{title}</h2>
         <motion.p
           className="feature-subtitle"
           initial={{ opacity: 0, y: 20 }}
