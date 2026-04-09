@@ -1,5 +1,7 @@
 import { useState, useEffect } from 'react'
 import { Link, useLocation, useNavigate } from 'react-router-dom'
+import { motion } from 'framer-motion'
+import { Menu, X } from 'lucide-react'
 import { supabase } from '../lib/supabase'
 import '../App.css'
 
@@ -11,8 +13,8 @@ export default function BuyPage() {
   const [quantity, setQuantity] = useState(1)
   const [loading, setLoading] = useState(false)
   const [submitted, setSubmitted] = useState(false)
+  const [pageError, setPageError] = useState('')
 
-  // 订单信息
   const [name, setName] = useState('')
   const [phone, setPhone] = useState('')
   const [address, setAddress] = useState('')
@@ -21,7 +23,7 @@ export default function BuyPage() {
     supabase.from('products').select('*').eq('status', 'active').then(({ data }) => {
       setProducts(data || [])
       if (data && data.length > 0) setSelected(data[0])
-    })
+    }).catch(() => setPageError('加载产品失败'))
   }, [])
 
   const total = selected ? selected.price * quantity : 0
@@ -29,11 +31,18 @@ export default function BuyPage() {
   const handleSubmit = async (e) => {
     e.preventDefault()
     if (!selected || !name || !phone) return
-    setLoading(true)
 
+    // 检查登录
     const { data: { user } } = await supabase.auth.getUser()
+    if (!user) {
+      alert('请先登录后再下单')
+      navigate('/login')
+      return
+    }
+
+    setLoading(true)
     const { error } = await supabase.from('orders').insert({
-      user_id: user?.id || null,
+      user_id: user.id,
       items: [{ id: selected.id, name: selected.name, price: selected.price, quantity }],
       total_price: total,
       contact_name: name,
@@ -45,6 +54,22 @@ export default function BuyPage() {
     setLoading(false)
     if (error) { alert('下单失败：' + error.message); return }
     setSubmitted(true)
+  }
+
+  if (pageError) {
+    return (
+      <div className="app">
+        <Navigation menuOpen={menuOpen} setMenuOpen={setMenuOpen} />
+        <div className="buy-page">
+          <section className="buy-hero"><h1 className="buy-title">购买 RealmX</h1></section>
+          <div style={{ textAlign: 'center', padding: '6rem 2rem' }}>
+            <p style={{ color: '#86868B', marginBottom: '1rem' }}>{pageError}</p>
+            <button className="btn-primary" style={{ color: '#fff' }} onClick={() => window.location.reload()}>刷新重试</button>
+          </div>
+        </div>
+        <Footer />
+      </div>
+    )
   }
 
   return (
@@ -65,7 +90,7 @@ export default function BuyPage() {
             ) : (
               <div className="buy-layout">
                 <div className="buy-product">
-                  {selected && (
+                  {selected ? (
                     <>
                       <div className="buy-product-image">
                         {selected.image_url ? <img src={selected.image_url} alt={selected.name} /> : <div className="image-placeholder">{selected.name}</div>}
@@ -91,6 +116,8 @@ export default function BuyPage() {
                         </div>
                       )}
                     </>
+                  ) : (
+                    <div style={{ textAlign: 'center', padding: '3rem', color: '#999' }}>暂无在售产品</div>
                   )}
                 </div>
 
@@ -125,9 +152,10 @@ export default function BuyPage() {
                     <div className="order-divider"></div>
                     <div className="order-total"><span>总计</span><span className="total-price">¥{total.toLocaleString()}</span></div>
 
-                    <button type="submit" className="btn-primary btn-large btn-full" disabled={loading} style={{ marginTop: '1.5rem', color: '#fff' }}>
+                    <button type="submit" className="btn-primary btn-large btn-full" disabled={loading || !selected} style={{ marginTop: '1.5rem', color: '#fff' }}>
                       {loading ? '提交中...' : '提交订单'}
                     </button>
+                    <p className="order-note">* 下单前请先登录</p>
                   </form>
                 </div>
               </div>
