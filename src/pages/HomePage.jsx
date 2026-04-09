@@ -182,7 +182,7 @@ function FeatureSection({ title, subtitle, description, bgColor, index }) {
         const timer = setInterval(() => {
           const progress = Math.min((Date.now() - startTime) / duration, 1)
           const eased = 1 - Math.pow(1 - progress, 3)
-          setCount(Math.round(numEnd * eased))
+          setCount(Math.round(numEnd * (0.8 + 0.2 * eased)))
           if (progress >= 1) clearInterval(timer)
         }, 16)
         observer.disconnect()
