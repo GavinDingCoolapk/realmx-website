@@ -165,21 +165,38 @@ function HeroSection() {
 
 function FeatureSection({ title, subtitle, description, bgColor, index }) {
   const ref = useRef(null)
-  const isInView = useInView(ref, { once: true, margin: "-80px" })
-
-  // Parse number for counter - start from 70% of end value
+  const [started, setStarted] = useState(false)
   const numMatch = title.match(/[\d.]+/)
   const numEnd = numMatch ? parseFloat(numMatch[0]) : null
   const suffix = numMatch ? title.replace(numMatch[0], '') : title
   const numStart = numEnd ? Math.round(numEnd * 0.7) : 0
-  const [count, countRef] = useCountUp(numEnd, 1.2, numStart)
+  const [count, setCount] = useState(numStart)
+
+  useEffect(() => {
+    const el = ref.current
+    if (!el || numEnd === null) return
+    const observer = new IntersectionObserver(([entry]) => {
+      if (entry.isIntersecting && !started) {
+        setStarted(true)
+        const startTime = Date.now()
+        const duration = 1200
+        const timer = setInterval(() => {
+          const progress = Math.min((Date.now() - startTime) / duration, 1)
+          const eased = 1 - Math.pow(1 - progress, 3)
+          setCount(Math.round(numStart + (numEnd - numStart) * eased))
+          if (progress >= 1) clearInterval(timer)
+        }, 16)
+        observer.disconnect()
+      }
+    }, { threshold: 0.3 })
+    observer.observe(el)
+    return () => observer.disconnect()
+  }, [numEnd, numStart, started])
 
   return (
     <section ref={ref} className="feature-section" style={{ backgroundColor: bgColor }}>
       <div className="feature-content">
-        <h2 className="feature-title" ref={countRef}>
-          {numEnd !== null ? `${count}${suffix}` : title}
-        </h2>
+        <h2 className="feature-title">{numEnd !== null ? `${count}${suffix}` : title}</h2>
         <p className="feature-subtitle">{subtitle}</p>
         <p className="feature-description">{description}</p>
         <div className="feature-image"><div className="image-placeholder">产品图占位</div></div>
