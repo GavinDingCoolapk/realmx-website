@@ -71,7 +71,7 @@ function DocsTab() {
 function FAQTab() {
   const [openIndex, setOpenIndex] = useState(null)
   const faqs = [{ question: 'RealmX 的续航时间是多少？', answer: '约 15 分钟，竞速模式下约 12 分钟。' }, { question: 'RealmX 支持哪些操作系统？', answer: '配套 App 支持 iOS 12.0+ 和 Android 8.0+。' }, { question: '如何进行固件升级？', answer: '通过 RealmX App 连接无人机后，系统会自动检测新固件。' }, { question: '保修政策是什么？', answer: '一年有限保修，涵盖非人为损坏的硬件故障。' }, { question: '如何购买配件？', answer: '通过官方网站、授权经销商或联系客服购买。' }]
-  return (<div className="faq-content"><h2>常见问题</h2><div className="faq-list">{faqs.map((faq, i) => (<motion.div key={i} className="faq-item" initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: i * 0.1 }}><button className="faq-question" onClick={() => setOpenIndex(openIndex === i ? null : i)}><span>{faq.question}</span><ChevronRight size={20} className={openIndex === i ? 'rotate' : ''} /></button>{openIndex === i && (<motion.div className="faq-answer" initial={{ opacity: 0, height: 0 }} animate={{ opacity: 1, height: 'auto' }}><p>{faq.answer}</p></motion.div>)}</motion.div>))}</div></div>)
+  return (<div className="faq-content"><h2>常见问题</h2><div className="faq-list">{faqs.map((faq, i) => (<motion.div key={i} className="faq-item" initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: i * 0.1 }}><button className="faq-question" onClick={() => setOpenIndex(openIndex === i ? null : i)}><span>{faq.question}</span><ChevronRight size={20} className={openIndex === i ? 'rotate' : ''} /></button><div className="faq-answer" style={{ maxHeight: openIndex === i ? '200px' : '0', opacity: openIndex === i ? 1 : 0 }}><p>{faq.answer}</p></div></motion.div>))}</div></div>)
 }
 
 function ContactTab() {
