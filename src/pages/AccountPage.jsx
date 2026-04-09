@@ -16,17 +16,21 @@ export default function AccountPage() {
 
   useEffect(() => {
     const init = async () => {
-      const { data: { user } } = await supabase.auth.getUser()
-      if (!user) { navigate('/login'); return }
-      setUser(user)
+      try {
+        const { data: { user } } = await supabase.auth.getUser()
+        if (!user) { navigate('/login'); return }
+        setUser(user)
 
-      const { data: prof } = await supabase.from('profiles').select('*').eq('id', user.id).single()
-      setProfile(prof)
+        const { data: prof } = await supabase.from('profiles').select('*').eq('id', user.id).single()
+        setProfile(prof)
 
-      const { data: ords } = await supabase.from('orders').select('*')
-        .eq('user_id', user.id).or(`user_id.is.null,and(user_id.eq.${user.id})`)
-        .order('created_at', { ascending: false })
-      setOrders(ords || [])
+        const { data: ords } = await supabase.from('orders').select('*')
+          .eq('user_id', user.id)
+          .order('created_at', { ascending: false })
+        setOrders(ords || [])
+      } catch {
+        // ignore
+      }
       setLoading(false)
     }
     init()
