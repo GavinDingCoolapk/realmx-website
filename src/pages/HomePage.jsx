@@ -216,7 +216,7 @@ function NewsSection() {
         title: n.title,
         summary: n.summary || '',
       })))
-    })
+    }).catch(() => setNews([]))
   }, [])
   return (
     <section ref={ref} className="news-section">
