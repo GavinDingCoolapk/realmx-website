@@ -169,7 +169,7 @@ function FeatureSection({ title, subtitle, description, bgColor, index }) {
   const numMatch = title.match(/[\d.]+/)
   const numEnd = numMatch ? parseFloat(numMatch[0]) : null
   const suffix = numMatch ? title.replace(numMatch[0], '') : title
-  const [count, setCount] = useState(0)
+  const [count, setCount] = useState(numEnd ? Math.round(numEnd * 0.8) : 0)
 
   useEffect(() => {
     const el = ref.current
