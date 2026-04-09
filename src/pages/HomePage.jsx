@@ -166,7 +166,6 @@ function HeroSection() {
 function FeatureSection({ title, subtitle, description, bgColor, index }) {
   const ref = useRef(null)
   const isInView = useInView(ref, { once: true, margin: "-80px" })
-  const isEven = index % 2 === 0
 
   // Parse number for counter - start from 70% of end value
   const numMatch = title.match(/[\d.]+/)
@@ -177,34 +176,14 @@ function FeatureSection({ title, subtitle, description, bgColor, index }) {
 
   return (
     <section ref={ref} className="feature-section" style={{ backgroundColor: bgColor }}>
-      <motion.div
-        className="feature-content"
-        initial={{ opacity: 0, x: isEven ? -60 : 60 }}
-        animate={isInView ? { opacity: 1, x: 0 } : {}}
-        transition={{ duration: 0.7, ease: [0.25, 0.46, 0.45, 0.94] }}
-      >
+      <div className="feature-content">
         <h2 className="feature-title" ref={countRef}>
           {numEnd !== null ? `${count}${suffix}` : title}
         </h2>
-        <motion.p
-          className="feature-subtitle"
-          initial={{ opacity: 0, y: 20 }}
-          animate={isInView ? { opacity: 1, y: 0 } : {}}
-          transition={{ delay: 0.15, duration: 0.5 }}
-        >{subtitle}</motion.p>
-        <motion.p
-          className="feature-description"
-          initial={{ opacity: 0, y: 20 }}
-          animate={isInView ? { opacity: 1, y: 0 } : {}}
-          transition={{ delay: 0.25, duration: 0.5 }}
-        >{description}</motion.p>
-        <motion.div
-          className="feature-image"
-          initial={{ opacity: 0, scale: 0.95 }}
-          animate={isInView ? { opacity: 1, scale: 1 } : {}}
-          transition={{ delay: 0.3, duration: 0.6 }}
-        ><div className="image-placeholder">产品图占位</div></motion.div>
-      </motion.div>
+        <p className="feature-subtitle">{subtitle}</p>
+        <p className="feature-description">{description}</p>
+        <div className="feature-image"><div className="image-placeholder">产品图占位</div></div>
+      </div>
     </section>
   )
 }
