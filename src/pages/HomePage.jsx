@@ -37,10 +37,10 @@ export default function HomePage() {
     <div className="app">
       <Navigation menuOpen={menuOpen} setMenuOpen={setMenuOpen} />
       <HeroSection />
-      <FeatureSection title="0.8s" subtitle="0-100km/h 加速" description="极致的动态响应，瞬间释放澎湃动力" bgColor="#F5F5F7" index={0} />
-      <FeatureSection title="120g" subtitle="超轻量化设计" description="碳纤维机身，轻若无物，稳如泰山" bgColor="#FFFFFF" index={1} />
-      <FeatureSection title="15min" subtitle="持久续航" description="高效能源管理，让飞行更长更远" bgColor="#F5F5F7" index={2} />
-      <FeatureSection title="4K" subtitle="高清视觉" description="每一个细节，都清晰可见" bgColor="#FFFFFF" index={3} />
+      <FeatureSection title="43.2km/h" subtitle="最高时速" description="12m/s 极速飞行，释放澎湃动力" bgColor="#F5F5F7" index={0} />
+      <FeatureSection title="1030g" subtitle="轻量机身" description="碳纤维机架，PP轮架，PLA外壳，刚柔并济" bgColor="#FFFFFF" index={1} />
+      <FeatureSection title="10min" subtitle="持久续航" description="6S 6000mAh 大容量电池，悬停飞行10分钟" bgColor="#F5F5F7" index={2} />
+      <FeatureSection title="10km" subtitle="超远图传" description="无干扰环境下最远10km图传距离" bgColor="#FFFFFF" index={3} />
       <NewsSection />
       <HomePurchaseSection />
       <Footer />
