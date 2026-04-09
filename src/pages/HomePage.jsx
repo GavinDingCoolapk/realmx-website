@@ -2,6 +2,7 @@ import { useState, useEffect, useRef, useCallback } from 'react'
 import { Link, useLocation } from 'react-router-dom'
 import { motion, useInView, AnimatePresence } from 'framer-motion'
 import { Menu, X, ChevronRight, ChevronLeft } from 'lucide-react'
+import { supabase } from './lib/supabase'
 import '../App.css'
 
 // Counter animation hook
@@ -210,11 +211,17 @@ function FeatureSection({ title, subtitle, description, bgColor, index }) {
 function NewsSection() {
   const ref = useRef(null)
   const isInView = useInView(ref, { once: true, margin: "-80px" })
-  const news = [
-    { date: '2026.03.06', title: 'RealmX Racing Edition 正式发布', summary: '全新一代竞速无人机，性能全面提升' },
-    { date: '2026.02.15', title: 'RoboCup 2026 备战启动', summary: 'RealmX 团队积极备战新赛季' },
-    { date: '2026.01.20', title: 'RealmX 与多所高校达成合作', summary: '共同推进无人机科研与教育' },
-  ]
+  const [news, setNews] = useState([])
+
+  useEffect(() => {
+    supabase.from('news').select('*').eq('status', 'published').order('created_at', { ascending: false }).limit(6).then(({ data }) => {
+      setNews((data || []).map(n => ({
+        date: new Date(n.created_at).toLocaleDateString('zh-CN', { year: 'numeric', month: '2-digit', day: '2-digit' }).replace(/\//g, '.'),
+        title: n.title,
+        summary: n.summary || '',
+      })))
+    })
+  }, [])
   return (
     <section ref={ref} className="news-section">
       <div className="container">
