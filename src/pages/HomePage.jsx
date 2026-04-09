@@ -169,8 +169,7 @@ function FeatureSection({ title, subtitle, description, bgColor, index }) {
   const numMatch = title.match(/[\d.]+/)
   const numEnd = numMatch ? parseFloat(numMatch[0]) : null
   const suffix = numMatch ? title.replace(numMatch[0], '') : title
-  const numStart = numEnd ? Math.round(numEnd * 0.7) : 0
-  const [count, setCount] = useState(numStart)
+  const [count, setCount] = useState(0)
 
   useEffect(() => {
     const el = ref.current
@@ -183,7 +182,7 @@ function FeatureSection({ title, subtitle, description, bgColor, index }) {
         const timer = setInterval(() => {
           const progress = Math.min((Date.now() - startTime) / duration, 1)
           const eased = 1 - Math.pow(1 - progress, 3)
-          setCount(Math.round(numStart + (numEnd - numStart) * eased))
+          setCount(Math.round(numEnd * eased))
           if (progress >= 1) clearInterval(timer)
         }, 16)
         observer.disconnect()
@@ -191,7 +190,7 @@ function FeatureSection({ title, subtitle, description, bgColor, index }) {
     }, { threshold: 0.3 })
     observer.observe(el)
     return () => observer.disconnect()
-  }, [numEnd, numStart, started])
+  }, [numEnd, started])
 
   return (
     <section ref={ref} className="feature-section" style={{ backgroundColor: bgColor }}>
