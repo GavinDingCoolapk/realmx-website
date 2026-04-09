@@ -20,10 +20,10 @@ export default function ProductPage() {
             <img src="/product-hero.png" alt="RealmX Racing Edition" />
           </motion.div>
         </section>
-        <ProductFeature title="极致速度" subtitle="0.8s 从静止到 100km/h" description="采用高效能电机和优化的空气动力学设计，RealmX Racing Edition 能够在 0.8 秒内从静止加速到 100km/h。" specs={['极速: 130 km/h', '加速: 0-100km/h 0.8s', '最大过载: 8G']} />
-        <ProductFeature title="超轻量化" subtitle="仅重 120g" description="碳纤维机身与模块化设计相结合，在保证结构强度的同时实现极致轻量化。" specs={['重量: 120g', '翼展: 25cm', '材料: 碳纤维']} bgColor="#F5F5F7" />
-        <ProductFeature title="持久续航" subtitle="15 分钟飞行时间" description="高效能源管理系统与大容量电池的结合，让 RealmX 拥有长达 15 分钟的续航时间。" specs={['续航: 15 min', '电池: 4S 1500mAh', '充电: 45 min']} />
-        <ProductFeature title="4K 视觉" subtitle="高清摄像系统" description="搭载 4K 高清摄像头，支持实时图传。" specs={['摄像头: 4K 30fps', '图传: 1080p 实时', 'FOV: 120°']} bgColor="#F5F5F7" />
+        <ProductFeature title="极致速度" subtitle="12m/s 最高时速" description="2207.5 1750KV 高效能电机搭配 6 寸桨叶，释放澎湃动力。" specs={['时速: 12m/s', '轴距: 230mm', '桨叶: 6寸']} />
+        <ProductFeature title="轻量机身" subtitle="碳纤维 + PP + PLA" description="碳纤维机架保证结构强度，PP轮架耐冲击，PLA外壳精致轻量。" specs={['机身: 1030g', '电池: 660g', '材质: 碳纤维/PP/PLA']} bgColor="#F5F5F7" />
+        <ProductFeature title="持久续航" subtitle="10 分钟悬停飞行" description="索尼 18650 6S 6000mAh 大容量电池，1C 快充仅需 1 小时。" specs={['续航: 10min', '电池: 6S 6000mAh', '充电: 1h']} />
+        <ProductFeature title="超远图传" subtitle="最远 10km 图传距离" description="无干扰无阻挡环境下图传距离可达 10km，地面上 100-600m。" specs={['最远: 10km', '地面: 100-600m', '电压: 22.2V']} bgColor="#F5F5F7" />
         <TechSpecsFull />
         <PackageContents />
         <motion.div className="product-page-cta" initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}>
@@ -92,10 +92,31 @@ function TechSpecsFull() {
   const ref = useRef(null)
   const isInView = useInView(ref, { once: true, margin: "-100px" })
   const specs = {
-    '尺寸与重量': [{ label: '翼展', value: '25cm' }, { label: '长度', value: '30cm' }, { label: '高度', value: '8cm' }, { label: '重量', value: '120g' }],
-    '性能': [{ label: '极速', value: '130 km/h' }, { label: '加速 0-100km/h', value: '0.8s' }, { label: '最大过载', value: '8G' }, { label: '飞行时间', value: '15 min' }],
-    '动力系统': [{ label: '电机', value: '4× 2300KV 无刷' }, { label: '电池', value: '4S 1500mAh LiPo' }, { label: '桨叶', value: '5寸三叶' }, { label: '充电时间', value: '45 min' }],
-    '摄像系统': [{ label: '摄像头', value: '4K 30fps' }, { label: '图传', value: '1080p 实时' }, { label: 'FOV', value: '120°' }, { label: '存储', value: 'microSD 128GB' }],
+    '尺寸与重量': [
+      { label: '轴距', value: '230mm' },
+      { label: '折叠尺寸', value: '400×450×200mm' },
+      { label: '展开尺寸', value: '400×450×350mm' },
+      { label: '机身重量', value: '1030g（不含电池）' },
+      { label: '电池重量', value: '660g' },
+    ],
+    '飞行性能': [
+      { label: '最高时速', value: '12m/s（43.2km/h）' },
+      { label: '飞行时间', value: '10min（悬停）' },
+      { label: '图传距离', value: '3-10km（无干扰）' },
+      { label: '地面图传', value: '100-600m' },
+    ],
+    '动力系统': [
+      { label: '电机型号', value: '2207.5 1750KV' },
+      { label: '桨叶尺寸', value: '6寸' },
+      { label: '电池规格', value: '索尼18650 6S 6000mAh' },
+      { label: '标称电压', value: '22.2V' },
+      { label: '充电时间', value: '1C充电 1h' },
+    ],
+    '机身材质': [
+      { label: '机架', value: '碳纤维' },
+      { label: '轮子', value: 'PP材质' },
+      { label: '外壳', value: 'PLA材质' },
+    ],
   }
   return (
     <section id="specs" ref={ref} className="tech-specs-full-section">
