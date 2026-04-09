@@ -2,7 +2,7 @@ import { useState, useEffect, useRef, useCallback } from 'react'
 import { Link, useLocation } from 'react-router-dom'
 import { motion, useInView, AnimatePresence } from 'framer-motion'
 import { Menu, X, ChevronRight, ChevronLeft } from 'lucide-react'
-import { supabase } from './lib/supabase'
+import { supabase } from '../lib/supabase'
 import '../App.css'
 
 // Counter animation hook
