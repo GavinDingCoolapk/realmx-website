@@ -200,7 +200,7 @@ function FeatureSection({ title, subtitle, description, bgColor, index, image })
         <p className="feature-description">{description}</p>
         <div className="feature-image">
           {image ? (
-            <img src={image} alt={subtitle} style={{ width: '100%', height: '300px', objectFit: 'cover', borderRadius: '12px' }} />
+            <img src={image} alt={subtitle} style={{ width: '100%', maxHeight: '400px', objectFit: 'contain', borderRadius: '12px' }} />
           ) : (
             <div className="image-placeholder">产品图占位</div>
           )}
