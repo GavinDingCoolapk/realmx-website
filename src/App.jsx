@@ -1,5 +1,6 @@
 import { Routes, Route, Navigate, useLocation } from 'react-router-dom'
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
+import { supabase } from './lib/supabase'
 import './App.css'
 import HomePage from './pages/HomePage'
 import ProductPage from './pages/ProductPage'
@@ -16,6 +17,20 @@ import AdminOrders from './pages/admin/AdminOrders'
 import AdminNews from './pages/admin/AdminNews'
 import ProtectedRoute from './pages/ProtectedRoute'
 
+function RequireAuth({ children }) {
+  const [checked, setChecked] = useState(false)
+  const [authed, setAuthed] = useState(false)
+  useEffect(() => {
+    supabase.auth.getSession().then(({ data: { session } }) => {
+      setAuthed(!!session)
+      setChecked(true)
+    })
+  }, [])
+  if (!checked) return null
+  if (!authed) return <Navigate to="/login" replace />
+  return children
+}
+
 function App() {
   const location = useLocation()
   useEffect(() => {
@@ -27,7 +42,7 @@ function App() {
       <Route path="/product" element={<PageTransition><ProductPage /></PageTransition>} />
       <Route path="/accessories" element={<PageTransition><AccessoriesPage /></PageTransition>} />
       <Route path="/support" element={<PageTransition><SupportPage /></PageTransition>} />
-      <Route path="/buy" element={<PageTransition><BuyPage /></PageTransition>} />
+      <Route path="/buy" element={<PageTransition><RequireAuth><BuyPage /></RequireAuth></PageTransition>} />
       <Route path="/login" element={<PageTransition><LoginPage /></PageTransition>} />
       <Route path="/account" element={<PageTransition><AccountPage /></PageTransition>} />
       <Route path="/admin" element={<ProtectedRoute />}>

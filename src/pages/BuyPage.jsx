@@ -32,13 +32,7 @@ export default function BuyPage() {
     e.preventDefault()
     if (!selected || !name || !phone) return
 
-    // 检查登录
     const { data: { user } } = await supabase.auth.getUser()
-    if (!user) {
-      alert('请先登录后再下单')
-      navigate('/login')
-      return
-    }
 
     setLoading(true)
     const { error } = await supabase.from('orders').insert({
@@ -155,7 +149,6 @@ export default function BuyPage() {
                     <button type="submit" className="btn-primary btn-large btn-full" disabled={loading || !selected} style={{ marginTop: '1.5rem', color: '#fff' }}>
                       {loading ? '提交中...' : '提交订单'}
                     </button>
-                    <p className="order-note">* 下单前请先登录</p>
                   </form>
                 </div>
               </div>
