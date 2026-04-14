@@ -169,7 +169,7 @@ function FeatureSection({ title, subtitle, description, bgColor, index, image })
   const numMatch = title.match(/[\d.]+/)
   const numEnd = numMatch ? parseFloat(numMatch[0]) : null
   const suffix = numMatch ? title.replace(numMatch[0], '') : title
-  const [count, setCount] = useState(numEnd ? Math.round(numEnd * 0.8) : 0)
+  const [count, setCount] = useState(numEnd ? Math.round(numEnd * 0.7) : 0)
 
   useEffect(() => {
     const el = ref.current
@@ -182,7 +182,7 @@ function FeatureSection({ title, subtitle, description, bgColor, index, image })
         const timer = setInterval(() => {
           const progress = Math.min((Date.now() - startTime) / duration, 1)
           const eased = 1 - Math.pow(1 - progress, 3)
-          setCount(Math.round(numEnd * (0.8 + 0.2 * eased)))
+          setCount(Math.round(numEnd * (0.7 + 0.3 * eased)))
           if (progress >= 1) clearInterval(timer)
         }, 16)
         observer.disconnect()
