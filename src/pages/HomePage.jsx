@@ -51,12 +51,15 @@ export default function HomePage() {
 
 function Navigation({ menuOpen, setMenuOpen }) {
   const [scrolled, setScrolled] = useState(false)
+  const [loggedIn, setLoggedIn] = useState(false)
   const location = useLocation()
 
   useEffect(() => {
     const handleScroll = () => setScrolled(window.scrollY > 50)
     window.addEventListener('scroll', handleScroll)
-    return () => window.removeEventListener('scroll', handleScroll)
+    supabase.auth.getSession().then(({ data: { session } }) => setLoggedIn(!!session))
+    const { data: { subscription } } = supabase.auth.onAuthStateChange((_e, session) => setLoggedIn(!!session))
+    return () => { window.removeEventListener('scroll', handleScroll); subscription.unsubscribe() }
   }, [])
 
   const navItems = [
@@ -78,7 +81,7 @@ function Navigation({ menuOpen, setMenuOpen }) {
             </Link>
           ))}
           <Link to="/buy" className="nav-cta">购买</Link>
-          <Link to="/login" className="nav-login">登录</Link>
+          {loggedIn ? <Link to="/account" className="nav-login">个人中心</Link> : <Link to="/login" className="nav-login">登录</Link>}
         </div>
         <button className="mobile-menu-btn" onClick={() => setMenuOpen(!menuOpen)}>
           {menuOpen ? <X size={24} /> : <Menu size={24} />}
