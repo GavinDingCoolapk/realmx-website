@@ -39,7 +39,7 @@ export default function HomePage() {
       <Navigation menuOpen={menuOpen} setMenuOpen={setMenuOpen} />
       <HeroSection />
       <FeatureSection title="43.2km/h" subtitle="最高时速" description="12m/s 极速飞行，释放澎湃动力" bgColor="#F5F5F7" index={0} />
-      <FeatureSection title="1030g" subtitle="轻量机身" description="碳纤维机架，PP轮架，PLA外壳，刚柔并济" bgColor="#FFFFFF" index={1} />
+      <FeatureSection title="1030g" subtitle="轻量机身" description="碳纤维机架，PP轮架，PLA外壳，刚柔并济" bgColor="#FFFFFF" index={1} image="/weight-hero.jpg" />
       <FeatureSection title="10min" subtitle="持久续航" description="6S 6000mAh 大容量电池，悬停飞行10分钟" bgColor="#F5F5F7" index={2} />
       <FeatureSection title="10km" subtitle="超远图传" description="无干扰环境下最远10km图传距离" bgColor="#FFFFFF" index={3} />
       <NewsSection />
@@ -163,7 +163,7 @@ function HeroSection() {
   )
 }
 
-function FeatureSection({ title, subtitle, description, bgColor, index }) {
+function FeatureSection({ title, subtitle, description, bgColor, index, image }) {
   const ref = useRef(null)
   const [started, setStarted] = useState(false)
   const numMatch = title.match(/[\d.]+/)
@@ -198,7 +198,13 @@ function FeatureSection({ title, subtitle, description, bgColor, index }) {
         <h2 className="feature-title">{numEnd !== null ? `${count}${suffix}` : title}</h2>
         <p className="feature-subtitle">{subtitle}</p>
         <p className="feature-description">{description}</p>
-        <div className="feature-image"><div className="image-placeholder">产品图占位</div></div>
+        <div className="feature-image">
+          {image ? (
+            <img src={image} alt={subtitle} style={{ width: '100%', height: '300px', objectFit: 'cover', borderRadius: '12px' }} />
+          ) : (
+            <div className="image-placeholder">产品图占位</div>
+          )}
+        </div>
       </div>
     </section>
   )
