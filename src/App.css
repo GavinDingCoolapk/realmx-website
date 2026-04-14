@@ -1302,7 +1302,8 @@
   width: 100%;
   background: none;
   border: none;
-  padding: 1.25rem 1.5rem;
+  padding: 0 1.5rem;
+  height: 56px;
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
   font-size: 1rem;
   font-weight: 600;
@@ -1313,6 +1314,8 @@
   justify-content: space-between;
   align-items: center;
   gap: 1rem;
+  box-sizing: border-box;
+  line-height: 1;
   display: flex;
   justify-content: space-between;
   align-items: center;
