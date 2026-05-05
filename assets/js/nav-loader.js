@@ -12,6 +12,16 @@
 
         if (typeof updateNavAuth === 'function') updateNavAuth();
 
+        // Mobile hamburger toggle
+        var toggler = document.querySelector('#realmx-header .navbar-toggler');
+        var collapse = document.querySelector('#realmx-header .navbar-collapse');
+        if (toggler && collapse) {
+            toggler.addEventListener('click', function() {
+                toggler.classList.toggle('collapsed');
+                collapse.classList.toggle('show');
+            });
+        }
+
         // Manual dropdown toggle (AMD webpack bundles Bootstrap internally)
         document.addEventListener('click', function(e) {
             var toggle = e.target.closest('#realmx-header-slot .dropdown-toggle');
