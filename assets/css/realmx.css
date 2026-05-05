@@ -9,6 +9,12 @@
 /* ===== Smooth Scroll ===== */
 html { scroll-behavior: smooth; }
 
+/* ===== Nav Toggler (hide on desktop, show on mobile) ===== */
+#realmx-header .navbar-toggler { display: none !important; }
+@media (max-width: 1199px) {
+    #realmx-header .navbar-toggler { display: flex !important; }
+}
+
 /* ===== Hero Banner ===== */
 .hero-banner-wrap {
     position: relative;
