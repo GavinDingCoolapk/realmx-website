@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>新闻动态 - RealmX</title>
+
+    <!-- AMD CSS Assets -->
+    <link rel="stylesheet" href="assets/css/clientlib-base.min.css">
+    <link rel="stylesheet" href="assets/css/clientlib-webpack-dependencies.min.css">
+    <link rel="stylesheet" href="assets/css/clientlib-webpack.min.css">
+    <link rel="stylesheet" href="assets/css/clientlib-webpack(1).min.css">
+    <link rel="stylesheet" href="assets/css/clientlib-webpack(2).min.css">
+
+    <!-- Google Font for tech-feel numbers -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="assets/css/realmx.css">
+</head>
+<body style="background:#000; margin:0; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; color:#fff;">
+
+<!-- Header loaded dynamically -->
+<div id="realmx-header-slot"></div>
+
+<!-- Page Hero -->
+<div class="page-hero">
+    <h1>新闻动态</h1>
+    <p>了解 RealmX 最新资讯和产品动态</p>
+</div>
+
+<!-- News Grid Section -->
+<div class="section-block" style="background:#000;">
+    <div class="section-inner">
+        <div class="news-grid" id="news-grid">
+            <div style="text-align:center; padding:3rem; color:rgba(255,255,255,0.4); grid-column:1/-1;">加载中...</div>
+        </div>
+    </div>
+</div>
+
+<!-- CTA Section -->
+<div class="section-block" style="background:#111112;">
+    <div class="section-inner" style="text-align:center;">
+        <h2 class="section-title">订阅接收 RealmX 最新资讯</h2>
+        <hr class="section-divider">
+        <a href="mailto:news@realmx.tech" class="cta-btn" style="background:transparent; border:1px solid rgba(255,255,255,0.3);">订阅资讯</a>
+    </div>
+</div>
+
+<!-- Footer loaded dynamically -->
+<div id="realmx-footer-slot"></div>
+
+<!-- Scripts -->
+<script src="assets/css/clientlib-webpack-dependencies.min.js.下载"></script>
+<script src="assets/css/clientlib-webpack.min.js.下载"></script>
+<script src="assets/css/clientlib-webpack.min(1).js.下载"></script>
+<script src="assets/css/clientlib-webpack.min(2).js.下载"></script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="assets/js/supabase-client.js"></script>
+<script src="assets/js/nav-loader.js"></script>
+
+<script>
+async function loadNews() {
+    const grid = document.getElementById('news-grid');
+    try {
+        const sb = getSupabase();
+        const { data, error } = await sb.from('news').select('*').eq('status', 'published').order('created_at', { ascending: false }).limit(6);
+        if (error) throw error;
+
+        if (!data || data.length === 0) {
+            grid.innerHTML = '<div style="text-align:center; padding:3rem; color:rgba(255,255,255,0.4); grid-column:1/-1;">暂无新闻</div>';
+            return;
+        }
+
+        grid.innerHTML = data.map(item => `
+            <div class="news-card">
+                <div class="news-date">${new Date(item.created_at).toLocaleDateString('zh-CN')}</div>
+                <h3 class="news-title">${item.title}</h3>
+                <p class="news-summary">${item.summary || ''}</p>
+                ${item.content ? '<a href="#" class="news-link">阅读更多 →</a>' : ''}
+            </div>
+        `).join('');
+    } catch {
+        // Fallback to sample data
+        grid.innerHTML = `
+            <div class="news-card">
+                <div class="news-date">2026/01/15</div>
+                <h3 class="news-title">RealmX Racing Edition 正式发布</h3>
+                <p class="news-summary">RealmX Racing Edition 两栖全地形机器人正式发布，为探索者带来全地形体验。</p>
+            </div>
+            <div class="news-card">
+                <div class="news-date">2026/03/08</div>
+                <h3 class="news-title">RealmX 参加 2026 机器人全地形挑战赛</h3>
+                <p class="news-summary">RealmX 团队将携 Racing Edition 参加全国机器人全地形挑战赛。</p>
+            </div>
+            <div class="news-card">
+                <div class="news-date">2026/04/20</div>
+                <h3 class="news-title">RealmX Explorer 即将推出</h3>
+                <p class="news-summary">全新航拍系列 RealmX Explorer 将于下半年发布，敬请期待。</p>
+            </div>
+            <div class="news-card">
+                <div class="news-date">2026/05/01</div>
+                <h3 class="news-title">RealmX 教育合作计划启动</h3>
+                <p class="news-summary">与全国高校合作开展两栖机器人培训课程。</p>
+            </div>
+        `;
+    }
+}
+loadNews();
+</script>
+
+</body>
+</html>

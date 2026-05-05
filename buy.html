@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>购买 RealmX - RealmX</title>
+
+    <!-- AMD CSS Assets -->
+    <link rel="stylesheet" href="assets/css/clientlib-base.min.css">
+    <link rel="stylesheet" href="assets/css/clientlib-webpack-dependencies.min.css">
+    <link rel="stylesheet" href="assets/css/clientlib-webpack.min.css">
+    <link rel="stylesheet" href="assets/css/clientlib-webpack(1).min.css">
+    <link rel="stylesheet" href="assets/css/clientlib-webpack(2).min.css">
+
+    <!-- Google Font -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="assets/css/realmx.css">
+</head>
+<body style="background:#000; margin:0; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; color:#fff;">
+
+    <!-- Header loaded dynamically -->
+    <div id="realmx-header-slot"></div>
+
+    <!-- ===== PAGE HERO ===== -->
+    <section class="page-hero">
+        <h1>购买 RealmX</h1>
+    </section>
+
+    <!-- ===== BUY LAYOUT ===== -->
+    <section class="section-block" style="background:#000; padding-top:40px;">
+        <div class="section-inner">
+
+            <!-- Order Content (visible by default) -->
+            <div id="order-content" class="buy-layout">
+
+                <!-- Left: Product Display -->
+                <div class="buy-product-info">
+                    <div class="buy-product-image">
+                        <img src="assets/images/feature-1.png" alt="RealmX Racing Edition">
+                    </div>
+                    <h2>RealmX Racing Edition</h2>
+                    <p class="buy-product-tagline">两栖全地形机器人</p>
+                </div>
+
+                <!-- Right: Order Form -->
+                <div class="buy-order">
+                    <h3>订单详情</h3>
+                    <form id="order-form">
+                        <div class="form-field">
+                            <label for="order-name">姓名 *</label>
+                            <input type="text" id="order-name" required placeholder="请输入您的姓名">
+                        </div>
+                        <div class="form-field">
+                            <label for="order-phone">手机号 *</label>
+                            <input type="tel" id="order-phone" required placeholder="请输入您的手机号">
+                        </div>
+                        <div class="form-field">
+                            <label for="order-address">收货地址</label>
+                            <input type="text" id="order-address" placeholder="请输入收货地址（选填）">
+                        </div>
+
+                        <div class="order-divider"></div>
+
+                        <div class="order-row">
+                            <span>产品</span>
+                            <span>RealmX Racing Edition</span>
+                        </div>
+                        <div class="order-row">
+                            <span>单价</span>
+                            <span>¥12,999</span>
+                        </div>
+                        <div class="order-row">
+                            <span>数量</span>
+                            <div class="quantity-selector">
+                                <button type="button" id="qty-minus">−</button>
+                                <span id="qty-display">1</span>
+                                <button type="button" id="qty-plus">+</button>
+                            </div>
+                        </div>
+
+                        <div class="order-divider"></div>
+
+                        <div class="order-total">
+                            <span>总计</span>
+                            <span class="total-price" id="total-price">¥12,999</span>
+                        </div>
+
+                        <button type="submit" id="submit-btn" class="cta-btn" style="width:100%; margin-top:24px; text-align:center;">提交订单</button>
+                    </form>
+                </div>
+            </div>
+
+            <!-- Order Success (hidden by default) -->
+            <div id="order-success" class="order-success" style="display:none;">
+                <div class="order-success-icon">&#10003;</div>
+                <h2>订单提交成功</h2>
+                <p style="color:rgba(255,255,255,0.6); margin-bottom:32px;">我们会尽快与您联系确认订单详情</p>
+                <button onclick="resetOrder()" class="cta-btn" style="margin-right:16px;">继续购买</button>
+                <a href="index.html" class="cta-btn" style="background:transparent; border:1px solid rgba(255,255,255,0.3);">返回首页</a>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- Footer loaded dynamically -->
+    <div id="realmx-footer-slot"></div>
+
+    <!-- AMD JS Assets -->
+    <script src="assets/css/clientlib-webpack-dependencies.min.js.下载"></script>
+    <script src="assets/css/clientlib-webpack.min.js.下载"></script>
+    <script src="assets/css/clientlib-webpack.min(1).js.下载"></script>
+    <script src="assets/css/clientlib-webpack.min(2).js.下载"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="assets/js/supabase-client.js"></script>
+    <script src="assets/js/nav-loader.js"></script>
+
+    <!-- Buy Page Logic -->
+    <script>
+        let quantity = 1;
+        const pricePerUnit = 12999;
+
+        function updateTotal() {
+            document.getElementById('qty-display').textContent = quantity;
+            document.getElementById('total-price').textContent = '¥' + (pricePerUnit * quantity).toLocaleString();
+        }
+
+        document.getElementById('qty-minus').addEventListener('click', () => {
+            if (quantity > 1) { quantity--; updateTotal(); }
+        });
+        document.getElementById('qty-plus').addEventListener('click', () => {
+            quantity++; updateTotal();
+        });
+
+        document.getElementById('order-form').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const name = document.getElementById('order-name').value.trim();
+            const phone = document.getElementById('order-phone').value.trim();
+            if (!name || !phone) return;
+
+            const submitBtn = document.getElementById('submit-btn');
+            submitBtn.disabled = true;
+            submitBtn.textContent = '提交中...';
+
+            try {
+                const user = await getCurrentUser();
+                const sb = getSupabase();
+                const { error } = await sb.from('orders').insert({
+                    user_id: user ? user.id : null,
+                    items: [{ id: 1, name: 'RealmX Racing Edition', price: pricePerUnit, quantity }],
+                    total_price: pricePerUnit * quantity,
+                    contact_name: name,
+                    contact_phone: phone,
+                    shipping_address: document.getElementById('order-address').value.trim(),
+                    status: 'pending'
+                });
+                if (error) throw error;
+                document.getElementById('order-content').style.display = 'none';
+                document.getElementById('order-success').style.display = 'block';
+            } catch (err) {
+                alert('下单失败，请稍后重试');
+                submitBtn.disabled = false;
+                submitBtn.textContent = '提交订单';
+            }
+        });
+
+        function resetOrder() {
+            quantity = 1;
+            updateTotal();
+            document.getElementById('order-name').value = '';
+            document.getElementById('order-phone').value = '';
+            document.getElementById('order-address').value = '';
+            document.getElementById('order-content').style.display = 'grid';
+            document.getElementById('order-success').style.display = 'none';
+            document.getElementById('submit-btn').disabled = false;
+            document.getElementById('submit-btn').textContent = '提交订单';
+        }
+    </script>
+</body>
+</html>

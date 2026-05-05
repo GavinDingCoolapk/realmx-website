@@ -1,0 +1,366 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RealmX Racing Edition - 产品详情</title>
+    <meta name="description" content="RealmX Racing Edition 产品详情。碳纤维机架，水陆两栖，适应复杂地形，10km 图传距离，6S 6000mAh 大容量电池。">
+
+    <!-- AMD CSS Assets -->
+    <link rel="stylesheet" href="assets/css/clientlib-base.min.css">
+    <link rel="stylesheet" href="assets/css/clientlib-webpack-dependencies.min.css">
+    <link rel="stylesheet" href="assets/css/clientlib-webpack.min.css">
+    <link rel="stylesheet" href="assets/css/clientlib-webpack(1).min.css">
+    <link rel="stylesheet" href="assets/css/clientlib-webpack(2).min.css">
+
+    <!-- Google Font for tech-feel numbers -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="assets/css/realmx.css">
+
+    <style>
+        /* Product Hero */
+        .product-hero {
+            position: relative;
+            min-height: 500px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            overflow: hidden;
+        }
+        .product-hero-bg {
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            object-fit: cover;
+            z-index: 0;
+        }
+        .product-hero-overlay {
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: linear-gradient(180deg, rgba(0,0,0,0.6) 0%, rgba(0,0,0,0.4) 50%, rgba(0,0,0,0.8) 100%);
+            z-index: 1;
+        }
+        .product-hero-content {
+            position: relative;
+            z-index: 2;
+            padding: 80px 20px;
+        }
+        .product-hero-content h1 {
+            font-size: 3.5rem;
+            font-weight: 700;
+            color: #fff;
+            margin-bottom: 8px;
+            line-height: 1.1;
+        }
+        .product-hero-tagline {
+            font-size: 1.3rem;
+            color: rgba(255,255,255,0.8);
+            margin-bottom: 24px;
+            letter-spacing: 2px;
+        }
+        .product-hero-price {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 2.2rem;
+            font-weight: 700;
+            color: var(--realmx-blue);
+        }
+
+        /* Feature Detail Section */
+        .feature-detail {
+            text-align: center;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        .feature-detail h2 {
+            font-size: 2rem;
+            font-weight: 700;
+            color: #fff;
+            margin-bottom: 8px;
+        }
+        .feature-detail .feature-subtitle {
+            font-size: 1rem;
+            color: var(--realmx-blue);
+            font-weight: 500;
+            margin-bottom: 16px;
+        }
+        .feature-detail .feature-desc {
+            color: rgba(255,255,255,0.65);
+            font-size: 1rem;
+            line-height: 1.7;
+            max-width: 600px;
+            margin: 0 auto 24px;
+        }
+        .spec-badges {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-bottom: 32px;
+        }
+        .spec-badge {
+            display: inline-block;
+            padding: 6px 14px;
+            border: 1px solid rgba(0,113,227,0.4);
+            border-radius: 20px;
+            color: var(--realmx-blue);
+            font-size: 0.85rem;
+            margin: 4px;
+        }
+        .feature-image-placeholder {
+            width: 100%;
+            height: 300px;
+            background: rgba(255,255,255,0.04);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: rgba(255,255,255,0.3);
+            font-size: 0.9rem;
+        }
+
+        /* Responsive */
+        @media (max-width: 991px) {
+            .product-hero-content h1 { font-size: 2.4rem; }
+            .product-hero-price { font-size: 1.8rem; }
+            .feature-detail h2 { font-size: 1.6rem; }
+        }
+        @media (max-width: 767px) {
+            .product-hero { min-height: 380px; }
+            .product-hero-content { padding: 40px 20px; }
+            .product-hero-content h1 { font-size: 1.9rem; }
+            .product-hero-price { font-size: 1.5rem; }
+            .feature-detail h2 { font-size: 1.4rem; }
+        }
+    </style>
+</head>
+<body style="background:#000; margin:0; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; color:#fff;">
+
+    <!-- Header loaded dynamically -->
+    <div id="realmx-header-slot"></div>
+
+    <!-- ===== 1. PRODUCT HERO ===== -->
+    <section class="product-hero">
+        <img class="product-hero-bg" src="assets/images/feature-1.png" alt="RealmX Racing Edition">
+        <div class="product-hero-overlay"></div>
+        <div class="product-hero-content">
+            <h1>RealmX Racing Edition</h1>
+            <p class="product-hero-tagline">两栖·全地形</p>
+            <div class="product-hero-price">&#165;12,999</div>
+        </div>
+    </section>
+
+    <!-- ===== 2. FEATURE 1 - 极致速度 ===== -->
+    <section class="section-block" style="background:#000;">
+        <div class="section-inner">
+            <div class="feature-detail">
+                <h2>极致速度</h2>
+                <p class="feature-subtitle">水陆双栖动力</p>
+                <p class="feature-desc">2207.5 1750KV 高效能电机搭配 6 寸桨叶，两栖动力系统实现空天地面自由切换。</p>
+                <div class="spec-badges">
+                    <span class="spec-badge">极速: 12m/s</span>
+                    <span class="spec-badge">轴距: 230mm</span>
+                    <span class="spec-badge">桨叶: 6寸</span>
+                </div>
+                <img src="assets/images/feature-1.png" alt="水陆双栖动力" style="width:100%;border-radius:8px;margin-top:24px;">
+            </div>
+        </div>
+    </section>
+
+    <!-- ===== 3. FEATURE 2 - 轻量机身 ===== -->
+    <section class="section-block" style="background:#111112;">
+        <div class="section-inner">
+            <div class="feature-detail">
+                <h2>轻量机身</h2>
+                <p class="feature-subtitle">碳纤维 + PP + PLA</p>
+                <p class="feature-desc">碳纤维机架保证结构强度，PP轮架耐冲击适应复杂地形，PLA外壳防水耐用。</p>
+                <div class="spec-badges">
+                    <span class="spec-badge">机身: 1030g</span>
+                    <span class="spec-badge">电池: 660g</span>
+                    <span class="spec-badge">材质: 碳纤维/PP/PLA</span>
+                </div>
+                <img src="assets/images/feature-2.png" alt="轻量机身" style="width:100%;border-radius:8px;margin-top:24px;">
+            </div>
+        </div>
+    </section>
+
+    <!-- ===== 4. FEATURE 3 - 持久续航 ===== -->
+    <section class="section-block" style="background:#000;">
+        <div class="section-inner">
+            <div class="feature-detail">
+                <h2>持久续航</h2>
+                <p class="feature-subtitle">10 分钟悬停飞行</p>
+                <p class="feature-desc">索尼 18650 6S 6000mAh 大容量电池，1C 快充仅需 1 小时。</p>
+                <div class="spec-badges">
+                    <span class="spec-badge">续航: 10min</span>
+                    <span class="spec-badge">电池: 6S 6000mAh</span>
+                    <span class="spec-badge">充电: 1h</span>
+                </div>
+                <img src="assets/images/feature-3.png" alt="持久续航" style="width:100%;border-radius:8px;margin-top:24px;">
+            </div>
+        </div>
+    </section>
+
+    <!-- ===== 5. FEATURE 4 - 超远图传 ===== -->
+    <section class="section-block" style="background:#111112;">
+        <div class="section-inner">
+            <div class="feature-detail">
+                <h2>超远图传</h2>
+                <p class="feature-subtitle">最远 10km 图传距离</p>
+                <p class="feature-desc">无干扰无阻挡环境下图传距离可达 10km，地面上 100-600m。</p>
+                <div class="spec-badges">
+                    <span class="spec-badge">最远: 10km</span>
+                    <span class="spec-badge">地面: 100-600m</span>
+                    <span class="spec-badge">电压: 22.2V</span>
+                </div>
+                <img src="assets/images/feature-4.png" alt="超远图传" style="width:100%;border-radius:8px;margin-top:24px;">
+            </div>
+        </div>
+    </section>
+
+    <!-- ===== 6. TECH SPECS GRID ===== -->
+    <section class="section-block" style="background:#000;">
+        <div class="section-inner">
+            <h2 class="section-title">技术规格</h2>
+            <hr class="section-divider">
+            <div class="specs-full-grid">
+                <div class="specs-category">
+                    <div class="specs-category-title">尺寸与重量</div>
+                    <div class="specs-row">
+                        <span class="specs-label">轴距</span>
+                        <span class="specs-value">230mm</span>
+                    </div>
+                    <div class="specs-row">
+                        <span class="specs-label">折叠尺寸</span>
+                        <span class="specs-value">400x450x200mm</span>
+                    </div>
+                    <div class="specs-row">
+                        <span class="specs-label">展开尺寸</span>
+                        <span class="specs-value">400x450x350mm</span>
+                    </div>
+                    <div class="specs-row">
+                        <span class="specs-label">机身重量</span>
+                        <span class="specs-value">1030g（不含电池）</span>
+                    </div>
+                    <div class="specs-row">
+                        <span class="specs-label">电池重量</span>
+                        <span class="specs-value">660g</span>
+                    </div>
+                </div>
+                <div class="specs-category">
+                    <div class="specs-category-title">飞行性能</div>
+                    <div class="specs-row">
+                        <span class="specs-label">最高行进速度</span>
+                        <span class="specs-value">12m/s（43.2km/h）</span>
+                    </div>
+                    <div class="specs-row">
+                        <span class="specs-label">飞行时间</span>
+                        <span class="specs-value">10min（悬停）</span>
+                    </div>
+                    <div class="specs-row">
+                        <span class="specs-label">图传距离</span>
+                        <span class="specs-value">3-10km（无干扰）</span>
+                    </div>
+                    <div class="specs-row">
+                        <span class="specs-label">地面图传</span>
+                        <span class="specs-value">100-600m</span>
+                    </div>
+                </div>
+                <div class="specs-category">
+                    <div class="specs-category-title">动力系统</div>
+                    <div class="specs-row">
+                        <span class="specs-label">电机型号</span>
+                        <span class="specs-value">2207.5 1750KV</span>
+                    </div>
+                    <div class="specs-row">
+                        <span class="specs-label">桨叶尺寸</span>
+                        <span class="specs-value">6寸</span>
+                    </div>
+                    <div class="specs-row">
+                        <span class="specs-label">电池规格</span>
+                        <span class="specs-value">索尼18650 6S 6000mAh</span>
+                    </div>
+                    <div class="specs-row">
+                        <span class="specs-label">标称电压</span>
+                        <span class="specs-value">22.2V</span>
+                    </div>
+                    <div class="specs-row">
+                        <span class="specs-label">充电时间</span>
+                        <span class="specs-value">1C充电 1h</span>
+                    </div>
+                </div>
+                <div class="specs-category">
+                    <div class="specs-category-title">机身材质</div>
+                    <div class="specs-row">
+                        <span class="specs-label">机架</span>
+                        <span class="specs-value">碳纤维</span>
+                    </div>
+                    <div class="specs-row">
+                        <span class="specs-label">轮子</span>
+                        <span class="specs-value">PP材质</span>
+                    </div>
+                    <div class="specs-row">
+                        <span class="specs-label">外壳</span>
+                        <span class="specs-value">PLA材质</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===== 7. PACKAGE CONTENTS ===== -->
+    <section class="section-block" style="background:#111112;">
+        <div class="section-inner">
+            <h2 class="section-title">包装清单</h2>
+            <hr class="section-divider">
+            <div class="contents-list">
+                <div class="contents-item">
+                    <span class="check-icon">&#10003;</span>
+                    <span>RealmX Racing Edition 主机 x 1</span>
+                </div>
+                <div class="contents-item">
+                    <span class="check-icon">&#10003;</span>
+                    <span>遥控器 x 1</span>
+                </div>
+                <div class="contents-item">
+                    <span class="check-icon">&#10003;</span>
+                    <span>电池 x 2</span>
+                </div>
+                <div class="contents-item">
+                    <span class="check-icon">&#10003;</span>
+                    <span>充电器 x 1</span>
+                </div>
+                <div class="contents-item">
+                    <span class="check-icon">&#10003;</span>
+                    <span>备用桨叶 x 8</span>
+                </div>
+                <div class="contents-item">
+                    <span class="check-icon">&#10003;</span>
+                    <span>说明书 x 1</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===== 8. CTA ===== -->
+    <section class="section-block" style="background:#000;">
+        <div class="section-inner" style="text-align:center;">
+            <a href="buy.html" class="cta-btn" style="font-size:1.1rem; padding:16px 48px;">立即购买 &#165;12,999</a>
+        </div>
+    </section>
+
+    <!-- Footer loaded dynamically -->
+    <div id="realmx-footer-slot"></div>
+
+    <!-- AMD JS Assets -->
+    <script src="assets/css/clientlib-webpack-dependencies.min.js.下载"></script>
+    <script src="assets/css/clientlib-webpack.min.js.下载"></script>
+    <script src="assets/css/clientlib-webpack.min(1).js.下载"></script>
+    <script src="assets/css/clientlib-webpack.min(2).js.下载"></script>
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="assets/js/supabase-client.js"></script>
+    <script src="assets/js/nav-loader.js"></script>
+</body>
+</html>

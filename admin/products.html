@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>产品管理 - RealmX Admin</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../assets/css/admin.css">
+</head>
+<body>
+    <div class="admin-layout">
+        <nav class="admin-sidebar">
+            <div class="admin-sidebar-logo">
+                <a href="index.html"><img src="../assets/images/logo-black.png" alt="RealmX" style="height:24px;"></a>
+                <span>Admin</span>
+            </div>
+            <div class="admin-nav">
+                <a href="index.html" class="admin-nav-item">📊 仪表盘</a>
+                <a href="products.html" class="admin-nav-item active">📦 产品管理</a>
+                <a href="orders.html" class="admin-nav-item">🛍 订单管理</a>
+                <a href="news.html" class="admin-nav-item">📰 新闻管理</a>
+            </div>
+            <div class="admin-nav-back">
+                <a href="../index.html">← 返回官网</a>
+            </div>
+        </nav>
+        <div class="admin-main">
+            <div class="admin-header">
+                <h1>产品管理</h1>
+                <div>
+                    <span id="admin-user" style="color:rgba(255,255,255,0.5);font-size:0.85rem;"></span>
+                    <button onclick="logout()" style="margin-left:12px;padding:6px 14px;background:transparent;border:1px solid rgba(255,255,255,0.2);color:rgba(255,255,255,0.7);border-radius:4px;cursor:pointer;font-size:0.8rem;">退出</button>
+                </div>
+            </div>
+            <div class="admin-content">
+                <div style="margin-bottom:20px;">
+                    <button class="admin-btn admin-btn-primary" onclick="openProductModal()">+ 添加产品</button>
+                </div>
+                <div class="admin-table-wrapper">
+                    <table class="admin-table">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>名称</th>
+                                <th>分类</th>
+                                <th>价格</th>
+                                <th>库存</th>
+                                <th>状态</th>
+                                <th>操作</th>
+                            </tr>
+                        </thead>
+                        <tbody id="products-table">
+                                <tr><td colspan="7" class="admin-loading">加载中...</td></tr>
+                            </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Product Modal -->
+    <div id="product-modal" class="admin-modal-overlay">
+        <div class="admin-modal">
+            <h2 id="modal-title">添加产品</h2>
+            <input type="hidden" id="editing-id">
+            <div class="form-field">
+                <label>名称</label>
+                <input type="text" id="p-name" placeholder="产品名称">
+            </div>
+            <div class="form-field">
+                <label>分类</label>
+                <select id="p-category">
+                    <option value="整机">整机</option>
+                    <option value="配件">配件</option>
+                </select>
+            </div>
+            <div class="form-field">
+                <label>价格</label>
+                <input type="number" id="p-price" placeholder="0">
+            </div>
+            <div class="form-field">
+                <label>库存</label>
+                <input type="number" id="p-stock" placeholder="0">
+            </div>
+            <div class="form-field">
+                <label>描述</label>
+                <textarea id="p-desc" placeholder="产品描述"></textarea>
+            </div>
+            <div class="form-field">
+                <label>图片URL</label>
+                <input type="text" id="p-image" placeholder="https://...">
+            </div>
+            <div class="form-field">
+                <label>状态</label>
+                <select id="p-status">
+                    <option value="active">在售</option>
+                    <option value="inactive">下架</option>
+                </select>
+            </div>
+            <div class="admin-modal-actions">
+                <button class="admin-btn admin-btn-secondary" onclick="closeProductModal()">取消</button>
+                <button class="admin-btn admin-btn-primary" onclick="saveProduct()">保存</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="../assets/js/supabase-client.js"></script>
+
+    <script>
+        async function initAdmin() {
+            const result = await requireAdmin();
+            if (!result) return;
+            const el = document.getElementById('admin-user');
+            if (el) el.textContent = result.profile?.username || result.user.email;
+            return result;
+        }
+        async function logout() {
+            await getSupabase().auth.signOut();
+            window.location.href = '../index.html';
+        }
+
+        (async function() {
+            const admin = await initAdmin();
+            if (!admin) return;
+            const sb = getSupabase();
+            let editingId = null;
+
+            async function loadProducts() {
+                const { data } = await sb.from('products').select('*').order('created_at', { ascending: false });
+                const tbody = document.getElementById('products-table');
+                if (!data || data.length === 0) {
+                    tbody.innerHTML = '<tr><td colspan="7" class="admin-empty">暂无产品数据</td></tr>';
+                    return;
+                }
+                tbody.innerHTML = data.map(p => `<tr>
+                    <td>${p.id}</td><td>${p.name}</td><td>${p.category}</td>
+                    <td>¥${Number(p.price).toLocaleString()}</td><td>${p.stock}</td>
+                    <td><span class="status-badge ${p.status === 'active' ? 'completed' : 'cancelled'}">${p.status === 'active' ? '在售' : '下架'}</span></td>
+                    <td><button class="admin-btn admin-btn-secondary admin-btn-sm" onclick="editProduct(${p.id})">编辑</button>
+                    <button class="admin-btn admin-btn-danger admin-btn-sm" onclick="deleteProduct(${p.id})">删除</button></td>
+                </tr>`).join('');
+            }
+
+            window.openProductModal = function(product = null) {
+                editingId = product ? product.id : null;
+                document.getElementById('modal-title').textContent = product ? '编辑产品' : '添加产品';
+                document.getElementById('p-name').value = product?.name || '';
+                document.getElementById('p-category').value = product?.category || '整机';
+                document.getElementById('p-price').value = product?.price || '';
+                document.getElementById('p-stock').value = product?.stock || 0;
+                document.getElementById('p-desc').value = product?.description || '';
+                document.getElementById('p-image').value = product?.image_url || '';
+                document.getElementById('p-status').value = product?.status || 'active';
+                document.getElementById('product-modal').classList.add('show');
+            };
+
+            window.closeProductModal = function() {
+                document.getElementById('product-modal').classList.remove('show');
+            };
+
+            window.saveProduct = async function() {
+                const obj = {
+                    name: document.getElementById('p-name').value,
+                    category: document.getElementById('p-category').value,
+                    price: parseFloat(document.getElementById('p-price').value),
+                    stock: parseInt(document.getElementById('p-stock').value),
+                    description: document.getElementById('p-desc').value,
+                    image_url: document.getElementById('p-image').value,
+                    status: document.getElementById('p-status').value,
+                };
+                if (editingId) {
+                    await sb.from('products').update(obj).eq('id', editingId);
+                } else {
+                    await sb.from('products').insert(obj);
+                }
+                closeProductModal();
+                loadProducts();
+            };
+
+            window.editProduct = async function(id) {
+                const { data } = await sb.from('products').select('*').eq('id', id).single();
+                if (data) openProductModal(data);
+            };
+
+            window.deleteProduct = async function(id) {
+                if (!confirm('确定删除？')) return;
+                await sb.from('products').delete().eq('id', id);
+                loadProducts();
+            };
+
+            loadProducts();
+        })();
+    </script>
+</body>
+</html>
