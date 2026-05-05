@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>我的账号 - RealmX</title>
+
+    <!-- AMD CSS Assets -->
+    <link rel="stylesheet" href="assets/css/clientlib-base.min.css">
+    <link rel="stylesheet" href="assets/css/clientlib-webpack-dependencies.min.css">
+    <link rel="stylesheet" href="assets/css/clientlib-webpack.min.css">
+    <link rel="stylesheet" href="assets/css/clientlib-webpack(1).min.css">
+    <link rel="stylesheet" href="assets/css/clientlib-webpack(2).min.css">
+
+    <!-- Google Font for tech-feel numbers -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="assets/css/realmx.css">
+</head>
+<body style="background:#000; margin:0; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; color:#fff;">
+
+    <!-- Header loaded dynamically -->
+    <div id="realmx-header-slot"></div>
+
+    <!-- ===== PAGE HERO ===== -->
+    <section class="page-hero">
+        <h1>我的账号</h1>
+    </section>
+
+    <!-- ===== ACCOUNT LAYOUT ===== -->
+    <section class="section-block" style="background:#000;">
+        <div class="account-layout">
+            <!-- Sidebar -->
+            <div class="account-sidebar">
+                <div class="account-avatar">U</div>
+                <h3 id="username">用户</h3>
+                <p class="account-email" id="user-email">-</p>
+                <button class="account-logout-btn" onclick="handleLogout()">退出登录</button>
+            </div>
+            <!-- Main -->
+            <div class="account-main">
+                <div class="account-section">
+                    <h3>🛍 我的订单</h3>
+                    <div id="orders-list"></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer loaded dynamically -->
+    <div id="realmx-footer-slot"></div>
+
+    <!-- AMD JS Assets -->
+    <script src="assets/css/clientlib-webpack-dependencies.min.js.下载"></script>
+    <script src="assets/css/clientlib-webpack.min.js.下载"></script>
+    <script src="assets/css/clientlib-webpack.min(1).js.下载"></script>
+    <script src="assets/css/clientlib-webpack.min(2).js.下载"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="assets/js/supabase-client.js"></script>
+    <script src="assets/js/nav-loader.js"></script>
+
+    <script>
+
+        async function initAccount() {
+            const user = await requireAuth();
+            if (!user) return;
+
+            const sb = getSupabase();
+            const { data: profile } = await sb.from('profiles').select('*').eq('id', user.id).single();
+
+            document.getElementById('username').textContent = profile?.username || '用户';
+            document.getElementById('user-email').textContent = user.email;
+
+            const { data: orders } = await sb.from('orders').select('*')
+                .eq('user_id', user.id).order('created_at', { ascending: false });
+
+            const container = document.getElementById('orders-list');
+            if (!orders || orders.length === 0) {
+                container.innerHTML = '<div class="account-empty"><p>暂无订单</p><a href="buy.html" class="cta-btn" style="font-size:0.85rem;padding:10px 24px;">去购买</a></div>';
+                return;
+            }
+
+            const statusMap = { pending: '待确认', processing: '处理中', shipped: '已发货', completed: '已完成', cancelled: '已取消' };
+            container.innerHTML = orders.map(o => `
+                <div class="account-order-card">
+                    <div class="account-order-header">
+                        <span class="account-order-id">#${o.id}</span>
+                        <span class="status-badge ${o.status}">${statusMap[o.status] || o.status}</span>
+                    </div>
+                    <div class="account-order-body">
+                        <p>${(o.items || []).map(i => i.name).join(', ')}</p>
+                        <p class="account-order-price">¥${Number(o.total_price).toLocaleString()}</p>
+                    </div>
+                    <div class="account-order-footer">
+                        <span>${new Date(o.created_at).toLocaleDateString('zh-CN')}</span>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        async function handleLogout() {
+            await getSupabase().auth.signOut();
+            window.location.href = 'index.html';
+        }
+
+        initAccount();
+    </script>
+</body>
+</html>

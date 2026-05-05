@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>新闻管理 - RealmX Admin</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../assets/css/admin.css">
+</head>
+<body>
+    <div class="admin-layout">
+        <nav class="admin-sidebar">
+            <div class="admin-sidebar-logo">
+                <a href="index.html"><img src="../assets/images/logo-black.png" alt="RealmX" style="height:24px;"></a>
+                <span>Admin</span>
+            </div>
+            <div class="admin-nav">
+                <a href="index.html" class="admin-nav-item">📊 仪表盘</a>
+                <a href="products.html" class="admin-nav-item">📦 产品管理</a>
+                <a href="orders.html" class="admin-nav-item">🛍 订单管理</a>
+                <a href="news.html" class="admin-nav-item active">📰 新闻管理</a>
+            </div>
+            <div class="admin-nav-back">
+                <a href="../index.html">← 返回官网</a>
+            </div>
+        </nav>
+        <div class="admin-main">
+            <div class="admin-header">
+                <h1>新闻管理</h1>
+                <div>
+                    <span id="admin-user" style="color:rgba(255,255,255,0.5);font-size:0.85rem;"></span>
+                    <button onclick="logout()" style="margin-left:12px;padding:6px 14px;background:transparent;border:1px solid rgba(255,255,255,0.2);color:rgba(255,255,255,0.7);border-radius:4px;cursor:pointer;font-size:0.8rem;">退出</button>
+                </div>
+            </div>
+            <div class="admin-content">
+                <div style="margin-bottom:20px;">
+                    <button class="admin-btn admin-btn-primary" onclick="openNewsModal()">+ 添加新闻</button>
+                </div>
+                <div class="admin-table-wrapper">
+                    <table class="admin-table">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>标题</th>
+                                <th>状态</th>
+                                <th>发布日期</th>
+                                <th>操作</th>
+                            </tr>
+                        </thead>
+                        <tbody id="news-table">
+                                <tr><td colspan="5" class="admin-loading">加载中...</td></tr>
+                            </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- News Modal -->
+    <div id="news-modal" class="admin-modal-overlay">
+        <div class="admin-modal">
+            <h2 id="modal-title">添加新闻</h2>
+            <input type="hidden" id="editing-id">
+            <div class="form-field">
+                <label>标题</label>
+                <input type="text" id="n-title" placeholder="新闻标题">
+            </div>
+            <div class="form-field">
+                <label>摘要</label>
+                <textarea id="n-summary" placeholder="新闻摘要"></textarea>
+            </div>
+            <div class="form-field">
+                <label>内容</label>
+                <textarea id="n-content" placeholder="新闻正文内容"></textarea>
+            </div>
+            <div class="form-field">
+                <label>图片URL</label>
+                <input type="text" id="n-image" placeholder="https://...">
+            </div>
+            <div class="form-field">
+                <label>状态</label>
+                <select id="n-status">
+                    <option value="draft">草稿</option>
+                    <option value="published">已发布</option>
+                </select>
+            </div>
+            <div class="admin-modal-actions">
+                <button class="admin-btn admin-btn-secondary" onclick="closeNewsModal()">取消</button>
+                <button class="admin-btn admin-btn-primary" onclick="saveNews()">保存</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="../assets/js/supabase-client.js"></script>
+
+    <script>
+        async function initAdmin() {
+            const result = await requireAdmin();
+            if (!result) return;
+            const el = document.getElementById('admin-user');
+            if (el) el.textContent = result.profile?.username || result.user.email;
+            return result;
+        }
+        async function logout() {
+            await getSupabase().auth.signOut();
+            window.location.href = '../index.html';
+        }
+
+        (async function() {
+            const admin = await initAdmin();
+            if (!admin) return;
+            const sb = getSupabase();
+            let editingId = null;
+
+            async function loadNews() {
+                const { data } = await sb.from('news').select('*').order('created_at', { ascending: false });
+                const tbody = document.getElementById('news-table');
+                if (!data || data.length === 0) {
+                    tbody.innerHTML = '<tr><td colspan="5" class="admin-empty">暂无新闻数据</td></tr>';
+                    return;
+                }
+                tbody.innerHTML = data.map(n => `<tr>
+                    <td>${n.id}</td><td>${n.title}</td>
+                    <td><span class="status-badge ${n.status === 'published' ? 'completed' : 'pending'}">${n.status === 'published' ? '已发布' : '草稿'}</span></td>
+                    <td>${new Date(n.created_at).toLocaleDateString('zh-CN')}</td>
+                    <td><button class="admin-btn admin-btn-secondary admin-btn-sm" onclick="editNews(${n.id})">编辑</button>
+                    <button class="admin-btn admin-btn-danger admin-btn-sm" onclick="deleteNews(${n.id})">删除</button></td>
+                </tr>`).join('');
+            }
+
+            window.openNewsModal = function(item = null) {
+                editingId = item ? item.id : null;
+                document.getElementById('modal-title').textContent = item ? '编辑新闻' : '添加新闻';
+                document.getElementById('n-title').value = item?.title || '';
+                document.getElementById('n-summary').value = item?.summary || '';
+                document.getElementById('n-content').value = item?.content || '';
+                document.getElementById('n-image').value = item?.image_url || '';
+                document.getElementById('n-status').value = item?.status || 'draft';
+                document.getElementById('news-modal').classList.add('show');
+            };
+
+            window.closeNewsModal = function() {
+                document.getElementById('news-modal').classList.remove('show');
+            };
+
+            window.saveNews = async function() {
+                const obj = {
+                    title: document.getElementById('n-title').value,
+                    summary: document.getElementById('n-summary').value,
+                    content: document.getElementById('n-content').value,
+                    image_url: document.getElementById('n-image').value,
+                    status: document.getElementById('n-status').value,
+                    author_id: admin.user.id,
+                };
+                if (editingId) {
+                    await sb.from('news').update(obj).eq('id', editingId);
+                } else {
+                    await sb.from('news').insert(obj);
+                }
+                closeNewsModal();
+                loadNews();
+            };
+
+            window.editNews = async function(id) {
+                const { data } = await sb.from('news').select('*').eq('id', id).single();
+                if (data) openNewsModal(data);
+            };
+
+            window.deleteNews = async function(id) {
+                if (!confirm('确定删除？')) return;
+                await sb.from('news').delete().eq('id', id);
+                loadNews();
+            };
+
+            loadNews();
+        })();
+    </script>
+</body>
+</html>

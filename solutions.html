@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>解决方案 - RealmX</title>
+
+    <!-- AMD CSS Assets -->
+    <link rel="stylesheet" href="assets/css/clientlib-base.min.css">
+    <link rel="stylesheet" href="assets/css/clientlib-webpack-dependencies.min.css">
+    <link rel="stylesheet" href="assets/css/clientlib-webpack.min.css">
+    <link rel="stylesheet" href="assets/css/clientlib-webpack(1).min.css">
+    <link rel="stylesheet" href="assets/css/clientlib-webpack(2).min.css">
+
+    <!-- Google Font -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="assets/css/realmx.css">
+
+    <style>
+        /* Solutions Hero */
+        .solutions-hero {
+            position: relative;
+            min-height: 420px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            overflow: hidden;
+        }
+        .solutions-hero-bg {
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            object-fit: cover;
+            z-index: 0;
+        }
+        .solutions-hero-overlay {
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: linear-gradient(180deg, rgba(0,0,0,0.7) 0%, rgba(0,0,0,0.5) 50%, rgba(0,0,0,0.85) 100%);
+            z-index: 1;
+        }
+        .solutions-hero-content {
+            position: relative;
+            z-index: 2;
+            padding: 80px 20px;
+        }
+        .solutions-hero-content h1 {
+            font-size: 3rem;
+            font-weight: 700;
+            color: #fff;
+            margin-bottom: 12px;
+        }
+        .solutions-hero-content p {
+            font-size: 1.15rem;
+            color: rgba(255,255,255,0.7);
+            max-width: 640px;
+            margin: 0 auto;
+            line-height: 1.7;
+        }
+
+        /* Solution Detail Cards */
+        .solution-detail-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 32px;
+        }
+        .solution-detail-card {
+            background: rgba(255,255,255,0.03);
+            border: 1px solid rgba(255,255,255,0.08);
+            border-radius: 12px;
+            overflow: hidden;
+            transition: border-color 0.3s, transform 0.3s;
+        }
+        .solution-detail-card:hover {
+            border-color: rgba(0,113,227,0.3);
+            transform: translateY(-4px);
+        }
+        .solution-detail-img {
+            width: 100%;
+            height: 220px;
+            object-fit: cover;
+            display: block;
+        }
+        .solution-detail-body {
+            padding: 28px;
+        }
+        .solution-detail-body h3 {
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: #fff;
+            margin-bottom: 10px;
+        }
+        .solution-detail-body p {
+            color: rgba(255,255,255,0.6);
+            font-size: 0.95rem;
+            line-height: 1.7;
+            margin-bottom: 16px;
+        }
+        .solution-detail-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px;
+        }
+        .solution-tag {
+            display: inline-block;
+            padding: 4px 12px;
+            border: 1px solid rgba(0,113,227,0.3);
+            border-radius: 16px;
+            color: var(--realmx-blue);
+            font-size: 0.8rem;
+        }
+
+        /* Capabilities section */
+        .capabilities-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 24px;
+        }
+        .capability-card {
+            text-align: center;
+            padding: 32px 20px;
+            background: rgba(255,255,255,0.02);
+            border: 1px solid rgba(255,255,255,0.06);
+            border-radius: 8px;
+        }
+        .capability-card h4 {
+            font-size: 1rem;
+            font-weight: 600;
+            color: #fff;
+            margin-bottom: 8px;
+        }
+        .capability-card p {
+            color: rgba(255,255,255,0.55);
+            font-size: 0.85rem;
+            line-height: 1.6;
+        }
+
+        @media (max-width: 991px) {
+            .solution-detail-grid { grid-template-columns: 1fr; }
+            .capabilities-grid { grid-template-columns: repeat(2, 1fr); }
+            .solutions-hero-content h1 { font-size: 2.2rem; }
+        }
+        @media (max-width: 767px) {
+            .solutions-hero { min-height: 320px; }
+            .solutions-hero-content { padding: 50px 20px; }
+            .solutions-hero-content h1 { font-size: 1.8rem; }
+            .capabilities-grid { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body style="background:#000; margin:0; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; color:#fff;">
+
+    <!-- Header loaded dynamically -->
+    <div id="realmx-header-slot"></div>
+
+    <!-- ===== SOLUTIONS HERO ===== -->
+    <section class="solutions-hero">
+        <img class="solutions-hero-bg" src="assets/images/feature-1.png" alt="解决方案">
+        <div class="solutions-hero-overlay"></div>
+        <div class="solutions-hero-content">
+            <h1>行业解决方案</h1>
+            <p>从特种检测到林业测绘，RealmX 两栖全地形机器人深入复杂环境，为专业场景提供可靠的自动化作业平台。</p>
+        </div>
+    </section>
+
+    <!-- ===== CORE CAPABILITIES ===== -->
+    <section class="section-block" style="background:#000;">
+        <div class="section-inner">
+            <h2 class="section-title">核心能力</h2>
+            <p class="section-desc">水陆两栖、自主飞行、精准建模，四大核心能力覆盖复杂场景需求。</p>
+            <div class="section-divider"></div>
+            <div class="capabilities-grid">
+                <div class="capability-card">
+                    <h4>水陆两栖</h4>
+                    <p>IP68 防水机身，地面行进与空中飞行双模式，无缝切换适应各类地形。</p>
+                </div>
+                <div class="capability-card">
+                    <h4>自主飞行</h4>
+                    <p>多传感器融合导航，复杂环境自主避障与路径规划，无需人工干预。</p>
+                </div>
+                <div class="capability-card">
+                    <h4>精准建模</h4>
+                    <p>激光雷达 + 视觉 SLAM，实时构建高精度三维模型，毫米级精度保障。</p>
+                </div>
+                <div class="capability-card">
+                    <h4>远程作业</h4>
+                    <p>10km 图传距离，实时数据回传，支持危险环境下的远程检测与操控。</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===== INDUSTRY SOLUTIONS ===== -->
+    <section class="section-block" style="background:var(--realmx-gray);">
+        <div class="section-inner">
+            <h2 class="section-title">行业应用</h2>
+            <p class="section-desc">针对不同行业的专业需求，提供定制化的检测与测绘解决方案。</p>
+            <div class="section-divider"></div>
+            <div class="solution-detail-grid">
+
+                <div class="solution-detail-card">
+                    <img class="solution-detail-img" src="assets/images/solution-3d-mapping.png" alt="特种检测">
+                    <div class="solution-detail-body">
+                        <h3>特种检测行业装备</h3>
+                        <p>面向建筑物内部及复杂空间的专业检测需求，RealmX 可自主穿越狭窄通道、楼梯间、管道等受限空间，搭载高清摄像头与传感器，完成全面的结构健康检测。替代传统人工巡检，大幅提升效率与安全性。</p>
+                        <div class="solution-detail-tags">
+                            <span class="solution-tag">建筑物内部</span>
+                            <span class="solution-tag">复杂空间</span>
+                            <span class="solution-tag">自主巡检</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="solution-detail-card">
+                    <img class="solution-detail-img" src="assets/images/solution-wall-detect.png" alt="贴壁搭载">
+                    <div class="solution-detail-body">
+                        <h3>贴壁搭载作业</h3>
+                        <p>配备贴壁飞行模块，RealmX 可在垂直墙面稳定悬停并贴近作业。搭载超声波壁厚检测仪和红外空鼓探测设备，精准识别墙体厚度变化与空鼓缺陷，为建筑安全评估提供可靠数据。</p>
+                        <div class="solution-detail-tags">
+                            <span class="solution-tag">壁厚检测</span>
+                            <span class="solution-tag">墙面空鼓</span>
+                            <span class="solution-tag">结构安全</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="solution-detail-card">
+                    <img class="solution-detail-img" src="assets/images/solution-elevator.png" alt="电梯井道">
+                    <div class="solution-detail-body">
+                        <h3>电梯井道环境建模</h3>
+                        <p>深入电梯井道等垂直封闭空间，利用激光雷达实时扫描并绘制三维结构模型。精准还原井道截面尺寸、导轨偏移量与壁面状态，辅助安装验收与定期维保检测，替代传统人工攀爬式测量。</p>
+                        <div class="solution-detail-tags">
+                            <span class="solution-tag">实时三维建模</span>
+                            <span class="solution-tag">井道测绘</span>
+                            <span class="solution-tag">维保检测</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="solution-detail-card">
+                    <img class="solution-detail-img" src="assets/images/solution-forest.png" alt="林内飞行">
+                    <div class="solution-detail-body">
+                        <h3>林内飞行蓄积量测绘</h3>
+                        <p>在桉树林等密集植被环境中自主飞行，通过机载激光雷达获取树冠与地形数据，精确计算林木蓄积量。多段航线自动规划，单次作业覆盖大面积林区，显著降低人工调查成本。</p>
+                        <div class="solution-detail-tags">
+                            <span class="solution-tag">桉树蓄积量</span>
+                            <span class="solution-tag">林区测绘</span>
+                            <span class="solution-tag">自主航线</span>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- ===== COMPLEX ENVIRONMENT ===== -->
+    <section class="section-block" style="background:#000;">
+        <div class="section-inner">
+            <h2 class="section-title">复杂环境自主飞行建模</h2>
+            <p class="section-desc">融合多传感器数据，在 GPS 拒止环境下依然能够稳定飞行并完成高精度建模。</p>
+            <div class="section-divider"></div>
+            <div class="buy-layout" style="align-items:center;">
+                <div>
+                    <img src="assets/images/solution-complex-env.png" alt="环境建模" style="width:100%;border-radius:8px;">
+                </div>
+                <div style="padding-left:20px;">
+                    <h3 style="font-size:1.4rem;font-weight:700;color:#fff;margin-bottom:16px;">全自主环境感知与重建</h3>
+                    <p style="color:rgba(255,255,255,0.65);line-height:1.8;margin-bottom:24px;">RealmX 搭载高精度激光雷达与多目视觉系统，在矿井、隧道、地下管廊等 GPS 信号受限的复杂环境中，依然能够自主建图、避障与导航。实时生成高精度三维点云模型，为工程验收、安全隐患排查和数字化存档提供完整的数据支撑。</p>
+                    <div style="display:flex;flex-wrap:wrap;gap:24px;margin-bottom:24px;">
+                        <div>
+                            <div style="font-family:'Orbitron',sans-serif;font-size:1.8rem;font-weight:700;color:var(--realmx-blue);">±2cm</div>
+                            <div style="color:rgba(255,255,255,0.5);font-size:0.85rem;">建模精度</div>
+                        </div>
+                        <div>
+                            <div style="font-family:'Orbitron',sans-serif;font-size:1.8rem;font-weight:700;color:var(--realmx-blue);">30min</div>
+                            <div style="color:rgba(255,255,255,0.5);font-size:0.85rem;">单次作业时长</div>
+                        </div>
+                        <div>
+                            <div style="font-family:'Orbitron',sans-serif;font-size:1.8rem;font-weight:700;color:var(--realmx-blue);">100%</div>
+                            <div style="color:rgba(255,255,255,0.5);font-size:0.85rem;">自主化率</div>
+                        </div>
+                    </div>
+                    <a href="buy.html" class="cta-btn">了解更多 →</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===== CTA ===== -->
+    <section class="section-block" style="background:var(--realmx-gray);">
+        <div class="section-inner" style="text-align:center;">
+            <h2 class="section-title">为你的行业定制方案</h2>
+            <p class="section-desc" style="margin-bottom:32px;">无论建筑检测、林业测绘还是工业巡检，我们都能提供针对性的解决方案。</p>
+            <a href="buy.html" class="cta-btn">立即咨询</a>
+            <a href="support.html" class="cta-btn" style="background:transparent;border:1px solid rgba(255,255,255,0.3);margin-left:12px;">技术支持</a>
+        </div>
+    </section>
+
+    <!-- Footer loaded dynamically -->
+    <div id="realmx-footer-slot"></div>
+
+    <!-- AMD JS Assets -->
+    <script src="assets/css/clientlib-webpack-dependencies.min.js.下载"></script>
+    <script src="assets/css/clientlib-webpack.min.js.下载"></script>
+    <script src="assets/css/clientlib-webpack.min(1).js.下载"></script>
+    <script src="assets/css/clientlib-webpack.min(2).js.下载"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="assets/js/supabase-client.js"></script>
+    <script src="assets/js/nav-loader.js"></script>
+</body>
+</html>
