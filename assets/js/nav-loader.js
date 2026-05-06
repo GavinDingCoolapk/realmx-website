@@ -16,9 +16,24 @@
         var toggler = document.querySelector('#realmx-header .navbar-toggler');
         var collapse = document.querySelector('#realmx-header .navbar-collapse');
         if (toggler && collapse) {
-            toggler.addEventListener('click', function() {
+            toggler.addEventListener('click', function(e) {
+                e.stopPropagation();
                 toggler.classList.toggle('collapsed');
                 collapse.classList.toggle('show');
+            });
+            // Close menu when clicking a nav link
+            collapse.addEventListener('click', function(e) {
+                if (e.target.closest('.nav-link') && !e.target.closest('.dropdown-toggle')) {
+                    collapse.classList.remove('show');
+                    toggler.classList.add('collapsed');
+                }
+            });
+            // Close menu when clicking outside
+            document.addEventListener('click', function(e) {
+                if (!e.target.closest('#realmx-header')) {
+                    collapse.classList.remove('show');
+                    toggler.classList.add('collapsed');
+                }
             });
         }
 
