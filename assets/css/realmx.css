@@ -29,15 +29,15 @@ html { scroll-behavior: smooth; }
     height: 56px;
 }
 .nav-logo {
-    color: #fff;
-    font-size: 1.5rem;
-    font-weight: 700;
-    letter-spacing: -0.5px;
     text-decoration: none;
     display: flex;
     align-items: center;
     flex-shrink: 0;
     margin-right: 40px;
+}
+.nav-logo img {
+    height: 28px;
+    filter: brightness(0) invert(1);
 }
 .nav-links {
     display: flex;
