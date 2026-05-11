@@ -6,12 +6,6 @@
     <title>RealmX - Land Air and Sea</title>
     <meta name="description" content="RealmX Racing Edition，两栖全地形机器人。碳纤维机架，水陆两栖，适应复杂地形与多场景应用。">
 
-    <!-- AMD CSS Assets -->
-    <link rel="stylesheet" href="assets/css/clientlib-base.min.css">
-    <link rel="stylesheet" href="assets/css/clientlib-webpack-dependencies.min.css">
-    <link rel="stylesheet" href="assets/css/clientlib-webpack.min.css">
-    <link rel="stylesheet" href="assets/css/clientlib-webpack(1).min.css">
-    <link rel="stylesheet" href="assets/css/clientlib-webpack(2).min.css">
 
     <!-- Google Font for tech-feel numbers -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -130,27 +124,45 @@
             <div class="section-divider"></div>
             <div class="faq-list">
                 <div class="faq-item">
-                    <div class="faq-question">RealmX Racing 是否支持 GPS 定位？</div>
+                    <div class="faq-question" onclick="toggleFaq(this)">
+                        <span>RealmX Racing 是否支持 GPS 定位？</span>
+                        <span class="faq-icon">+</span>
+                    </div>
                     <div class="faq-answer">当前版本不支持 GPS。RealmX Racing 采用纯手动操控模式，两栖动力系统确保在陆地和水面都能提供稳定的操控反馈。</div>
                 </div>
                 <div class="faq-item">
-                    <div class="faq-question">电池续航时间是多少？</div>
+                    <div class="faq-question" onclick="toggleFaq(this)">
+                        <span>电池续航时间是多少？</span>
+                        <span class="faq-icon">+</span>
+                    </div>
                     <div class="faq-answer">使用标配的索尼 18650 6S 6000mAh 电池，悬停飞行续航约 10 分钟。实际续航取决于飞行模式和风力条件。标配双电池，更换即可继续飞行。</div>
                 </div>
                 <div class="faq-item">
-                    <div class="faq-question">图传最远距离是多少？</div>
+                    <div class="faq-question" onclick="toggleFaq(this)">
+                        <span>图传最远距离是多少？</span>
+                        <span class="faq-icon">+</span>
+                    </div>
                     <div class="faq-answer">在无干扰、无阻挡的理想环境下，图传距离可达 10km。城市地面上通常为 100–600m，具体取决于建筑物遮挡和电磁干扰情况。</div>
                 </div>
                 <div class="faq-item">
-                    <div class="faq-question">是否需要飞行执照？</div>
+                    <div class="faq-question" onclick="toggleFaq(this)">
+                        <span>是否需要飞行执照？</span>
+                        <span class="faq-icon">+</span>
+                    </div>
                     <div class="faq-answer">根据中国民航局规定，起飞重量超过 250g 的无人机需要实名登记。RealmX Racing 建议飞手了解当地无人机管理规定并合规飞行。</div>
                 </div>
                 <div class="faq-item">
-                    <div class="faq-question">支持哪些遥控器？</div>
+                    <div class="faq-question" onclick="toggleFaq(this)">
+                        <span>支持哪些遥控器？</span>
+                        <span class="faq-icon">+</span>
+                    </div>
                     <div class="faq-answer">RealmX Racing 搭配专用遥控器，支持 2.4GHz 和 5.8GHz 双频段，提供稳定可靠的控制信号。</div>
                 </div>
                 <div class="faq-item">
-                    <div class="faq-question">售后保修政策是什么？</div>
+                    <div class="faq-question" onclick="toggleFaq(this)">
+                        <span>售后保修政策是什么？</span>
+                        <span class="faq-icon">+</span>
+                    </div>
                     <div class="faq-answer">RealmX Racing 提供自购买之日起 12 个月的有限保修服务。保修范围涵盖非人为损坏的材料和制造缺陷。具体条款请参阅随附的保修卡。</div>
                 </div>
             </div>
@@ -285,16 +297,26 @@
     <!-- Footer loaded dynamically -->
     <div id="realmx-footer-slot"></div>
 
-    <!-- AMD JS Assets -->
-    <script src="assets/css/clientlib-webpack-dependencies.min.js.下载"></script>
-    <script src="assets/css/clientlib-webpack.min.js.下载"></script>
-    <script src="assets/css/clientlib-webpack.min(1).js.下载"></script>
-    <script src="assets/css/clientlib-webpack.min(2).js.下载"></script>
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script src="assets/js/supabase-client.js"></script>
     <script src="assets/js/nav-loader.js"></script>
 
     <script>
+        // FAQ Accordion
+        function toggleFaq(el) {
+            const item = el.parentElement;
+            const isActive = item.classList.contains('faq-open');
+            // Close all
+            document.querySelectorAll('.faq-item.faq-open').forEach(i => {
+                i.classList.remove('faq-open');
+                i.querySelector('.faq-icon').textContent = '+';
+            });
+            // Open clicked (if was closed)
+            if (!isActive) {
+                item.classList.add('faq-open');
+                el.querySelector('.faq-icon').textContent = '−';
+            }
+        }
 
         // Anchor bar scroll spy
         const anchors = document.querySelectorAll('.anchor-bar-link');
