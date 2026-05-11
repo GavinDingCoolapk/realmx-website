@@ -37,7 +37,7 @@ html { scroll-behavior: smooth; }
 }
 .nav-logo img {
     height: 28px;
-    filter: brightness(0) invert(1);
+    /* no filter - use original black logo */
 }
 .nav-links {
     display: flex;
