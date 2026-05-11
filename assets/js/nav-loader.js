@@ -4,7 +4,7 @@
         '<header class="common-header" id="realmx-header">',
         '  <nav class="nav-main">',
         '    <div class="nav-inner">',
-        '      <a class="nav-logo" href="index.html">RealmX</a>',
+        '      <a class="nav-logo" href="index.html"><img src="assets/images/logo-black.png" alt="RealmX" style="height:28px;"></a>',
         '      <button class="nav-hamburger" id="nav-hamburger" aria-label="菜单">',
         '        <span></span><span></span><span></span>',
         '      </button>',
