@@ -359,23 +359,51 @@ header.common-header .navbar-nav.nav-mega .dropdown-menu.mega-menu a:hover {
     opacity: 0.5;
 }
 
-/* ===== FAQ (all expanded) ===== */
+/* ===== FAQ (Accordion) ===== */
 .faq-list { max-width: 800px; margin: 0 auto; }
 .faq-item {
     border-bottom: 1px solid rgba(255,255,255,0.1);
-    padding: 20px 0;
 }
 .faq-item:first-child { border-top: 1px solid rgba(255,255,255,0.1); }
 .faq-question {
     color: #fff;
     font-size: 1.05rem;
     font-weight: 600;
-    margin-bottom: 10px;
+    padding: 20px 0;
+    cursor: pointer;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    user-select: none;
+    transition: color 0.2s;
+}
+.faq-question:hover { color: var(--realmx-blue); }
+.faq-icon {
+    font-size: 1.4rem;
+    font-weight: 300;
+    color: rgba(255,255,255,0.4);
+    flex-shrink: 0;
+    margin-left: 16px;
+    transition: transform 0.3s;
+}
+.faq-item.faq-open .faq-icon {
+    transform: rotate(180deg);
+    color: var(--realmx-blue);
 }
 .faq-answer {
     color: rgba(255,255,255,0.65);
     font-size: 0.95rem;
     line-height: 1.7;
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.3s ease, padding 0.3s ease, opacity 0.3s ease;
+    opacity: 0;
+    padding: 0;
+}
+.faq-item.faq-open .faq-answer {
+    max-height: 300px;
+    opacity: 1;
+    padding: 0 0 20px;
 }
 
 /* ===== Solution Cards ===== */
@@ -1135,29 +1163,3 @@ header.common-header .navbar-nav.nav-mega .dropdown-menu.mega-menu a:hover {
     .buy-layout { grid-template-columns: 1fr; }
 }
 
-/* ===== Reset AMD CSS conflicts ===== */
-.accordion-item,
-.accordion-button,
-.accordion-collapse,
-.accordion-body,
-.accordion-header {
-    all: unset;
-    display: block;
-}
-.bigNumber, .big-number, .number_teal,
-.top-text-override-white,
-.container-parsys, .cmp-container, .cmp-container__content {
-    all: unset;
-    display: block;
-}
-.cmp-text, .text, .text-light, .text-grey,
-.divider, .divider.small, .divider.medium, .divider.large,
-.columns, .parbase, .bg-bottom, .bg-top,
-.heroExpressive, .teaser, .teaser-light, .cmp-teaser,
-.card, .card-body, .card-title, .card-text, .card-links,
-.horzlayout, .horzimage, .horzcontent, .card-img-top,
-.cmp-image, .cmp-image__image,
-.bs-accordion, .amd-accordion-flush {
-    all: unset;
-    display: block;
-}

@@ -5,12 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>支持中心 - RealmX</title>
 
-    <!-- AMD CSS Assets -->
-    <link rel="stylesheet" href="assets/css/clientlib-base.min.css">
-    <link rel="stylesheet" href="assets/css/clientlib-webpack-dependencies.min.css">
-    <link rel="stylesheet" href="assets/css/clientlib-webpack.min.css">
-    <link rel="stylesheet" href="assets/css/clientlib-webpack(1).min.css">
-    <link rel="stylesheet" href="assets/css/clientlib-webpack(2).min.css">
 
     <!-- Google Font -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -223,13 +217,41 @@
             color: #fff;
             font-size: 1.05rem;
             font-weight: 600;
-            padding: 22px 0 8px;
+            padding: 20px 0;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            user-select: none;
+            transition: color 0.2s;
+        }
+        .faq-question:hover { color: #0071E3; }
+        .faq-icon {
+            font-size: 1.4rem;
+            font-weight: 300;
+            color: rgba(255,255,255,0.4);
+            flex-shrink: 0;
+            margin-left: 16px;
+            transition: transform 0.3s;
+        }
+        .faq-item.faq-open .faq-icon {
+            transform: rotate(180deg);
+            color: #0071E3;
         }
         .faq-answer {
             color: rgba(255,255,255,0.65);
             font-size: 0.95rem;
             line-height: 1.7;
-            padding: 0 0 22px;
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease, padding 0.3s ease, opacity 0.3s ease;
+            opacity: 0;
+            padding: 0;
+        }
+        .faq-item.faq-open .faq-answer {
+            max-height: 300px;
+            opacity: 1;
+            padding: 0 0 20px;
         }
 
         /* ===== Contact Grid ===== */
@@ -343,32 +365,6 @@
             .support-tab { padding: 12px 16px; font-size: 0.85rem; }
         }
 
-        /* ===== Reset AMD CSS conflicts ===== */
-        .accordion-item,
-        .accordion-button,
-        .accordion-collapse,
-        .accordion-body,
-        .accordion-header {
-            all: unset;
-            display: block;
-        }
-        .bigNumber, .big-number, .number_teal,
-        .top-text-override-white,
-        .container-parsys, .cmp-container, .cmp-container__content {
-            all: unset;
-            display: block;
-        }
-        .cmp-text, .text, .text-light, .text-grey,
-        .divider, .divider.small, .divider.medium, .divider.large,
-        .columns, .parbase, .bg-bottom, .bg-top,
-        .heroExpressive, .teaser, .teaser-light, .cmp-teaser,
-        .card, .card-body, .card-title, .card-text, .card-links,
-        .horzlayout, .horzimage, .horzcontent, .card-img-top,
-        .cmp-image, .cmp-image__image,
-        .bs-accordion, .amd-accordion-flush {
-            all: unset;
-            display: block;
-        }
     </style>
 <link rel="icon" type="image/png" href="assets/images/favicon.png"><link rel="icon" type="image/x-icon" href="assets/images/favicon.ico"></head>
 <body style="background:#000; margin:0; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; color:#fff;">
@@ -462,24 +458,28 @@
     <div class="tab-panel" id="faq">
         <div class="faq-list">
             <div class="faq-item">
-                <div class="faq-question">RealmX 的续航时间是多少？</div>
-                <div class="faq-answer">约 15 分钟，全地形模式下约 12 分钟。</div>
+                <div class="faq-question" onclick="toggleFaq(this)"><span>RealmX Racing 是否支持 GPS 定位？</span><span class="faq-icon">+</span></div>
+                <div class="faq-answer">当前版本不支持 GPS。RealmX Racing 采用纯手动操控模式，两栖动力系统确保在陆地和水面都能提供稳定的操控反馈。</div>
             </div>
             <div class="faq-item">
-                <div class="faq-question">RealmX 支持哪些操作系统？</div>
-                <div class="faq-answer">配套 App 支持 iOS 12.0+ 和 Android 8.0+。</div>
+                <div class="faq-question" onclick="toggleFaq(this)"><span>电池续航时间是多少？</span><span class="faq-icon">+</span></div>
+                <div class="faq-answer">使用标配的索尼 18650 6S 6000mAh 电池，悬停飞行续航约 10 分钟。实际续航取决于飞行模式和风力条件。标配双电池，更换即可继续飞行。</div>
             </div>
             <div class="faq-item">
-                <div class="faq-question">如何进行固件升级？</div>
-                <div class="faq-answer">通过 RealmX App 连接无人机后，系统会自动检测新固件。</div>
+                <div class="faq-question" onclick="toggleFaq(this)"><span>图传最远距离是多少？</span><span class="faq-icon">+</span></div>
+                <div class="faq-answer">在无干扰、无阻挡的理想环境下，图传距离可达 10km。城市地面上通常为 100–600m，具体取决于建筑物遮挡和电磁干扰情况。</div>
             </div>
             <div class="faq-item">
-                <div class="faq-question">保修政策是什么？</div>
-                <div class="faq-answer">一年有限保修，涵盖非人为损坏的硬件故障。</div>
+                <div class="faq-question" onclick="toggleFaq(this)"><span>是否需要飞行执照？</span><span class="faq-icon">+</span></div>
+                <div class="faq-answer">根据中国民航局规定，起飞重量超过 250g 的无人机需要实名登记。RealmX Racing 建议飞手了解当地无人机管理规定并合规飞行。</div>
             </div>
             <div class="faq-item">
-                <div class="faq-question">如何购买配件？</div>
-                <div class="faq-answer">通过官方网站、授权经销商或联系客服购买。</div>
+                <div class="faq-question" onclick="toggleFaq(this)"><span>支持哪些遥控器？</span><span class="faq-icon">+</span></div>
+                <div class="faq-answer">RealmX Racing 搭配专用遥控器，支持 2.4GHz 和 5.8GHz 双频段，提供稳定可靠的控制信号。</div>
+            </div>
+            <div class="faq-item">
+                <div class="faq-question" onclick="toggleFaq(this)"><span>售后保修政策是什么？</span><span class="faq-icon">+</span></div>
+                <div class="faq-answer">RealmX Racing 提供自购买之日起 12 个月的有限保修服务。保修范围涵盖非人为损坏的材料和制造缺陷。具体条款请参阅随附的保修卡。</div>
             </div>
         </div>
     </div>
@@ -499,18 +499,28 @@
     <div id="realmx-footer-slot"></div>
 
     <!-- AMD JS Assets -->
-    <script src="assets/css/clientlib-webpack-dependencies.min.js.下载"></script>
-    <script src="assets/css/clientlib-webpack.min.js.下载"></script>
-    <script src="assets/css/clientlib-webpack.min(1).js.下载"></script>
-    <script src="assets/css/clientlib-webpack.min(2).js.下载"></script>
 
-    <!-- Supabase -->
-    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-    <script src="assets/js/supabase-client.js"></script>
-    <script src="assets/js/nav-loader.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="assets/js/supabase-client.js"></script>
+<script src="assets/js/nav-loader.js"></script>
 
     <!-- Tab Switching -->
     <script>
+        // FAQ Accordion
+        function toggleFaq(el) {
+            const item = el.parentElement;
+            const isActive = item.classList.contains('faq-open');
+            document.querySelectorAll('.faq-item.faq-open').forEach(i => {
+                i.classList.remove('faq-open');
+                i.querySelector('.faq-icon').textContent = '+';
+            });
+            if (!isActive) {
+                item.classList.add('faq-open');
+                el.querySelector('.faq-icon').textContent = '−';
+            }
+        }
+
+        // Tab Switching
         document.querySelectorAll('.support-tab').forEach(tab => {
             tab.addEventListener('click', () => {
                 document.querySelectorAll('.support-tab').forEach(t => t.classList.remove('active'));
