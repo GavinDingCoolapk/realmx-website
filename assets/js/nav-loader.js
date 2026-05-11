@@ -1,7 +1,99 @@
 (function() {
-    var headerHTML = '<header class="common-header" id="realmx-header">\n    <nav class="navbar navbar-expand-xl">\n        <div class="container-fluid main-nav">\n            <button class="navbar-toggler collapsed" id="nav-icon" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-label="Toggle navigation">\n                <span></span><span></span><span></span>\n            </button>\n            <div class="header-logo">\n                <a class="navbar-brand" href="index.html"><img src="assets/images/logo-black.png" alt="RealmX" style="height:32px;"></a>\n            </div>\n            <div class="navbar-nav-container collapse navbar-collapse" id="navbarSupportedContent">\n                <ul class="navbar-nav nav-mega">\n                    <li class="nav-item dropdown">\n                        <a class="nav-link top-level dropdown-toggle header-menu-links" role="button" data-bs-toggle="dropdown" href="#">产品</a>\n                        <div class="dropdown-menu mega-menu">\n                            <div style="padding:24px;">\n                                <div class="row">\n                                    <div class="col-xl-3">\n                                        <h6 style="color:var(--realmx-blue);font-size:0.8rem;text-transform:uppercase;letter-spacing:1px;margin-bottom:12px;">两栖系列</h6>\n                                        <ul style="list-style:none;padding:0;margin:0;"><li style="margin-bottom:8px;"><a href="product.html" style="color:rgba(255,255,255,0.8);text-decoration:none;">RealmX Racing Edition</a></li></ul>\n                                    </div>\n                                    <div class="col-xl-3">\n                                        <h6 style="color:var(--realmx-blue);font-size:0.8rem;text-transform:uppercase;letter-spacing:1px;margin-bottom:12px;">即将推出</h6>\n                                        <ul style="list-style:none;padding:0;margin:0;"><li style="margin-bottom:8px;"><a href="#" style="color:rgba(255,255,255,0.8);text-decoration:none;">RealmX Explorer（海陆空三栖一体机）</a></li><li style="margin-bottom:8px;"><a href="#" style="color:rgba(255,255,255,0.8);text-decoration:none;">RealmX Pro</a></li></ul>\n                                    </div>\n                                </div>\n                            </div>\n                        </div>\n                    </li>\n                    <li class="nav-item">\n                        <a class="nav-link top-level header-menu-links" href="solutions.html">解决方案</a>\n                    </li>\n                    <li class="nav-item">\n                        <a class="nav-link top-level header-menu-links" href="support.html">资源与支持</a>\n                    </li>\n                </ul>\n                <ul class="navbar-nav ms-auto">\n                    <li class="nav-item">\n                        <a class="nav-link header-buy-link" href="buy.html">立即购买</a>\n                    </li>\n                    <li class="nav-item" id="nav-auth"></li>\n                </ul>\n            </div>\n        </div>\n    </nav>\n</header>\n<div style="height:56px;"></div>';
+    // ===== Header =====
+    var headerHTML = [
+        '<header class="common-header" id="realmx-header">',
+        '  <nav class="nav-main">',
+        '    <div class="nav-inner">',
+        '      <a class="nav-logo" href="index.html">RealmX</a>',
+        '      <button class="nav-hamburger" id="nav-hamburger" aria-label="菜单">',
+        '        <span></span><span></span><span></span>',
+        '      </button>',
+        '      <div class="nav-links" id="nav-links">',
+        '        <div class="nav-dropdown">',
+        '          <a class="nav-link" href="javascript:void(0)" data-dropdown="products">产品</a>',
+        '          <div class="nav-dropdown-menu" id="dropdown-products">',
+        '            <div class="nav-dropdown-group">',
+        '              <div class="nav-dropdown-col">',
+        '                <div class="nav-dropdown-title">两栖系列</div>',
+        '                <a href="product.html">RealmX Racing Edition</a>',
+        '              </div>',
+        '              <div class="nav-dropdown-col">',
+        '                <div class="nav-dropdown-title">即将推出</div>',
+        '                <a href="javascript:void(0)">RealmX Explorer（海陆空三栖一体机）</a>',
+        '                <a href="javascript:void(0)">RealmX Pro</a>',
+        '              </div>',
+        '            </div>',
+        '          </div>',
+        '        </div>',
+        '        <a class="nav-link" href="solutions.html">解决方案</a>',
+        '        <a class="nav-link" href="support.html">资源与支持</a>',
+        '        <div class="nav-right">',
+        '          <a class="nav-link nav-buy" href="buy.html">立即购买</a>',
+        '          <span id="nav-auth"></span>',
+        '        </div>',
+        '      </div>',
+        '    </div>',
+        '  </nav>',
+        '</header>',
+        '<div class="nav-spacer"></div>'
+    ].join('\n');
 
-    var footerHTML = '<footer class="realmx-footer">\n    <div class="footer-inner">\n        <div class="footer-grid">\n            <div>\n                <div class="footer-brand-name"><img src="assets/images/logo-black.png" alt="RealmX" style="height:48px;"></div>\n                <p class="footer-tagline">BEYOND LIMITS</p>\n            </div>\n            <div class="footer-col">\n                <h4>产品</h4>\n                <ul>\n                    <li><a href="product.html">RealmX Racing Edition</a></li>\n                    <li><a href="accessories.html">配件</a></li>\n                    <li><a href="buy.html">立即购买</a></li>\n                </ul>\n            </div>\n            <div class="footer-col">\n                <h4>解决方案</h4>\n                <ul>\n                    <li><a href="solutions.html">特种检测</a></li>\n                    <li><a href="solutions.html">贴壁作业</a></li>\n                    <li><a href="solutions.html">井道建模</a></li>\n                    <li><a href="solutions.html">林业测绘</a></li>\n                </ul>\n            </div>\n            <div class="footer-col">\n                <h4>技术支持</h4>\n                <ul>\n                    <li><a href="support.html">快速入门</a></li>\n                    <li><a href="support.html">技术文档</a></li>\n                    <li><a href="support.html">常见问题</a></li>\n                    <li><a href="support.html">联系我们</a></li>\n                </ul>\n            </div>\n            <div class="footer-col">\n                <h4>关于</h4>\n                <ul>\n                    <li><a href="about.html">关于 RealmX</a></li>\n                    <li><a href="news.html">新闻动态</a></li>\n                    <li><a href="about.html">加入我们</a></li>\n                    <li><a href="login.html">登录</a></li>\n                </ul>\n            </div>\n        </div>\n        <div class="footer-bottom">\n            <p>&copy; 2026 RealmX. All rights reserved.</p>\n            <div class="footer-bottom-links">\n                <a href="#">隐私政策</a>\n                <a href="#">使用条款</a>\n                <a href="#">联系我们</a>\n            </div>\n        </div>\n    </div>\n</footer>';
+    // ===== Footer =====
+    var footerHTML = [
+        '<footer class="realmx-footer">',
+        '  <div class="footer-inner">',
+        '    <div class="footer-grid">',
+        '      <div>',
+        '        <div class="footer-brand-name">RealmX</div>',
+        '        <p class="footer-tagline">BEYOND LIMITS</p>',
+        '      </div>',
+        '      <div class="footer-col">',
+        '        <h4>产品</h4>',
+        '        <ul>',
+        '          <li><a href="product.html">RealmX Racing Edition</a></li>',
+        '          <li><a href="accessories.html">配件</a></li>',
+        '          <li><a href="buy.html">立即购买</a></li>',
+        '        </ul>',
+        '      </div>',
+        '      <div class="footer-col">',
+        '        <h4>解决方案</h4>',
+        '        <ul>',
+        '          <li><a href="solutions.html">特种检测</a></li>',
+        '          <li><a href="solutions.html">贴壁作业</a></li>',
+        '          <li><a href="solutions.html">井道建模</a></li>',
+        '          <li><a href="solutions.html">林业测绘</a></li>',
+        '        </ul>',
+        '      </div>',
+        '      <div class="footer-col">',
+        '        <h4>技术支持</h4>',
+        '        <ul>',
+        '          <li><a href="support.html">快速入门</a></li>',
+        '          <li><a href="support.html">技术文档</a></li>',
+        '          <li><a href="support.html">常见问题</a></li>',
+        '          <li><a href="support.html">联系我们</a></li>',
+        '        </ul>',
+        '      </div>',
+        '      <div class="footer-col">',
+        '        <h4>关于</h4>',
+        '        <ul>',
+        '          <li><a href="about.html">关于 RealmX</a></li>',
+        '          <li><a href="news.html">新闻动态</a></li>',
+        '          <li><a href="about.html">加入我们</a></li>',
+        '          <li><a href="login.html">登录</a></li>',
+        '        </ul>',
+        '      </div>',
+        '    </div>',
+        '    <div class="footer-bottom">',
+        '      <p>&copy; 2026 RealmX. All rights reserved.</p>',
+        '      <div class="footer-bottom-links">',
+        '        <a href="#">隐私政策</a>',
+        '        <a href="#">使用条款</a>',
+        '        <a href="#">联系我们</a>',
+        '      </div>',
+        '    </div>',
+        '  </div>',
+        '</footer>'
+    ].join('\n');
 
     function init() {
         var headerSlot = document.getElementById('realmx-header-slot');
@@ -10,65 +102,62 @@
         if (headerSlot) headerSlot.innerHTML = headerHTML;
         if (footerSlot) footerSlot.innerHTML = footerHTML;
 
+        // Auth state
         if (typeof updateNavAuth === 'function') updateNavAuth();
 
-        // Mobile hamburger toggle
-        var toggler = document.querySelector('#realmx-header .navbar-toggler');
-        var collapse = document.querySelector('#realmx-header .navbar-collapse');
-        if (toggler && collapse) {
-            toggler.addEventListener('click', function(e) {
+        // Hamburger toggle (mobile)
+        var hamburger = document.getElementById('nav-hamburger');
+        var navLinks = document.getElementById('nav-links');
+        if (hamburger && navLinks) {
+            hamburger.addEventListener('click', function(e) {
                 e.stopPropagation();
-                toggler.classList.toggle('collapsed');
-                collapse.classList.toggle('show');
+                hamburger.classList.toggle('open');
+                navLinks.classList.toggle('open');
             });
-            // Close menu when clicking a nav link
-            collapse.addEventListener('click', function(e) {
-                if (e.target.closest('.nav-link') && !e.target.closest('.dropdown-toggle')) {
-                    collapse.classList.remove('show');
-                    toggler.classList.add('collapsed');
-                }
-            });
-            // Close menu when clicking outside
-            document.addEventListener('click', function(e) {
-                if (!e.target.closest('#realmx-header')) {
-                    collapse.classList.remove('show');
-                    toggler.classList.add('collapsed');
+            // Close mobile menu on nav link click
+            navLinks.addEventListener('click', function(e) {
+                var link = e.target.closest('.nav-link:not(.nav-buy)');
+                if (link && !link.hasAttribute('data-dropdown') && window.innerWidth < 1200) {
+                    hamburger.classList.remove('open');
+                    navLinks.classList.remove('open');
                 }
             });
         }
 
-        // Manual dropdown toggle (AMD webpack bundles Bootstrap internally)
+        // Dropdown toggle
         document.addEventListener('click', function(e) {
-            var toggle = e.target.closest('#realmx-header-slot .dropdown-toggle');
+            var toggle = e.target.closest('[data-dropdown]');
             if (toggle) {
                 e.preventDefault();
                 e.stopPropagation();
-                var dropdown = toggle.closest('.dropdown');
-                var isOpen = dropdown.classList.contains('show');
-                // Close all dropdowns first
-                document.querySelectorAll('#realmx-header-slot .dropdown.show').forEach(function(d) {
-                    d.classList.remove('show');
-                    var menu = d.querySelector('.dropdown-menu');
-                    if (menu) menu.classList.remove('show');
-                });
-                // Toggle current
-                if (!isOpen) {
-                    dropdown.classList.add('show');
-                    var menu = dropdown.querySelector('.dropdown-menu');
-                    if (menu) menu.classList.add('show');
-                    toggle.setAttribute('aria-expanded', 'true');
-                } else {
-                    toggle.setAttribute('aria-expanded', 'false');
+                var menuId = toggle.getAttribute('data-dropdown');
+                var menu = document.getElementById('dropdown-' + menuId);
+                var isOpen = toggle.classList.contains('active');
+                // Close all
+                closeAllDropdowns();
+                if (!isOpen && menu) {
+                    toggle.classList.add('active');
+                    menu.classList.add('open');
                 }
             } else {
-                // Click outside - close all
-                document.querySelectorAll('#realmx-header-slot .dropdown.show').forEach(function(d) {
-                    d.classList.remove('show');
-                    var menu = d.querySelector('.dropdown-menu');
-                    if (menu) menu.classList.remove('show');
-                });
+                closeAllDropdowns();
+            }
+
+            // Close mobile menu on outside click
+            if (navLinks && window.innerWidth < 1200 && !e.target.closest('#realmx-header')) {
+                hamburger.classList.remove('open');
+                navLinks.classList.remove('open');
             }
         });
+
+        function closeAllDropdowns() {
+            document.querySelectorAll('.nav-dropdown.active').forEach(function(d) {
+                d.classList.remove('active');
+            });
+            document.querySelectorAll('.nav-dropdown-menu.open').forEach(function(m) {
+                m.classList.remove('open');
+            });
+        }
     }
 
     if (document.readyState === 'loading') {
