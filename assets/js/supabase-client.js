@@ -1,5 +1,5 @@
 const SUPABASE_URL = 'https://bphilcufwkfewpfnckqi.supabase.co';
-const SUPABASE_ANON_KEY = 'ANON_KEY_PLACEHOLDER';
+const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImJwaGlsY3Vmd2tmZXdwZm5ja3FpIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzU2NDYwNjksImV4cCI6MjA5MTIyMjA2OX0.uQykpIf9bixMrrOPhq2BRWvS1z4kvqQZOqamGKtCPDE';
 
 let _supabase = null;
 
